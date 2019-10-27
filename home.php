@@ -33,6 +33,12 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+    <style>
+        select{
+            padding: 10px;
+        }
+    </style>
+    
 
 </head>
 
@@ -82,12 +88,19 @@
                                 <!-- Store Search -->
                                 <div class="col-lg-6 col-md-12">                                
                                     <div class="block d-flex">
-                                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for store">
+                                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for Brand">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12">
                                     <div class="block d-flex">
-                                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for store">									
+                                        <select class="form-control mb-2 mr-sm-2 mb-sm-0" >
+                                            <option>Search for Category</option>
+                                            <option value="1">SUV</option>
+                                            <option value="2">SEDAN</option>
+                                            <option value="3">PICKUP</option>
+                                            <option value="4">MINIVAN</option>
+                                            <option value="5">CAMPERVAN</option>
+                                        </select>									
                                     </div>
                                 </div>
                             </div>
@@ -96,18 +109,26 @@
                                 <!-- Store Search -->
                                 <div class="col-lg-6 col-md-12">
                                     <div class="block d-flex">
-                                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for store">
+                                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for Number of Seaters">									
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12">
                                     <div class="block d-flex">
-                                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for store">									
+                                        <select class="form-control mb-2 mr-sm-2 mb-sm-0" >
+                                            <option>Search for Fuel Type</option>
+                                            <option value="1">Gasoline</option>
+                                            <option value="2">Diesel</option>
+                                            <option value="3">Liquefied Petroleum</option>
+                                            <option value="4">Compressed Natural Gas</option>
+                                            <option value="5">Ethanol</option>
+                                            <option value="6">Bio-diesel</option>
+                                        </select>	
                                     </div>
                                 </div>
                             </div>
                             
-                            <div class="row" style="margin-top: 25px;">
-                                <!-- Store Search -->
+                            <!-- <div class="row" style="margin-top: 25px;">
+                                 Store Search 
                                 <div class="col-lg-6 col-md-12">
                                     <div class="block d-flex">
                                         <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for store">
@@ -118,14 +139,20 @@
                                         <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for store">									
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
-						<div class="col-lg-6 col-md-12" style="margin: 30px; display: flex; align-items: center; justify-content: center;">
+                        <div class="d-flex" style="display: inline-flex; ">
+                            <div class="col-lg-10 col-md-12" style="margin-top: 30px; display: flex; float: right;">
+                                    
+                                </div>
+                                <div class="col-lg-6 col-md-12" style="margin-top: 30px; display: flex; float: right;">
                                     <div class="block d-flex">									
                                         <!-- Search Button -->
                                         <button class="btn btn-main">SEARCH</button>
                                     </div>
                                 </div>
+                            </div>
+						
 					</form>
 					
 				</div>

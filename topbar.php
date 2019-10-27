@@ -49,7 +49,7 @@
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav ml-auto main-nav ">
-							<li class="nav-item active">
+							<li class="nav-item">
 								<a class="nav-link" href="home.php">Home</a>
 							</li>
 							<li class="nav-item">
@@ -85,7 +85,7 @@
 						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
 							<li class="nav-item">
-								<a class="nav-link login-button" href="home.php">Login</a>
+								<a class="nav-link login-button" href="login.php">Login</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link add-button" href="#"><i class="fa fa-plus-circle"></i> Add Listing</a>
