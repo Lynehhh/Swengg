@@ -34,8 +34,9 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
     <style>
-        select{
-            padding: 10px;
+        select {
+            padding: 30px;
+            min-height: 50px;
         }
     </style>
     
@@ -82,40 +83,48 @@
 				</div>
 				<!-- Advance Search -->
 				<div class="advance-search">
+                    <!-- PHP FOR FORM -->
 					<form action="#">
                         <div style="margin-top: 25px;"> <!-- For magin spacing-->
                             <div class="row" style="margin-top: 25px;">
-                                <!-- Store Search -->
+                                <!-- PHP FOR BRAND SEARCHING -->
                                 <div class="col-lg-6 col-md-12">                                
                                     <div class="block d-flex">
                                         <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for Brand">
                                     </div>
                                 </div>
+                                <!-- END OF PHP FOR BRAND SEARCHING -->
+                                
+                                <!-- PHP FOR CATEGORY SEARCHING -->
                                 <div class="col-lg-6 col-md-12">
-                                    <div class="block d-flex">
-                                        <select class="form-control mb-2 mr-sm-2 mb-sm-0" >
-                                            <option>Search for Category</option>
+                                    <section class="block d-flex">
+                                        <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0">
+                                            <option disabled="disabled" selected="selected">Select Category<i class="fa fa-angle-down"></i></option>
                                             <option value="1">SUV</option>
-                                            <option value="2">SEDAN</option>
-                                            <option value="3">PICKUP</option>
-                                            <option value="4">MINIVAN</option>
-                                            <option value="5">CAMPERVAN</option>
+                                            <option value="2">Sedan</option>
+                                            <option value="3">Pickup</option>
+                                            <option value="4">Minivan</option>
+                                            <option value="5">Campervan</option>
                                         </select>									
-                                    </div>
+                                    </section>
                                 </div>
+                                <!-- END OF PHP FOR CATEGORY SEARCHING -->
                             </div>
 
                             <div class="row" style="margin-top: 25px;">
-                                <!-- Store Search -->
+                                <!-- PHP FOR SEATS SEARCHING -->
                                 <div class="col-lg-6 col-md-12">
                                     <div class="block d-flex">
                                         <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for Number of Seaters">									
                                     </div>
                                 </div>
+                                <!-- END OF PHP FOR SEATS SEARCHING -->
+                                
+                                <!-- PHP FOR FUEL SEARCHING -->
                                 <div class="col-lg-6 col-md-12">
                                     <div class="block d-flex">
-                                        <select class="form-control mb-2 mr-sm-2 mb-sm-0" >
-                                            <option>Search for Fuel Type</option>
+                                        <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" >
+                                            <option disabled="disabled" selected="selected">Select Fuel Type</option>
                                             <option value="1">Gasoline</option>
                                             <option value="2">Diesel</option>
                                             <option value="3">Liquefied Petroleum</option>
@@ -125,6 +134,7 @@
                                         </select>	
                                     </div>
                                 </div>
+                                <!-- END OF PHP FOR FUEL SEARCHING -->
                             </div>
                             
                             <!-- <div class="row" style="margin-top: 25px;">
@@ -141,6 +151,8 @@
                                 </div>
                             </div> -->
                         </div>
+                        
+                        <!-- PHP FOR SEARCH BUTTON -->
                         <div class="d-flex" style="display: inline-flex; ">
                             <div class="col-lg-10 col-md-12" style="margin-top: 30px; display: flex; float: right;">
                                     
@@ -152,7 +164,7 @@
                                     </div>
                                 </div>
                             </div>
-						
+						<!-- END OF PHP FOR SEARCH BUTTON -->
 					</form>
 					
 				</div>
