@@ -31,12 +31,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
     <style>
 
     </style>
@@ -89,15 +83,32 @@
                         <div style="margin-top: 25px;"> <!-- For magin spacing-->
                             <div class="row" style="margin-top: 25px;">
                                 <!-- PHP FOR BRAND SEARCHING -->
-                                <div class="col-lg-6 col-md-12">                                
+                                <div class="col-lg-12 col-md-12">                                
                                     <div class="block d-flex">
                                         <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for Brand">
                                     </div>
                                 </div>
-                                <!-- END OF PHP FOR BRAND SEARCHING -->
+                                <!-- END OF PHP FOR BRAND SEARCHING -->  
+                            </div>
+
+                            <div class="row" style="margin-top: 15px;">
+                                <!-- PHP FOR SEAT SEARCHING -->
+                                <div class="col-lg-4 col-md-12">
+                                    <section class="block d-flex">
+                                        <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0">
+                                            <option disabled="disabled" selected="selected">Select Seater<i class="fa fa-angle-down"></i></option>
+                                            <option value="1">4</option>
+                                            <option value="2">6</option>
+                                            <option value="3">8</option>
+                                            <option value="4">12</option>
+                                            <option value="5">14+</option>
+                                        </select>									
+                                    </section>
+                                </div>
+                                <!-- END OF PHP FOR SEAT SEARCHING -->
                                 
                                 <!-- PHP FOR CATEGORY SEARCHING -->
-                                <div class="col-lg-6 col-md-12">
+                                <div class="col-lg-4 col-md-12">
                                     <section class="block d-flex">
                                         <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0">
                                             <option disabled="disabled" selected="selected">Select Category<i class="fa fa-angle-down"></i></option>
@@ -110,19 +121,9 @@
                                     </section>
                                 </div>
                                 <!-- END OF PHP FOR CATEGORY SEARCHING -->
-                            </div>
-
-                            <div class="row" style="margin-top: 25px;">
-                                <!-- PHP FOR SEATS SEARCHING -->
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="block d-flex">
-                                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for Number of Seaters">									
-                                    </div>
-                                </div>
-                                <!-- END OF PHP FOR SEATS SEARCHING -->
                                 
                                 <!-- PHP FOR FUEL SEARCHING -->
-                                <div class="col-lg-6 col-md-12">
+                                <div class="col-lg-4 col-md-12">
                                     <div class="block d-flex">
                                         <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" >
                                             <option disabled="disabled" selected="selected">Select Fuel Type</option>
@@ -137,20 +138,6 @@
                                 </div>
                                 <!-- END OF PHP FOR FUEL SEARCHING -->
                             </div>
-                            
-                            <!-- <div class="row" style="margin-top: 25px;">
-                                 Store Search 
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="block d-flex">
-                                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for store">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="block d-flex">
-                                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for store">									
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
                         
                         <!-- PHP FOR SEARCH BUTTON -->
@@ -158,7 +145,7 @@
                             <div class="col-lg-10 col-md-12" style="margin-top: 30px; display: flex; float: right;">
                                     
                                 </div>
-                                <div class="col-lg-6 col-md-12" style="margin-top: 30px; display: flex; float: right;">
+                                <div class="col-lg-6 col-md-12" style="margin-top: 30px;">
                                     <div class="block d-flex">									
                                         <!-- Search Button -->
                                         <button class="btn btn-main">SEARCH</button>

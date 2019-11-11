@@ -61,18 +61,18 @@
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">
 						<ul>
-							<li class="active"><a href="transactions_pending_requests.php"><i class="fa fa-user"></i>Pending Requests<span>2</span></a></li>
+							<li class="active"><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
 							<li>
-								<a href="dashboard-favourite-ads.html"><i class="fa fa-bookmark-o"></i>Pending Payments<span>5</span></a>
+								<a href="#"><i class="fa fa-money"></i>Pending Payments<span>5</span></a>
 							</li>
 							<li>
-								<a href="dashboard-archived-ads.html"><i class="fa fa-clipboard"></i>Pending Use<span>12</span></a>
+								<a href="#"><i class="fa fa-clipboard"></i>Pending Use<span>12</span></a>
 							</li>
 							<li>
-								<a href="dashboard-pending-ads.html"><i class="fa fa-bolt"></i>Completed Rental<span>23</span></a>
+								<a href="#"><i class="fa fa-check-circle"></i>Completed Rental<span>23</span></a>
 							</li>
 							<li>
-								<a href="logout.html"><i class="fa fa-ban"></i>Cancelled <span>5</span></a>
+								<a href="#"><i class="fa fa-ban"></i>Cancelled <span>5</span></a>
 							</li>
 						</ul>
 					</div>
@@ -89,7 +89,7 @@
 								<th>Vehicle Name</th>
 								<th class="text-center">Request Date</th>
                                 <th class="text-center">Rental Date</th>
-								<th class="text-center">Status</th>
+                                <th class="text-center">Activity</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -98,6 +98,7 @@
 									<img width="60px" height="auto" src="images/products/products-1.jpg" alt="image description"></td>
 								<td class="product-details">
 									<h3 class="title">Fortuner 2006 G</h3>
+                                    <div class="row"></div>
                                     <span><strong>Brand: </strong>Toyota</span>
                                     <span><strong>Car Type: </strong>SUV</span>
                                     <span><strong>Fuel Type: </strong>Diesel</span>
@@ -107,7 +108,22 @@
 								</td>
 								<td class="product-category"><span class="categories"><time>Jun 15, 2017</time></span></td>
                                 <td class="product-category"><span class="categories"><time>Jun 15, 2017</time></span></td>
-                                <td class="product-category"><span class="categories active"><time>Pending</time></span></td>
+                                <td class="action" data-title="Action">
+									<div class="">
+										<ul class="list-inline justify-content-center">
+											<li class="list-inline-item">
+												<a class="edit" href="">
+													<i class="fa fa-thumbs-up"></i>
+												</a>		
+											</li>
+											<li class="list-inline-item">
+												<a class="delete" href="">
+													<i class="fa fa-thumbs-down"></i>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</td>
 							</tr>
                             
 							<tr>
@@ -124,7 +140,22 @@
 								</td>
 								<td class="product-category"><span class="categories"><time>Jun 15, 2017</time></span></td>
                                 <td class="product-category"><span class="categories"><time>Jun 15, 2017</time></span></td>
-                                <td class="product-category"><span class="categories"><time>Pending</time></span></td>
+                                <td class="action" data-title="Action">
+									<div class="">
+										<ul class="list-inline justify-content-center">
+											<li class="list-inline-item">
+												<a class="edit" href="">
+													<i class="fa fa-thumbs-up"></i>
+												</a>		
+											</li>
+											<li class="list-inline-item">
+												<a class="delete" href="">
+													<i class="fa fa-thumbs-down"></i>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</td>
 							</tr>
 						</tbody>
 					</table>

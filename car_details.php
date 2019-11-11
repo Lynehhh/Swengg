@@ -41,6 +41,12 @@
         .mb-20 {
             margin-bottom: 20px;
         }
+        .starrr{
+            color: #f8d90f;
+        }
+        .fa-star{
+            color: #f8d90f;
+        }
     </style>
 
 </head>
@@ -223,7 +229,27 @@
             </div>
             <div class="col-md-4 offset-md-1 col-lg-5 offset-lg-0">
                 <div class="widget">
-                    <h3 class="widget-header user">Renting Information</h3>
+                    <h1><span>P 1,500.00</span> / day</h1>
+                    <h3 class="widget-header user mb-20">
+                        <span class="ratings">
+                                <li class="list-inline-item">
+                                    <i class="fa fa-star"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fa fa-star"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fa fa-star"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fa fa-star"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fa fa-star"></i>
+                                </li>						  				
+                        </span>  (150 reviews)
+                    </h3>
+                    <!--<h3 class="widget-header user">Renting Information</h3>-->
                     <div class="row mb-20">
                         <!-- Date -->
                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
@@ -237,7 +263,7 @@
                         </div>
                     </div>
 
-                    <!-- Guests -->
+                    <!-- Guests 
                     <div class="form-group">
                         <label for="comunity-name">Guests</label>
                         <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" style="border-color: #ced4da;">
@@ -247,7 +273,64 @@
                             <option value="3">7-10</option>
                             <option value="4">More than 10</option>
                         </select>
-                    </div> 
+                    </div> -->
+                    
+                        <label for="comunity-name">Charges</label>
+                            <font size="3">
+                                <table class="table table-responsive product-dashboard-table mb-20">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <span>P 1,500.00</span>
+                                                <span> x </span>
+                                                <span>1 day</span>
+                                            </td>
+                                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                            <td>
+                                                <span>P 1,500.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>Service Fees: </span>
+                                            </td>
+                                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                            <td>
+                                                <span>0.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>Initial Gas Fees: </span>
+                                            </td>
+                                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                            <td>
+                                                <span>0.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>Additional Fees: </span>
+                                            </td>
+                                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                            <td>
+                                                <span>0.00</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td>
+                                                <span><strong>Total: </strong></span>
+                                            </td>
+                                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                            <td>
+                                                <span><strong>P 1,500.00 </strong></span>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </font>
 
                     <!-- Submit button -->
                     <button class="btn btn-transparent" style="width: 100%;">Submit Reservation</button>

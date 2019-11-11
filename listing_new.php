@@ -104,7 +104,7 @@
                         <h3 class="widget-header user mb-20">Vehicle Documents</h3>
                         <label for="comunity-name">Upload Documents</label>
                         <div class="form-group choose-file mb-20">
-                            <input type="file" class="form-control-file d-inline" id="input-file">
+                            <input type="file" class="form-control-file d-inline" id="input-file" multiple="">
                          </div>
                     </div>
                 </div>
