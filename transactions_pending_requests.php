@@ -81,18 +81,18 @@
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">
 						<ul>
-							<li class="active"><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
+							<li class="active"><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests</a></li>
 							<li>
-								<a href="#"><i class="fa fa-money"></i>Pending Payments<span>5</span></a>
+								<a href="#"><i class="fa fa-money"></i>Pending Payments</a>
 							</li>
 							<li>
-								<a href="#"><i class="fa fa-clipboard"></i>Pending Use<span>12</span></a>
+								<a href="#"><i class="fa fa-clipboard"></i>Pending Use</a>
 							</li>
 							<li>
-								<a href="#"><i class="fa fa-check-circle"></i>Completed Rental<span>23</span></a>
+								<a href="#"><i class="fa fa-check-circle"></i>Completed Rental</a>
 							</li>
 							<li>
-								<a href="#"><i class="fa fa-ban"></i>Cancelled <span>5</span></a>
+								<a href="#"><i class="fa fa-ban"></i>Cancelled </a>
 							</li>
 						</ul>
 					</div>
