@@ -90,10 +90,12 @@
 								<a href="#"><i class="fa fa-clipboard"></i>Pending Use</a>
 							</li>
 							<li>
-								<a href="#"><i class="fa fa-check-circle"></i>Completed Rental</a>
+								<a href="#"><i class="fa fa-check-circle"></i>Completed Rentals</a>
 							</li>
+                            <li>
+								<a href="#"><i class="fa fa-thumbs-down"></i>Denied Rentals</a>
 							<li>
-								<a href="#"><i class="fa fa-ban"></i>Cancelled</a>
+								<a href="#"><i class="fa fa-ban"></i>Cancelled Rentals</a>
 							</li>
 						</ul>
 					</div>

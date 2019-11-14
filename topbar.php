@@ -53,17 +53,19 @@
 								<a class="nav-link" href="home.php">Home</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="dashboard.html">Dashboard</a>
+								<a class="nav-link" href="new_catalog.php">Catalog</a>
+							</li>
+                            <li class="nav-item">
+								<a class="nav-link" href="transactions_pending_requests.php">My Transactions</a>
 							</li>
 							<li class="nav-item dropdown dropdown-slide">
 								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Pages <span><i class="fa fa-angle-down"></i></span>
+									User <span><i class="fa fa-angle-down"></i></span>
 								</a>
 								<!-- Dropdown list -->
 								<div class="dropdown-menu dropdown-menu-right">
-									<a class="dropdown-item" href="category.html">Category</a>
 									<a class="dropdown-item" href="car_details.php">Car Details</a>
-									<a class="dropdown-item" href="listing_new.php">New Listing</a>
+									<a class="dropdown-item" href="slisting_new.php">New Listing</a>
 									<a class="dropdown-item" href="dashboard.html">Dashboard</a>
 									<a class="dropdown-item" href="user-profile.html">User Profile</a>
 									<a class="dropdown-item" href="submit-coupon.html">Submit Coupon</a>
@@ -71,9 +73,7 @@
 									<a class="dropdown-item" href="single-blog.html">Single Post</a>
 								</div>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="transactions_pending_requests.php">My Transactions</a>
-							</li>
+							
 						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
 							<li class="nav-item">
