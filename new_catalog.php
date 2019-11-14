@@ -266,12 +266,11 @@ require_once('connection.php');
                 if ($result->num_rows > 0) { 
                     while($row = $result->fetch_assoc()) {
 						echo "<div class='col-sm-12 col-lg-4 col-md-6'>                          
-<div class='product-item bg-light'>
-	<div class='card'>
-		<div class='thumb-content'>
-                ";
+                        <div class='product-item bg-light'>
+                            <div class='card'>
+                                <div class='thumb-content'>";
                     echo    "<img src='".$row["location"]."' style='width:128px;height:128px;'> <br>
-                            <i class='fas fa-car'></i>".$row["name"]. "<br>"
+                            <a><i class='fa fa-car'></i></a>".$row["name"]. "<br>"
                             .$row["brand"]. "<br>"
                             .$row["fuel_type"]. "<br>"
                             .$row["seater"]. "<br>"
