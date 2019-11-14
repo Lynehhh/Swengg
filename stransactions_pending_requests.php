@@ -149,7 +149,7 @@
                                     <td class="product-category"><span class="categories"><time><?php echo $row['totalPrice'] ?></time></span></td>
                                     <td class="action" data-title="Action">
                                         <?php
-                                        "<button type = 'submit' name = 'Approve'  value = '" . $row['reqID'] . "' >Approve </button><button type = 'submit' name = 'Deny'  value = '" . $row['reqID'] . "' >Deny </button>"
+                                        "<button type = 'submit' name = 'Approve'  value = '" . $row['reqID'] . "' ><i class='fa fa-thumbs-up'> </button><button type = 'submit' name = 'Deny'  value = '" . $row['reqID'] . "' ><i class='fa fa-thumbs-down'> </button>"
                                         ?>
                                     </td>
                                 </tr>
