@@ -54,15 +54,16 @@
 <section class="">
     <?php
             $email = $_SESSION['email'];
-                $query = "select c.location, c.name, c.brand, c.car_type, c.fuel_type, c.seater, u.firstname, u.lastname, u.email, rr.req_date, rr.date_use, rr.date_return, rr.totalPrice, rr.ref_req_status
-                from reservation_requests rr
-                join users u on rr.owner_email = u.email
-                join car_images ci on ci. carID = rr.carID
-                join catalogue c on rr.carID = c.carID
-                where rr.renter_email = '".$_SESSION['email']."' and ref_req_status = 'Pending'";
+                $query = " SELECT r.reqID, r.req_date, r.date_use, r.date_return, r.renter_email, u.firstname, u.lastname, r.ref_req_status, 
+                            ci.location, c.carID, c.name, c.brand, c.car_type, c.fuel_type, c.seater, c.price, c.availability 
+                            FROM users u JOIN reservation_requests r ON u.email = r.renter_email 
+                            JOIN catalogue c ON r.carID = c.carID 
+                            JOIN car_images ci ON c.carID = ci.carID 
+                            WHERE c.owner_email = '".$email."' 
+                            AND r.ref_req_status = 'Pending'
+                            GROUP BY c.carID";
                 $search_result = filterTable($query);
             
-
            
             function filterTable($query)
             {
@@ -102,7 +103,7 @@
 				<!-- Recently Favorited -->
 				<div class="widget dashboard-container my-adslist">
 					<h3 class="widget-header">Pending Requests</h3>
-                    <form method="post">
+                    <form method="post" action="processapproval.php">
                         <table class="table table-responsive product-dashboard-table">
                             <thead>
                                 <tr>
@@ -131,7 +132,7 @@
 
                                 <tr>
                                     <td class="product-thumb">
-                                        <?php echo "<img src = ". row['location'] .  " height ='auto;' width = '60%;'> "?></td>
+                                        <?php echo "<img src = ". row['location'] .  " height ='auto;' width = '60%;> "?></td>
                                     <td class="product-details">
                                         <h3 class="title"><?php echo $row['name'];?></h3>
                                         <div class="row"></div>
@@ -142,25 +143,28 @@
                                         <span><strong>Name: </strong><?php echo $row['firstname'] ." ".  $row['lastname'] ?></span>
                                         <span class="status active"><strong>Email: </strong><?php echo $row['email'] ?></span>
                                     </td>
-                                    <?php
-                                            echo "\t<td>" . $row['req_date'] ."</td><td>" . $row['date_use'] ."</td><td>" . $row['date_return']  ."</td><td>" . $row['totalPrice'] ."</td><td>". $row['ref_req_status'] ."</td>
-                                            <td><form method='post'><button type='submit' name='cancel_reserve' value=".$row['reqID'].">Cancel Reservation</button></td></tr>\n";
-                                        }
-                                    }
-                                    ?>
+                                    <td class="product-category"><span class="categories"><time><?php echo $row['req_date'] ?></time></span></td>
+                                    <td class="product-category"><span class="categories"><time><?php echo $row['date_use'] ?></time></span></td>
+                                    <td class="product-category"><span class="categories"><time><?php echo $row['date_return'] ?></time></span></td>
+                                    <td class="product-category"><span class="categories"><time><?php echo $row['totalPrice'] ?></time></span></td>
+                                    <td class="action" data-title="Action">
+                                        <?php
+                                        "<button type = 'submit' name = 'Approve'  value = '" . $row['reqID'] . "' >Approve </button><button type = 'submit' name = 'Deny'  value = '" . $row['reqID'] . "' >Deny </button>"
+                                        ?>
+                                    </td>
                                 </tr>
                             </tbody>
                             <?php
-                                    if(isset($_POST['cancel_reserve'])){
-                                        $sql='UPDATE reservation_requests
-                                        SET ref_req_status = "Cancelled"
-                                        WHERE reqID = '.$_POST["cancel_reserve"];
-                                        $con->query($sql);
-                                        header('location:pending_request.php');
-                                    }
+                                     }
+                                }
+                                else if (isset($_POST['search']) &&($search_result->num_rows == 0)){
+                                    echo '<script language="javascript">';
+                                    echo 'alert("Invalid Search Parameter. Please Try Again")';
+                                    echo '</script>';
+                                }
                             ?>
                         </table>
-                    </form>
+					</form>
 				</div>
 			</div>
 		</div>
