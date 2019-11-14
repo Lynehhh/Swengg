@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-    
+    <?php 
+        require_once('connection.php');
+        $selectCarType = "SELECT type FROM ref_car_type"; 
+        $result = $con->query($selectCarType);
+    ?>
 <head>
 
   <!-- SITE TITTLE -->
@@ -50,7 +54,7 @@
 
 <section class="user-profile section">
 	<div class="container">
-        <form action="#">
+        <form method="POST" action="processlisting.php" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                     <div class="widget user-dashboard-menu">
@@ -96,7 +100,7 @@
                         
                         <!-- Upload Image -->
                         <div class="form-group choose-file mb-20">
-                            <input type="file" class="form-control-file d-inline" id="input-file">
+                            <input type="file" name="files[]" class="form-control-file d-inline" multiple>
                          </div>
                     </div>
 
@@ -105,7 +109,7 @@
                         <h3 class="widget-header user mb-20">Vehicle Documents</h3>
                         <label for="comunity-name">Upload Documents</label>
                         <div class="form-group choose-file mb-20">
-                            <input type="file" class="form-control-file d-inline" id="input-file" multiple="">
+                            <input type="file" name="docs[]" class="form-control-file d-inline" multiple>
                          </div>
                     </div>
                 </div>
@@ -118,39 +122,38 @@
                         <!-- Name -->
                         <div class="form-group">
                             <label for="first-name">Name</label>
-                            <input type="text" class="form-control" id="first-name">
+                            <input type="text" class="form-control" name="carname">
                         </div>
 
                         <!-- Brand -->
                         <div class="form-group">
                             <label for="last-name">Brand</label>
-                            <input type="text" class="form-control" id="last-name">
+                            <input type="text" class="form-control" name="brand">
                         </div>                       
 
                         <div class="row mb-20">
                             <!-- Category -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                                <label for="comunity-name">Category</label>
+                                <label for="comunity-name">Car Type</label>
                                 <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" style="border-color: #ced4da;">
-                                    <option disabled="disabled" selected="selected">Select Category<i class="fa fa-angle-down"></i></option>
-                                    <option value="1">SUV</option>
-                                    <option value="2">Sedan</option>
-                                    <option value="3">Pickup</option>
-                                    <option value="4">Minivan</option>
-                                    <option value="5">Campervan</option>
+                                    <option disabled="disabled" selected="selected">Select Car Type<i class="fa fa-angle-down"></i></option>
+                                    <?php while($row = $result->fetch_assoc()) { ?>
+                                    <option> <?php echo $row['type'];?> </option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <!-- Fuel Type -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                                <?php
+                                    $selectFuelType = "SELECT type FROM ref_fuel_type"; 
+                                    $result2 = $con->query($selectFuelType);
+                                ?>
                                 <label for="comunity-name">Fuel Type</label>
                                 <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" style="border-color: #ced4da;">
                                     <option disabled="disabled" selected="selected">Select Fuel Type</option>
-                                    <option value="1">Gasoline</option>
-                                    <option value="2">Diesel</option>
-                                    <option value="3">Liquefied Petroleum</option>
-                                    <option value="4">Compressed Natural Gas</option>
-                                    <option value="5">Ethanol</option>
-                                    <option value="6">Bio-diesel</option>
+                                    <?php while($row = $result2->fetch_assoc()) { ?>
+                                    <option> <?php echo $row['type'];?> </option>
+                                    <?php } ?>
                                 </select>
                             </div>
                         </div>
@@ -159,23 +162,23 @@
                             <!-- Seater -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                 <label for="comunity-name">Seater</label>
-                                <input type="number" class="form-control" id="comunity-name" min="0">
+                                <input type="number" class="form-control" name="seater" min="0">
                             </div>
                             <!-- Price -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                 <label for="comunity-name">Price</label>
-                                <input type="number" class="form-control" id="comunity-name" step="0.01" min="0">
+                                <input type="number" class="form-control" name="price" step="0.01" min="0">
                             </div>
                         </div>
 
                         <!-- Description -->
                         <div class="form-group">
                             <label for="comunity-name">Description</label>
-                            <textarea type="text" class="form-control" id="comunity-name" style="height: 150px;"></textarea>
+                            <textarea type="text" class="form-control" name="description" style="height: 150px;"></textarea>
                         </div> 
 
                         <!-- Submit button -->
-                        <button class="btn btn-transparent" style="margin-left: 40%;">Submit Vehicle Information</button>
+                        <button name="submit" value="submit" class="btn btn-transparent" style="margin-left: 40%;">Submit Vehicle Information</button>
                     </div>
                 </div>
             </div>
