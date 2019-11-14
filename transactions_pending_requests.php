@@ -142,9 +142,12 @@
                                         <span><strong>Name: </strong><?php echo $row['firstname'] ." ".  $row['lastname'] ?></span>
                                         <span class="status active"><strong>Email: </strong><?php echo $row['email'] ?></span>
                                     </td>
+                                    <td class="product-category"><span class="categories"><time><?php echo $row['req_date'] ?></time></span></td>
+                                    <td class="product-category"><span class="categories"><time><?php echo $row['date_use'] ?></time></span></td>
+                                    <td class="product-category"><span class="categories"><time><?php echo $row['date_return'] ?></time></span></td>
+                                    <td class="product-category"><span class="categories"><time><?php echo $row['totalPrice'] ?></time></span></td>
                                     <?php
-                                            echo "\t<td>" . $row['req_date'] ."</td><td>" . $row['date_use'] ."</td><td>" . $row['date_return']  ."</td><td>" . $row['totalPrice'] ."</td><td>". $row['ref_req_status'] ."</td>
-                                            <td><form method='post'><button type='submit' name='cancel_reserve' value=".$row['reqID'].">Cancel Reservation</button></td></tr>\n";
+                                            echo "\t<td><button type='submit' name='cancel_reserve' value=".$row['reqID'].">Cancel Reservation</button></td></tr>\n";
                                         }
                                     }
                                     ?>
