@@ -100,12 +100,12 @@ require_once("connection.php");
                             header('location:login.php');
                         }
                         else{
-                            $sql = "INSERT INTO reservation_requests (req_date, date_use, date_return, renter_email, owner_email, carID, ref_req_status) VALUES (now(), '".$_SESSION['start_date']."', '".$_SESSION['end_date']."', '".$_SESSION['email']."', '".$_SESSION['owner_email']."', ".$_SESSION['searched_car'].", 'Pending')";
+                            $sql = "INSERT INTO reservation_requests (req_date, date_use, date_return, renter_email, owner_email, carID, totalPrice, ref_req_status) VALUES (now(), '".$_SESSION['start_date']."', '".$_SESSION['end_date']."', '".$_SESSION['email']."', '".$_SESSION['owner_email']."', ".$_SESSION['searched_car'].", (datediff('".$_SESSION['end_date']."', '".$_SESSION['start_date']."')+1)*".$_SESSION['price'].", 'Pending')";
                             
                             $result = $con->query($sql);
                             
                             if($result === true){
-                                
+                                header('location:pending_request.php');
                             }
                             else{
                                 header('location:viewcar.php?Invalid=Error occured please try again');
