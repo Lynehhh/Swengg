@@ -270,7 +270,7 @@ require_once('connection.php');
                             <div class='card'>
                                 <div class='thumb-content'>";
                     echo    "<img src='".$row["location"]."' style='width:128px;height:128px;'> <br>
-                            <a><i class='fa fa-car'></i></a>".$row["name"]. "<br>"
+                            <a><i class='fa fa-car'></i></a>  " .$row["name"]. "<br>"
                             .$row["brand"]. "<br>"
                             .$row["fuel_type"]. "<br>"
                             .$row["seater"]. "<br>"
