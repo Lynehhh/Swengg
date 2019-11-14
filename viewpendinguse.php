@@ -13,9 +13,9 @@ require_once('connection.php');
 <?php
             $email = $_SESSION['email'];
                 $query = " SELECT re.rentID,  ci.location, c.name, re.total_amount, re.due_date, re.status, re.date_use, r.date_return, 
-                r.renter_email, r.owner_email, u.firstname, u.lastname FROM rentals re JOIN reservation_requests r ON re.reqID = r.reqID JOIN car_images ci ON r.carID = ci.carID JOIN catalogue c ON c.carID = ci.carID JOIN users u ON r.owner_email = u.email 
-                            WHERE r.renter_email = '".$email."' 
-                            AND re.status = 'Unpaid'
+                r.renter_email, r.owner_email, u.firstname, u.lastname FROM rentals re JOIN reservation_requests r ON re.reqID = r.reqID JOIN car_images ci ON r.carID = ci.carID JOIN catalogue c ON c.carID = ci.carID JOIN users u ON r.renter_email = u.email 
+                            WHERE r.owner_email = '".$email."' 
+                            AND re.status = 'Pending Use'
                             GROUP BY re.rentID";
                 $search_result = filterTable($query);
             
@@ -36,8 +36,7 @@ require_once('connection.php');
 <tr>
     <th>Image</th>
     <th>Vehicle Name</th>
-    <th>Owner Details</th>
-    <th>Payment Due Date</th>
+    <th>Renter Details</th>
     <th>Date Use</th>
     <th>Date Return</th>
     <th>Total Price</th>
@@ -52,7 +51,7 @@ if ($search_result->num_rows > 0) {
         echo "<form method = 'post' action = 'paynow.php'>";
         echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td>" . $row['name'].
         "</td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-        <li>Email: ".$row['owner_email']."</li></ul></td><td>" . $row['due_date'] ."</td><td>" . $row['date_use'] ."</td><td>" . $row['date_return']  ."</td><td>" . $row['total_amount'] ."</td><td><button type = 'submit' name = 'Pay'  value = '" . $row['rentID'] . "' > Pay Now </button></td></tr>\n";
+        <li>Email: ".$row['renter_email']."</li></ul></td><td>" . $row['date_use'] ."</td><td>" . $row['date_return']  ."</td><td>" . $row['total_amount'] ."</td></tr>\n";
     }
 
 }

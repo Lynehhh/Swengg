@@ -14,11 +14,11 @@ if(isset($_POST['Approve'])){
                                         }
 }   
 else if(isset($_POST['Deny'])){
-    $reqID =$_POST['Approve'];
-    $approveQuery = " UPDATE reservation_requests
+    $reqID =$_POST['Deny'];
+    $deniedQuery = " UPDATE reservation_requests
                        SET ref_req_status = 'Denied'
                        WHERE reqID = $reqID";
-                                if(mysqli_query($con,$approveQuery)){
+                                if(mysqli_query($con,$deniedQuery)){
                                     header("location:requestapproval.php");
                                         }
                                 else{
