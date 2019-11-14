@@ -147,7 +147,7 @@
                                     <td class="product-category"><span class="categories"><time><?php echo $row['date_return'] ?></time></span></td>
                                     <td class="product-category"><span class="categories"><time><?php echo $row['totalPrice'] ?></time></span></td>
                                     <?php
-                                            echo "\t<td><button type='submit' name='cancel_reserve' value=".$row['reqID'].">Cancel Reservation</button></td></tr>\n";
+                                            echo "\t<td><button type='submit' name='cancel_reserve' value=".$row['reqID']."><i class='fa fa-ban'></button></td></tr>\n";
                                         }
                                     }
                                     ?>
