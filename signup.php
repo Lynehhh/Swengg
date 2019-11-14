@@ -1,123 +1,120 @@
-<?php
-/*session_start();
-require_once('db/connection.php');
-
-	if (isset($_POST['Login']))
-
-	{
-        
-		if (empty($_POST['email']) || empty ($_POST['password']))
-		{
-			header("location:login.php?Empty=Please Fill in the blanks.");
-		}
-		else
-		{
-            
-            
-			$query="select * from users where Email='".$_POST['email']."' and Password='".$_POST['password']."'";
-            $result = mysqli_query($con,$query);
-			
-
-			if (mysqli_fetch_assoc($result))
-			{
-                $_SESSION['email'] = $_POST['email'];
-                $userQuery = "select UserType from users where Email='".$_POST['email']."'";
-                $userType =	 mysqli_fetch_row(mysqli_query($con, $userQuery));
-
-
-                if($userType[0]== 'Manager'){
-                header("location:sales_sales_list.php"); // indicate customized file location
-                }
-                else if($userType[0]== 'Assistant Manager'){
-                    header("location:order_add_order.php"); // indicate customized file location
-                    }
-
-                else if($userType[0]== 'Sales'){
-                        header("location:order_sales_order.php"); // indicate customized file location
-                        }
-
-			}
-			else
-			{
-                echo"
-                    <div class='container'>
-                        <div class='alert alert-danger alert-dismissible'>
-                                <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-                                <strong>Error!</strong> Invalid Username and Password
-                            </div>
-                      </div>
-                ";
-                //header("location:login.php?Invalid=Invalid Username and Password");
-                // add alert and fix the bg
-			}
-		}
-    } */
-    
-	
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>GOGO BIYAHE</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
     
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
+      <!-- PLUGINS CSS STYLE -->
+  <link href="plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+  <!-- Bootstrap -->
+  <link href="plugins/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/style1.css">
+    
+    <!-- CUSTOM CSS -->
+  <link href="css/style.css" rel="stylesheet">    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
-<body background = "images\background.jpg" style = "background-size: cover;">
-	
-	<div class="limiter">
-		<div class="container-login100" >
-			<div class="wrap-login100 p-t-30 p-b-50">
-                <span class="login100-form-title p-b-41"> GOGO BIYAHE</span>
-                
-                <!-- Start Login Form -->
-				<form method="post" action="" class="login100-form validate-form p-b-33 p-t-5">
-                    
-                    <span class="login100-form-title2 p-b-41">Account Signup</span>
-                    
-                    <div class="row">
-                        <div class="wrap-input100 validate-input" data-validate = "">
-						<input class="input100" type="text" name="email" placeholder="First Name" required />
-						<span class="focus-input100"></span>
-					</div>
-                    <div class="wrap-input100 validate-input" data-validate = "">
-						<input class="input100" type="text" name="email" placeholder="Last Name" required />
-						<span class="focus-input100"></span>
-					</div>
-                    </div>
+<body background = "images\home\hero.jpg">
 
-					<div class="container-login100-form-btn m-t-32">
-						<button type="submit" value="Submit" name="Login" class="login100-form-btn">
-							Login
-						</button>
-					</div>
-				</form>
-                <!-- End Login Form -->
-			</div>
-		</div>
-	</div>
+    <div class="main">
 
+        <section class="signup">
+            <!-- <img src="images/signup-bg.jpg" alt=""> -->
+            <div class="container">
+                <div class="signup-content">
+                    <form method="POST" id="signup-form" class="signup-form">
+                        <h2 class="form-title">Create account</h2>
+                        <div class="row">
+                            <div class="col-md-4 offset-md-1 col-lg-9 offset-lg-0">
+                                
+                                    <!-- First Name -->
+                                    <div class="col-lg-6 col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-input" name="name" id="name" placeholder="First Name"/>
+                                        </div>
+                                    </div>
+                                    <!-- Last Name -->
+                                    <div class="col-lg-6 col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-input" name="name" id="name" placeholder="Last Name"/>
+                                        </div>
+                                    </div>
+                                
+                                <!-- Email -->
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="email" class="form-input" name="email" id="email" placeholder="Your Email"/>
+                                    </div>
+                                </div>
+                                <!-- Password -->
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="password" class="form-input" name="password" id="password" placeholder="Password"/>
+                                    </div>
+                                </div>
+                                <!-- Date of Birth -->
+                                <div class="col-lg-6 col-md-12">
+                                    <div class="form-group">
+                                        <input type="date" class="form-input" name="" id="" placeholder="Date of Birth"/>
+                                    </div>
+                                </div>
+                                <!-- Contact -->
+                                <div class="col-lg-6 col-md-12">
+                                    <div class="form-group">
+                                        <input type="number" class="form-input" name="" id="" placeholder="Contact Number"/>
+                                    </div>
+                                </div>
+                                <!-- Address -->
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-input" name="name" id="name" placeholder="Address"/>
+                                    </div>
+                                </div>
 
-	<div id="dropDownSelect1"></div>
+                            </div>
+                            <!-- Image -->
+                            <div class="col-md-4 offset-md-1 col-lg-3 offset-lg-0">
+                                <div class="form-group" style="padding: 0%;">
+                                    <img src="images/user/user-thumb.jpg" alt="">
+                                </div>
+                                <!-- Upload Image -->
+                                <div class="form-group choose-file mb-20">
+                                    <input type="file" class="form-control-file d-inline" id="input-file">
+                                 </div>
+                                <label for="comunity-name">Upload Proof of Identity</label>
+                                <!-- Upload Docs -->
+                                <div class="form-group choose-file mb-20">
+                                    <input type="file" class="form-control-file d-inline" id="input-file" multiple="">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Sign Up button -->
+                        <div class="form-group">
+                            <input type="submit" name="submit" id="submit" class="form-submit" value="Sign up"/>
+                        </div>
+                    </form>
+                    <p class="loginhere">
+                        Have already an account ? <a href="login.php" class="loginhere-link">Login here</a>
+                    </p>
+                </div>
+            </div>
+        </section>
 
-<!--===============================================================================================-->
-	<script src="js/main.js"></script>
+    </div>
 
-</body>
+    <!-- JS -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
