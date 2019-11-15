@@ -79,13 +79,13 @@
 				<!-- Advance Search -->
 				<div class="advance-search">
                     <!-- PHP FOR FORM -->
-					<form action="#">
+					<form method = "post" action = "new_catalog.php">
                         <div style="margin-top: 25px;"> <!-- For magin spacing-->
                             <div class="row" style="margin-top: 25px;">
                                 <!-- PHP FOR BRAND SEARCHING -->
                                 <div class="col-lg-12 col-md-12">                                
                                     <div class="block d-flex">
-                                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Search for Brand">
+                                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" name = "brand" placeholder="Search for Brand">
                                     </div>
                                 </div>
                                 <!-- END OF PHP FOR BRAND SEARCHING -->  
@@ -95,13 +95,13 @@
                                 <!-- PHP FOR SEAT SEARCHING -->
                                 <div class="col-lg-4 col-md-12">
                                     <section class="block d-flex">
-                                        <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0">
+                                        <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" name = "seater">
                                             <option disabled="disabled" selected="selected">Select Seater<i class="fa fa-angle-down"></i></option>
-                                            <option value="1">4</option>
-                                            <option value="2">6</option>
-                                            <option value="3">8</option>
-                                            <option value="4">12</option>
-                                            <option value="5">14+</option>
+                                            <option value="4">4</option>
+                                            <option value="6">6</option>
+                                            <option value="8">8</option>
+                                            <option value="12">12</option>
+                                            <option value="14">14+</option>
                                         </select>									
                                     </section>
                                 </div>
@@ -110,13 +110,13 @@
                                 <!-- PHP FOR CATEGORY SEARCHING -->
                                 <div class="col-lg-4 col-md-12">
                                     <section class="block d-flex">
-                                        <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0">
-                                            <option disabled="disabled" selected="selected">Select Category<i class="fa fa-angle-down"></i></option>
-                                            <option value="1">SUV</option>
-                                            <option value="2">Sedan</option>
-                                            <option value="3">Pickup</option>
-                                            <option value="4">Minivan</option>
-                                            <option value="5">Campervan</option>
+                                        <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" name = "car_type">
+                                            <option disabled="disabled" selected="selected">Select Vehicle Type<i class="fa fa-angle-down"></i></option>
+                                            <option value="SUV">SUV</option>
+                                            <option value="Sedan">Sedan</option>
+                                            <option value="Pickup">Pickup</option>
+                                            <option value="Minivan">Minivan</option>
+                                            <option value="Campervan">Campervan</option>
                                         </select>									
                                     </section>
                                 </div>
@@ -125,14 +125,10 @@
                                 <!-- PHP FOR FUEL SEARCHING -->
                                 <div class="col-lg-4 col-md-12">
                                     <div class="block d-flex">
-                                        <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" >
+                                        <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" name = "fuel_type">
                                             <option disabled="disabled" selected="selected">Select Fuel Type</option>
-                                            <option value="1">Gasoline</option>
-                                            <option value="2">Diesel</option>
-                                            <option value="3">Liquefied Petroleum</option>
-                                            <option value="4">Compressed Natural Gas</option>
-                                            <option value="5">Ethanol</option>
-                                            <option value="6">Bio-diesel</option>
+                                            <option value="Gasoline">Gasoline</option>
+                                            <option value="Diesel">Diesel</option>
                                         </select>	
                                     </div>
                                 </div>
@@ -142,13 +138,17 @@
                         
                         <!-- PHP FOR SEARCH BUTTON -->
                         <div class="d-flex" style="display: inline-flex; ">
-                            <div class="col-lg-10 col-md-12" style="margin-top: 30px; display: flex; float: right;">
+                            <div class="col-lg-8 col-md-12" style="margin-top: 30px; display: flex; float: right;">
                                     
                                 </div>
                                 <div class="col-lg-6 col-md-12" style="margin-top: 30px;">
-                                    <div class="block d-flex">									
+                                    <div class="d-flex">		
                                         <!-- Search Button -->
-                                        <button class="btn btn-main">SEARCH</button>
+                                        <button class="btn btn-main" name = "search"  value = "search" style="background-color: #f8d90f; margin-right: 20%;">SEARCH</button>
+                                        		
+                                        <!-- PROCEED Button -->
+                                        <button class="btn btn-main" name = "proceed"  value = "proceed" style="background-color: #0191b4;">PROCEED</button>
+                                    
                                     </div>
                                 </div>
                             </div>
