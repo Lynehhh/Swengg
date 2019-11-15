@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+
+<?php
+session_start(); 
+require_once('connection.php');
+?>
+
 <html lang="en">
 <head>
 
@@ -51,8 +57,6 @@
 <!--==================================
 =            User Profile            =
 ===================================-->
-<section class="">
-    
 <?php
             $email = $_SESSION['email'];
                 $query = "select rr.reqID, ci.location, c.name, c.brand, c.car_type, c.fuel_type, c.seater, u.firstname, u.lastname, u.email, rr.req_date, rr.date_use, rr.date_return, rr.totalPrice, rr.ref_req_status
@@ -70,8 +74,10 @@
                 $filter_Result = mysqli_query($con, $query);
                 return $filter_Result;
             }
-
         ?>
+    
+    
+<section class="">
 	<!-- Container Start -->
 	<div class="container">
 		<!-- Row Start -->
@@ -81,20 +87,18 @@
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">
 						<ul>
-							<li class="active"><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests</a></li>
+							<li class="active"><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
 							<li>
-								<a href="#"><i class="fa fa-money"></i>Pending Payments</a>
+								<a href="#"><i class="fa fa-money"></i>Pending Payments<span>5</span></a>
 							</li>
 							<li>
-								<a href="#"><i class="fa fa-clipboard"></i>Pending Use</a>
+								<a href="#"><i class="fa fa-clipboard"></i>Pending Use<span>12</span></a>
 							</li>
 							<li>
-								<a href="#"><i class="fa fa-check-circle"></i>Completed Rentals</a>
+								<a href="#"><i class="fa fa-check-circle"></i>Completed Rental<span>23</span></a>
 							</li>
-                            <li>
-								<a href="#"><i class="fa fa-thumbs-down"></i>Denied Rentals</a>
 							<li>
-								<a href="#"><i class="fa fa-ban"></i>Cancelled Rentals</a>
+								<a href="#"><i class="fa fa-ban"></i>Cancelled <span>5</span></a>
 							</li>
 						</ul>
 					</div>
@@ -104,68 +108,49 @@
 				<!-- Recently Favorited -->
 				<div class="widget dashboard-container my-adslist">
 					<h3 class="widget-header">Pending Requests</h3>
-                    <form method="post">
-                        <table class="table table-responsive product-dashboard-table">
-                            <thead>
-                                <tr>
-                                    <th>Image</th>
-                                    <th>Vehicle Name</th>
-                                    <th class="text-center">Request Date</th>
-                                    <th class="text-center">Rental Date</th>
-                                    <th class="text-center">Return Date</th>
-                                    <th class="text-center">Total Price</th>
-                                    <th class="text-center">Activity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <?php
-                                    "select c.location, c.name, c.brand, c.car_type, c.fuel_type, c.seater, u.firstname, u.lastname, u.email, rr.req_date, rr.date_use, rr.date_return, rr.totalPrice, rr.ref_req_status
-                                    from reservation_requests rr
-                                    join users u on rr.owner_email = u.email
-                                    join car_images ci on ci. carID = rr.carID
-                                    join catalogue c on rr.carID = c.carID
-                                    where rr.renter_email = '".$_SESSION['email']."' and ref_req_status = 'Pending'";
-
-                                    if ($search_result->num_rows > 0) {
-                                        while($row = $search_result->fetch_assoc()) {
-                                ?>
-
-                                <tr>
-                                    <td class="product-thumb">
-                                        <?php echo "<img src = ". row['location'] .  " height ='auto;' width = '60%;'> "?></td>
-                                    <td class="product-details">
-                                        <h3 class="title"><?php echo $row['name'];?></h3>
-                                        <div class="row"></div>
-                                        <span><strong>Brand: </strong><?php echo $row['brand']; ?></span>
-                                        <span><strong>Car Type: </strong><?php echo $row['car_type']; ?></span>
-                                        <span><strong>Fuel Type: </strong><?php echo $row['fuel_type']; ?></span>
-                                        <span><strong>Seaters: </strong><?php echo $row['seater']; ?></span>
-                                        <span><strong>Name: </strong><?php echo $row['firstname'] ." ".  $row['lastname'] ?></span>
-                                        <span class="status active"><strong>Email: </strong><?php echo $row['email'] ?></span>
-                                    </td>
-                                    <td class="product-category"><span class="categories"><time><?php echo $row['req_date'] ?></time></span></td>
-                                    <td class="product-category"><span class="categories"><time><?php echo $row['date_use'] ?></time></span></td>
-                                    <td class="product-category"><span class="categories"><time><?php echo $row['date_return'] ?></time></span></td>
-                                    <td class="product-category"><span class="categories"><time><?php echo $row['totalPrice'] ?></time></span></td>
-                                    <?php
-                                            echo "\t<td><button type='submit' name='cancel_reserve' value=".$row['reqID']."><i class='fa fa-ban'></button></td></tr>\n";
-                                        }
-                                    }
-                                    ?>
-                                </tr>
-                            </tbody>
+					<table class="table table-responsive product-dashboard-table">
+						<thead>
+							<tr>
+								<th class = "text-center">Image</th>
+								<th class = "text-center">Vehicle Details</th>
+                                <th class = "text-center">Owner</th>
+								<th class="text-center">Request Date</th>
+                                <th class = "text-center">Date Use</th>
+                                <th class = "text-center">Date Return</th>
+                                <th class = "text-center">Total Price</th>
+                                <th class = "text-center">Cancel</th>
+							</tr>
+						</thead>
+						<tbody>
                             <?php
-                                    if(isset($_POST['cancel_reserve'])){
-                                        $sql='UPDATE reservation_requests
-                                        SET ref_req_status = "Cancelled"
-                                        WHERE reqID = '.$_POST["cancel_reserve"];
-                                        $con->query($sql);
-                                        header('location:pending_request.php');
-                                    }
-                            ?>
-                        </table>
-                    </form>
+							if ($search_result->num_rows > 0) {
+    while($row = $search_result->fetch_assoc()) {
+        echo "\t<tr><td><img src =" . $row['location'] . " height ='100px;' width = '100px;'></td>
+        <td><ul>
+        <li>" . $row['name'] ."</li>
+        <li>Brand: ".$row['brand']."</li>
+        <li>Car Type: ".$row['car_type']."</li>
+        <li>Fuel Type: ".$row['fuel_type']."</li>
+        <li>Capacity: ".$row['seater']."</li></ul>
+        </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
+        <li>Email: ".$row['email']."</li></ul></td>
+        <td>" . $row['req_date'] ."</td>
+        <td>" . $row['date_use'] ."</td>
+        <td>" . $row['date_return']  ."</td>
+        <td>" . $row['totalPrice'] ."</td>
+        <td><form method='post'><button type='submit' name='cancel_reserve' value=".$row['reqID'].">Cancel Reservation</button></td></tr>\n";
+    }
+}if(isset($_POST['cancel_reserve'])){
+    $sql='UPDATE reservation_requests
+    SET ref_req_status = "Cancelled"
+    WHERE reqID = '.$_POST["cancel_reserve"];
+    $con->query($sql);
+    header('location:pending_request.php');
+} ?>
+
+						</tbody>
+					</table>
+					
 				</div>
 			</div>
 		</div>
