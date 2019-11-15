@@ -97,34 +97,33 @@ require_once("connection.php");
 
                 <!-- Wrapper/ Images for slides -->
                 <div class="carousel-inner">
-                  <div class="item active">
-                      <?php 
-                    if(isset($_GET['searched_car'])){
-                    $_SESSION['searched_car'] = $_GET['searched_car'];
-                }
-                
-                    $sql1="select location from car_images where carID=".$_SESSION['searched_car'];
-            
-                    $result = $con->query($sql1);
-                    if ($result->num_rows > 0) { 
-                    while($row = $result->fetch_assoc()) {
-                        echo "<img src='".$row["location"]."' style='width:100%;height:250px;'>";
-                    }
-                } 
-                else {
-                    echo "NO PHOTOS AVAILABLE";
-                }
+                    <div class="item active">
+                        <?php echo "<img src='".$row["location"]."' style='width:100%;height:250px;'>"; ?>
+                    </div>
+                    <?php
+                        if(isset($_GET['searched_car'])){
+                            $_SESSION['searched_car'] = $_GET['searched_car'];
+                        }
+
+                            $sql1="select location from car_images where carID=".$_SESSION['searched_car'];
+
+                            $result = $con->query($sql1);
+                            if ($result->num_rows > 0) { 
+                            while($row = $result->fetch_assoc()) {
+                        ?>
+                      <div class="item">
+                          <?php 
+                                    echo "<img src='".$row["location"]."' style='width:100%;height:250px;'>";
+                                ?>
+                      </div>
+                        <?php
+                                    }
+                            } 
+                            else {
+                                echo "NO PHOTOS AVAILABLE";
+                            }
                       ?>
-                    <img src="images/user/user-thumb.jpg" alt="Los Angeles" style="width:100%; height: 500px;">
-                  </div>
-
-                  <div class="item">
-                    <img src="images/user/user-thumb.jpg" alt="Chicago" style="width:100%; height: 500px;">
-                  </div>
-
-                  <div class="item">
-                    <img src="images/user/user-thumb.jpg" alt="New york" style="width:100%; height: 500px;">
-                  </div>
+                  
                 </div>
 
                 <!-- Left and right controls -->
