@@ -89,7 +89,7 @@ require_once('connection.php');
 						<ul>
                         <li class="active"><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
                             <li >
-								<a href="btransaction_denied_requests.php"><i class="fa fa-question"></i>Denied Requests<span>5</span></a>
+								<a href="btransaction_denied_requests.php"><i class="fa fa-thumbs-down"></i>Denied Requests<span>5</span></a>
 							</li>
 							<li>
 								<a href="btransaction_pending_payments.php"><i class="fa fa-money"></i>Pending Payments<span>5</span></a>
