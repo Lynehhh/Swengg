@@ -1,10 +1,34 @@
 <!DOCTYPE html>
+<?php session_start(); 
+require_once("connection.php");
+?>
 <html lang="en">
-    <?php session_start(); 
-        require_once("connection.php");
-    ?>
 <head>
-
+<script>
+            function set_todate(date) {
+                document.getElementById("reserve_edate").disabled = false;
+                document.getElementById("reserve_edate").setAttribute("min", date);
+                document.getElementById("reserve_edate").setAttribute("value", date);
+            }
+            
+            function show_price(sdate, edate, price){
+                if(sdate > edate){
+                    alert("Invalid dates. Please try again.");
+                }
+                else{
+                    var date1 = new Date(sdate);
+                    var date2 = new Date(edate);
+                    var label = 'days';
+                    var days = Math.floor((date2 - date1) / (1000*60*60*24) + 1);
+                    
+                    if(days == 1){
+                        label = 'day';
+                    }
+                    var totalprice = price * days;
+                    document.getElementById("price_area").innerHTML = "<table><tr><td>₱"+price+" x "+days+" "+label+"</td><td>₱"+totalprice+"</td></tr><tr><td><b>Total</b></td><td><b>₱"+totalprice+"</b></td></tr></table>";
+                }
+            }
+        </script>
   <!-- SITE TITTLE -->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -51,32 +75,6 @@
             color: #f8d90f;
         }
     </style>
-    
-    <script>
-        function set_todate(date) {
-            document.getElementById("reserve_edate").disabled = false;
-            document.getElementById("reserve_edate").setAttribute("min", date);
-            document.getElementById("reserve_edate").setAttribute("value", date);
-        }
-
-        function show_price(sdate, edate, price){
-            if(sdate > edate){
-                alert("Invalid dates. Please try again.");
-            }
-            else{
-                var date1 = new Date(sdate);
-                var date2 = new Date(edate);
-                var label = 'days';
-                var days = Math.floor((date2 - date1) / (1000*60*60*24) + 1);
-
-                if(days == 1){
-                    label = 'day';
-                }
-                var totalprice = price * days;
-                document.getElementById("price_area").innerHTML = "<table><tr><td>₱"+price+" x "+days+" "+label+"</td><td>₱"+totalprice+"</td></tr><tr><td><b>Total</b></td><td><b>₱"+totalprice+"</b></td></tr></table>";
-            }
-        }
-    </script>
 
 </head>
 
@@ -89,40 +87,85 @@
 ==================================-->
     <div class="container">
         <div class="justify-content-center mb-20">
-            <?php
-                if(isset($_GET['searched_car'])){
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                  <li data-target="#myCarousel" data-slide-to="1"></li>
+                  <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+
+                <!-- Wrapper/ Images for slides -->
+                <div class="carousel-inner">
+                  <div class="item active">
+                      <?php 
+                    if(isset($_GET['searched_car'])){
                     $_SESSION['searched_car'] = $_GET['searched_car'];
                 }
                 
-                $sql1="select location from car_images where carID=".$_SESSION['searched_car'];
+                    $sql1="select location from car_images where carID=".$_SESSION['searched_car'];
             
-                $result = $con->query($sql1);
-                if ($result->num_rows > 0) { 
+                    $result = $con->query($sql1);
+                    if ($result->num_rows > 0) { 
                     while($row = $result->fetch_assoc()) {
-                        echo "<img src='".$row["location"]."' style='width:128px;height:128px;'>";
+                        echo "<img src='".$row["location"]."' style='width:100%;height:250px;'>";
                     }
                 } 
                 else {
                     echo "NO PHOTOS AVAILABLE";
-                } 
-                $sql2="select oemail, name, price, brand, fuel_type, seater, description, ofirst_name from view_catalogue where carID=".$_SESSION['searched_car'];
-                $result = $con->query($sql2);
-                if ($result->num_rows > 0) { 
-                    while($row = $result->fetch_assoc()) {
-            ?>
+                }
+                      ?>
+                    <img src="images/user/user-thumb.jpg" alt="Los Angeles" style="width:100%; height: 500px;">
+                  </div>
+
+                  <div class="item">
+                    <img src="images/user/user-thumb.jpg" alt="Chicago" style="width:100%; height: 500px;">
+                  </div>
+
+                  <div class="item">
+                    <img src="images/user/user-thumb.jpg" alt="New york" style="width:100%; height: 500px;">
+                  </div>
+                </div>
+
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
         </div>
         
+        <?php
+         $sql2="select oemail, name, price, brand, car_type, fuel_type, seater, description, ofirst_name from view_catalogue where carID=".$_SESSION['searched_car'];
+
+          $result = $con->query($sql2);
+                if ($result->num_rows > 0) { 
+                    while($row = $result->fetch_assoc()) {
+                        $carname = $row['name'];
+                        $owner = $row['ofirst_name'];
+                        $cartype = $row['car_type'];
+                        $brand = $row['brand'];
+                        $fueltype = $row['fuel_type'];
+                        $seats = $row['seater'];
+                        $description = $row['description'];
+                        $_SESSION['owner_email'] = $row['oemail'];
+                        $_SESSION['price'] = $row['price'];
+                    }
+                }
+        ?>
         <div class="row">
             <div class="col-md-4 offset-md-1 col-lg-7 offset-lg-0">
                 <div class="product-details mb-20">
-                    <h1 class="product-title"><?php echo $row['name']; ?></h1>
+                    <h1 class="product-title"><?php echo $carname; ?></h1>
                     <div class="product-meta">
                         <ul class="list-inline">
-                            <li class="list-inline-item"><i class="fa fa-user-o"></i> By <a href=""><?php echo $row['ofirst_name']; ?></a></li>
-                            
-                            <!-- ALY INSERT CATEGORY AND LOCATION HERE -->
-                            <li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Category<a href=""><?php   ?></a></li>
-                            <li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a href=""><?php   ?></a></li>
+                            <li class="list-inline-item"><i class="fa fa-user-o"></i> By <?php echo $owner ?></li>
+                            <li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Car Type <?php echo $cartype ?></li>
+                            <li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a href="">Manila</a></li>
                         </ul>
                     </div>
                 </div>
@@ -134,14 +177,11 @@
 							<li class="nav-item">
 								<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Specifications</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Reviews</a>
-							</li>
 						</ul>
 						<div class="tab-content" id="pills-tabContent">
 							<div class="tab-pane fade show active mb-20" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 								<h3 class="tab-title">Product Description</h3>
-								<p><?php echo $row['description'] ?></p>
+								<p><?php echo $description ?></p>
 							</div>
 							<div class="tab-pane fade mb-20" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 								<h3 class="tab-title">Product Specifications</h3>
@@ -149,160 +189,63 @@
 								  <tbody>
 								    <tr>
 								      <td>Brand</td>
-								      <td><?php echo $row['brand']; ?></td>
+								      <td><?php echo $brand ?></td>
 								    </tr>
 								    <tr>
-                                        <!-- ALY INSERT CATEGORY HERE -->
 								      <td>Car Type</td>
-								      <td><?php  ?></td>
+								      <td><?php echo $cartype ?></td>
 								    </tr>
 								    <tr>
 								      <td>Fuel Type</td>
-								      <td><?php echo $row['fuel_type']; ?></td>
+								      <td><?php echo $fueltype ?></td>
 								    </tr>
 								    <tr>
 								      <td>Name</td>
-								      <td><?php echo $row['name']; ?></td>
+								      <td><?php echo $carname ?></td>
 								    </tr>
 								    <tr>
-								      <td>Capacity</td>
-								      <td><?php echo $row['seater']; ?></td>
+								      <td>Seater</td>
+								      <td><?php echo $seats?></td>
+								    </tr>
+                                    <tr>
+								      <td>Rental Price</td>
+								      <td><?php echo $_SESSION['price'] ?></td>
 								    </tr>
 								  </tbody>
 								</table>
 							</div>
-                            
-                            <?php $_SESSION['owner_email'] = $row['oemail'];
-                                    $_SESSION['price'] = $row['price'];
-                                    }
-                                }
-                            ?>
-                            
-							<div class="tab-pane fade mb-20" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-								<h3 class="tab-title">Product Review</h3>
-								<div class="product-review">
-							  		<div class="media">
-							  			<!-- Avatar -->
-							  			<img src="images/user/user-thumb.jpg" alt="avater">
-							  			<div class="media-body">
-							  				<!-- Ratings -->
-							  				<div class="ratings">
-							  					<ul class="list-inline">
-							  						<li class="list-inline-item">
-							  							<i class="fa fa-star"></i>
-							  						</li>
-							  						<li class="list-inline-item">
-							  							<i class="fa fa-star"></i>
-							  						</li>
-							  						<li class="list-inline-item">
-							  							<i class="fa fa-star"></i>
-							  						</li>
-							  						<li class="list-inline-item">
-							  							<i class="fa fa-star"></i>
-							  						</li>
-							  						<li class="list-inline-item">
-							  							<i class="fa fa-star"></i>
-							  						</li>
-							  					</ul>
-							  				</div>
-							  				<div class="name">
-							  					<h5>Pepito the Cockroach</h5>
-							  				</div>
-							  				<div class="date">
-							  					<p>Mar 20, 2018</p>
-							  				</div>
-							  				<div class="review-comment">
-							  					<p>
-							  						Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape riamipsa eaque.
-							  					</p>
-							  				</div>
-							  			</div>
-							  		</div>
-							  		<div class="review-submission">
-							  			<h3 class="tab-title">Submit your review</h3>
-						  				<!-- Rate -->
-						  				<div class="rate">
-						  					<div class="starrr"></div>
-						  				</div>
-						  				<div class="review-submit">
-						  					<form action="#" class="row">
-						  						<div class="col-lg-6">
-						  							<input type="text" name="name" id="name" class="form-control" placeholder="Name">
-						  						</div>
-						  						<div class="col-lg-6">
-						  							<input type="email" name="email" id="email" class="form-control" placeholder="Email">
-						  						</div>
-						  						<div class="col-12">
-						  							<textarea name="review" id="review" rows="10" class="form-control" placeholder="Message"></textarea>
-						  						</div>
-						  						<div class="col-12">
-						  							<button type="submit" class="btn btn-main" style="float: right;">Sumbit</button>
-						  						</div>
-						  					</form>
-						  				</div>
-							  		</div>
-							  	</div>
-							</div>
 						</div>
 					</div>
             </div>
+    
             <div class="col-md-4 offset-md-1 col-lg-5 offset-lg-0">
                 <div class="widget">
-                    <?php 
-                        if(empty($_SESSION['email']) || ($_SESSION['email'] <> $_SESSION['owner_email'])){
-                    ?>
-                    <h1><span><?php echo $_SESSION['price'] ?></span> / day</h1>
-                    <h3 class="widget-header user mb-20">
-                        <span class="ratings">
-                                <li class="list-inline-item">
-                                    <i class="fa fa-star"></i>
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="fa fa-star"></i>
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="fa fa-star"></i>
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="fa fa-star"></i>
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="fa fa-star"></i>
-                                </li>						  				
-                        </span>  (150 reviews)
-                    </h3>
-                    <form id="reserve_form" method="get">
-                        <!--<h3 class="widget-header user">Renting Information</h3>-->
-                        <div class="row mb-20">
-                            <!-- Date -->
-                            <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                                <label for="comunity-name">From</label>
-                                <input method="get" type="date" class="form-control" id="reserve_sdate" name="start_date" onchange="set_todate(this.value)">
-                            </div>
-                            <!-- Date -->
-                            <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                                <label for="comunity-name">To</label>
-                                <input method="get" type="date" class="form-control" id="reserve_edate" name="end_date" step="0.01">
-                            </div>
+                    <h1><span>P 1,500.00</span> / day</h1>
+                    <!--<h3 class="widget-header user">Renting Information</h3>-->
+                    <div class="row mb-20">
+                        <!-- Date -->
+                        <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                            <form id="reserve_form" method="get"> 
+                            <input method="get" type="date" id="reserve_sdate" name="start_date" placeholder="From" min="" onchange="set_todate(this.value)" />->
+                            <input method="get" type="date" id="reserve_edate" name="end_date" placeholder="To" min="" value="" disabled />
+                    </form>
                         </div>
+                    </div>
 
-                        <!-- Guests 
-                        <div class="form-group">
-                            <label for="comunity-name">Guests</label>
-                            <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" style="border-color: #ced4da;">
-                                <option disabled="disabled" selected="selected">Select Number<i class="fa fa-angle-down"></i></option>
-                                <option value="1">1-3</option>
-                                <option value="2">4-6</option>
-                                <option value="3">7-10</option>
-                                <option value="4">More than 10</option>
-                            </select>
-                        </div> -->
+                    <!-- Guests 
+                    <div class="form-group">
+                        <label for="comunity-name">Guests</label>
+                        <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" style="border-color: #ced4da;">
+                            <option disabled="disabled" selected="selected">Select Number<i class="fa fa-angle-down"></i></option>
+                            <option value="1">1-3</option>
+                            <option value="2">4-6</option>
+                            <option value="3">7-10</option>
+                            <option value="4">More than 10</option>
+                        </select>
+                    </div> -->
+                    
                     
                         <label for="comunity-name">Charges</label>
-                        <input method="get" type="button" value="Show Price" onclick="<?php show_price(reserve_sdate.value, reserve_edate.value, '.$_SESSION["price"].') ?>" />
-                        <div id="price_area">
-                        </div>
-                        <!--
                             <font size="3">
                                 <table class="table table-responsive product-dashboard-table mb-20">
                                     <tbody>
@@ -357,41 +300,10 @@
                                         </tr>
                                     </tfoot>
                                 </table>
-                            </font> -->
+                            </font>
 
-                        <!-- Submit button -->
-                        <button name="reserve" form="reserve_form" onclick="show_ask()" class="btn btn-transparent" style="width: 100%;">Submit Reservation</button>
-                    </form>
-                    
-                    <?php
-                                                }
-                        if (isset($_GET['reserve'])){
-                                $_SESSION['start_date'] = $_GET['start_date'];
-                                $_SESSION['end_date'] = $_GET['end_date'];
-                                if($_SESSION['start_date'] > $_SESSION['end_date']){
-                                    header('location:viewcar.php?Invalid=Invalid dates please try again');
-                                }
-                            else{
-                                // PALITAN SESSION NAME
-                                if(empty($_SESSION['email'])){
-                                    // SA LOGIN PAGE 
-                                    header('location:login.php');
-                                }
-                                else{
-                                    $sql = "INSERT INTO reservation_requests (req_date, date_use, date_return, renter_email, owner_email, carID, ref_req_status) VALUES (now(), '".$_SESSION['start_date']."', '".$_SESSION['end_date']."', '".$_SESSION['email']."', '".$_SESSION['owner_email']."', ".$_SESSION['searched_car'].", 'Pending')";
-
-                                    $result = $con->query($sql);
-
-                                    if($result === true){
-
-                                    }
-                                    else{
-                                        header('location:viewcar.php?Invalid=Error occured please try again');
-                                    }
-                                }
-                            }  
-                        }
-                    ?>
+                    <!-- Submit button -->
+                    <button class="btn btn-transparent" style="width: 100%;">Submit Reservation</button>
                 </div>
             </div>
         </div>
@@ -399,15 +311,6 @@
     
 
   <!-- JAVASCRIPTS -->
-    <script>
-        var today = new Date();
-        var dd = today.getDate()+1;
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear()
-        today = yyyy+'-'+mm+'-'+dd;
-        document.getElementById("reserve_sdate").setAttribute("min", today);
-    </script>
-    
   <script src="plugins/jquery/jquery.min.js"></script>
   <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
   <script src="plugins/tether/js/tether.min.js"></script>
