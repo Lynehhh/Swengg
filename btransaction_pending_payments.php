@@ -129,7 +129,7 @@ require_once('connection.php');
                             <?php
 							if ($search_result->num_rows > 0) {
                                 while($row = $search_result->fetch_assoc()) {
-                                    echo "<form method = 'post' action = 'paynow.php'>";
+                                    echo "<form method = 'post' action = 'payment.php'>";
                                     echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td>" . $row['name'].
                                     "</td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
                                     <li>Email: ".$row['owner_email']."</li></ul></td><td class='product-category'>" . $row['due_date'] ."</td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $row['total_amount'] ."</td><td class='product-category'><button type = 'submit' name = 'Pay'  value = '" . $row['rentID'] . "' > Pay Now </button></td></tr>\n";
