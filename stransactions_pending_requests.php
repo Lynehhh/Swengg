@@ -82,7 +82,7 @@ require_once('connection.php');
     
 <section class="">
 	<!-- Container Start -->
-	<div class="container">
+	
 		<!-- Row Start -->
 		<div class="row">
 			<div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
@@ -91,7 +91,7 @@ require_once('connection.php');
 					<div class="widget user-dashboard-menu">
 						<ul>
 							<li class="active"><a href="stransactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
-                            <li ><a href="stransactions_denied_requests.php"><i class="fa fa-question"></i>Denied Requests<span>2</span></a></li>
+                            <li ><a href="stransactions_denied_requests.php"><i class="fa fa-thumbs-down"></i>Denied Requests<span>2</span></a></li>
 
                             <li>
 								<a href="stransactions_pending_payments.php"><i class="fa fa-money"></i>Pending Payments<span>5</span></a>
@@ -103,7 +103,7 @@ require_once('connection.php');
 								<a href="stransactions_completed_use.php"><i class="fa fa-check-circle"></i>Completed Rental<span>23</span></a>
 							</li>
 							<li>
-								<a href="stransactions_cancelled_rentals.php"><i class="fa fa-ban"></i>Cancelled <span>5</span></a>
+								<a href="stransactions_cancelled_rentals.php"><i class="fa fa-ban"></i>Cancelled Rentals<span>5</span></a>
 							</li>
 						</ul>
 					</div>
@@ -117,6 +117,7 @@ require_once('connection.php');
 						<thead>
 							<tr>
 								<th class = "text-center">Image</th>
+                                <th class = "text-center"></th>
 								<th class = "text-center">Vehicle Details</th>
                                 <th class = "text-center">Renter Details</th>
 								<th class="text-center">Request Date</th>
@@ -133,13 +134,13 @@ require_once('connection.php');
                                     $interval = 8; 
                                     $totalPrice =  $row['price'] * $interval;
                                     echo "<form method = 'post' >";
-                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td><ul><li>" 
-                                    . $row['name'] ."</li><li>Brand: ".$row['brand']."</li>
+                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td></td><td class='product-details'><ul><h3 class='title'>" 
+                                    . $row['name'] ."</h3><li>Brand: ".$row['brand']."</li>
                                     <li>Car Type: ".$row['car_type']."</li>
                                     <li>Fuel Type: ".$row['fuel_type']."</li>
                                     <li>Capacity: ".$row['seater']."</li></ul>
                                     </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-                                    <li>Email: ".$row['renter_email']."</li></ul></td><td>" . $row['req_date'] ."</td><td>" . $row['date_use'] ."</td><td>" . $row['date_return']  ."</td><td>" . $totalPrice ."</td><td><button type = 'submit' formaction = 'processapproval.php' name = 'Approve'  value = '" . $row['reqID'] . "' >Approve </button><button type = 'submit' name = 'Deny'  formaction = 'processapproval.php' value = '" . $row['reqID'] . "' >Deny </button></td></tr>\n";
+                                    <li>Email: ".$row['renter_email']."</li></ul></td><td class='product-category'>" . $row['req_date'] ."</td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $totalPrice ."</td><td class='product-category'><button type = 'submit' formaction = 'processapproval.php' name = 'Approve'  value = '" . $row['reqID'] . "' style = 'background-color: Transparent; background-repeat:no-repeat; color: #28a745; border: none; overflow: hidden; outline:none;'><i class='fa fa-thumbs-up'></i> </button><button type = 'submit' name = 'Deny'  formaction = 'processapproval.php' value = '" . $row['reqID'] . "' style = 'background-color: Transparent; background-repeat:no-repeat; color:#e74a3b; border: none; overflow: hidden; outline:none;'><i class='fa fa-thumbs-down'></i> </button></td></tr>\n";
                                 }
     }
 ?>
@@ -151,7 +152,7 @@ require_once('connection.php');
 			</div>
 		</div>
 		<!-- Row End -->
-	</div>
+	
 	<!-- Container End -->
 </section>
 

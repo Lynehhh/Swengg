@@ -80,7 +80,7 @@ require_once('connection.php');
     
 <section class="">
 	<!-- Container Start -->
-	<div class="container">
+	
 		<!-- Row Start -->
 		<div class="row">
 			<div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
@@ -88,20 +88,20 @@ require_once('connection.php');
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">
 						<ul>
-							<li ><a href="stransactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
-                            <li ><a href="stransactions_denied_requests.php"><i class="fa fa-question"></i>Denied Requests<span>2</span></a></li>
+							<li><a href="stransactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
+                            <li ><a href="stransactions_denied_requests.php"><i class="fa fa-thumbs-down"></i>Denied Requests<span>2</span></a></li>
 
-							<li>
+                            <li>
 								<a href="stransactions_pending_payments.php"><i class="fa fa-money"></i>Pending Payments<span>5</span></a>
 							</li>
-							<li >
+							<li>
 								<a href="stransactions_pending_use.php"><i class="fa fa-clipboard"></i>Pending Use<span>12</span></a>
 							</li>
 							<li class="active">
 								<a href="stransactions_completed_use.php"><i class="fa fa-check-circle"></i>Completed Rental<span>23</span></a>
 							</li>
 							<li>
-								<a href="stransactions_cancelled_rentals.php"><i class="fa fa-ban"></i>Cancelled <span>5</span></a>
+								<a href="stransactions_cancelled_rentals.php"><i class="fa fa-ban"></i>Cancelled Rental<span>5</span></a>
 							</li>
 						</ul>
 					</div>
@@ -110,11 +110,12 @@ require_once('connection.php');
 			<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
 				<!-- Recently Favorited -->
 				<div class="widget dashboard-container my-adslist">
-					<h3 class="widget-header">Pending Requests</h3>
+					<h3 class="widget-header">Completed Rental</h3>
 					<table class="table table-responsive product-dashboard-table">
 						<thead>
 							<tr>
 								<th class = "text-center">Image</th>
+                                <th class = "text-center"></th>
 								<th class = "text-center">Vehicle Details</th>
                                 <th class = "text-center">Renter Details</th>
                                 <th class = "text-center">Date Use</th>
@@ -126,13 +127,18 @@ require_once('connection.php');
                             <?php
 							if ($search_result->num_rows > 0) {
                                 while($row = $search_result->fetch_assoc()) {
-                                    echo "<form method = 'post' action = 'paynow.php'>";
-                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td>" . $row['name'].
-                                    "</td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-                                    <li>Email: ".$row['renter_email']."</li></ul></td><td>" . $row['date_use'] ."</td><td>" . $row['date_return']  ."</td><td>" . $row['total_amount'] ."</td></tr>\n";
+                                    $interval = 8; 
+                                    $totalPrice =  $row['price'] * $interval;
+                                    echo "<form method = 'post' >";
+                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td></td><td class='product-details'><ul><h3 class='title'>" 
+                                    . $row['name'] ."</h3><li>Brand: ".$row['brand']."</li>
+                                    <li>Car Type: ".$row['car_type']."</li>
+                                    <li>Fuel Type: ".$row['fuel_type']."</li>
+                                    <li>Capacity: ".$row['seater']."</li></ul>
+                                    </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
+                                    <li>Email: ".$row['renter_email']."</li></ul></td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $totalPrice ."</td>\n";
                                 }
-                            
-                            }
+    }
 ?>
 
 						</tbody>
@@ -142,7 +148,7 @@ require_once('connection.php');
 			</div>
 		</div>
 		<!-- Row End -->
-	</div>
+	
 	<!-- Container End -->
 </section>
 
