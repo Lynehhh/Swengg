@@ -90,7 +90,7 @@ require_once('connection.php');
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">
 						<ul>
-							<li class="active"><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
+							<li class="active"><a href="stransactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
 							<li>
 								<a href="#"><i class="fa fa-money"></i>Pending Payments<span>5</span></a>
 							</li>
