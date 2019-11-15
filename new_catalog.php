@@ -313,14 +313,14 @@ require_once('connection.php');
 	<div class='card'>
 		<div class='thumb-content'>
                 ";
-                    echo    "<img src='".$row["location"]."' style='width:128px;height:128px;'> <br>"
-                            .$row["name"]. "<br>"
+                    echo    "<img src='".$row["location"]."' style='width:128px;height:128px;'> <br>
+                            <i class='fas fa-car'></i>".$row["name"]. "<br>"
                             .$row["brand"]. "<br>"
                             .$row["fuel_type"]. "<br>"
                             .$row["seater"]. "<br>"
                             .$row["price"]. "<br>"
                             .$row["city"]. "<br>"
-                            ."<form method='get' action='car_details.php'><button name='searched_car' value='".$row["carID"]."'>See More</button></form>";
+                            ."<form method='get' action='viewcar.php'><button name='searched_car' value='".$row["carID"]."'>See More</button></form>";
                     }
                 }
                     else {
