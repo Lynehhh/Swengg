@@ -220,16 +220,21 @@ require_once("connection.php");
     
             <div class="col-md-4 offset-md-1 col-lg-5 offset-lg-0">
                 <div class="widget">
-                    <h1><span>P 1,500.00</span> / day</h1>
+                    <h1 class="mb-20"><span>P 1,500.00</span> / day</h1>
                     <!--<h3 class="widget-header user">Renting Information</h3>-->
                     <div class="row mb-20">
-                        <!-- Date -->
-                        <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                            <form id="reserve_form" method="get"> 
-                            <input method="get" type="date" id="reserve_sdate" name="start_date" placeholder="From" min="" onchange="set_todate(this.value)" />->
-                            <input method="get" type="date" id="reserve_edate" name="end_date" placeholder="To" min="" value="" disabled />
-                    </form>
-                        </div>
+                        <form id="reserve_form" method="get">
+                            <!-- Date -->
+                            <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                                <label for="comunity-name">From</label>
+                                <input type="date" class="form-control" method="get" id="reserve_sdate" name="start_date" placeholder="From" min="" onchange="set_todate(this.value)"/>
+                            </div>
+                            <!-- Date -->
+                            <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                                <label for="comunity-name">To</label>
+                                <input type="date" class="form-control" method="get" id="reserve_edate" name="end_date" placeholder="To" min="" value="" disabled />
+                            </div>
+                        </form>                        
                     </div>
 
                     <!-- Guests 
