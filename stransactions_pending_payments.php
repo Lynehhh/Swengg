@@ -58,25 +58,22 @@ require_once('connection.php');
 =            User Profile            =
 ===================================-->
 <?php
-            $email = $_SESSION['email'];
-            $query = " SELECT r.reqID, r.req_date, r.date_use, r.date_return, r.renter_email, u.firstname, u.lastname, r.ref_req_status, 
-                        ci.location, c.carID, c.name, c.brand, c.car_type, c.fuel_type, c.seater, c.price, c.availability 
-                        FROM users u JOIN reservation_requests r ON u.email = r.renter_email 
-                        JOIN catalogue c ON r.carID = c.carID 
-                        JOIN car_images ci ON c.carID = ci.carID 
-                        WHERE c.owner_email = '".$email."' 
-                        AND r.ref_req_status = 'Pending'
-                        GROUP BY r.reqID";
-            $search_result = filterTable($query);
-        
+               $email = $_SESSION['email'];
+               $query = " SELECT re.rentID,  ci.location, c.name, re.total_amount, re.due_date, re.status, re.date_use, r.date_return, 
+               r.renter_email, r.owner_email, u.firstname, u.lastname FROM rentals re JOIN reservation_requests r ON re.reqID = r.reqID JOIN car_images ci ON r.carID = ci.carID JOIN catalogue c ON c.carID = ci.carID JOIN users u ON r.renter_email = u.email 
+                           WHERE r.owner_email = '".$email."' 
+                           AND re.status = 'Unpaid'
+                           GROUP BY re.rentID";
+               $search_result = filterTable($query);
+           
 
-       
-        function filterTable($query)
-        {
-            $con = mysqli_connect("localhost", "root", "", "gogobiyahe");
-            $filter_Result = mysqli_query($con, $query);
-            return $filter_Result;
-        }
+          
+           function filterTable($query)
+           {
+               $con = mysqli_connect("localhost", "root", "", "gogobiyahe");
+               $filter_Result = mysqli_query($con, $query);
+               return $filter_Result;
+           }
         ?>
     
     
@@ -90,10 +87,10 @@ require_once('connection.php');
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">
 						<ul>
-							<li class="active"><a href="stransactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
+							<li><a href="stransactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
                             <li ><a href="stransactions_denied_requests.php"><i class="fa fa-question"></i>Denied Requests<span>2</span></a></li>
 
-                            <li>
+							<li  class="active">
 								<a href="stransactions_pending_payments.php"><i class="fa fa-money"></i>Pending Payments<span>5</span></a>
 							</li>
 							<li>
@@ -119,29 +116,24 @@ require_once('connection.php');
 								<th class = "text-center">Image</th>
 								<th class = "text-center">Vehicle Details</th>
                                 <th class = "text-center">Renter Details</th>
-								<th class="text-center">Request Date</th>
+								<th class="text-center">Payment Due Date</th>
                                 <th class = "text-center">Date Use</th>
                                 <th class = "text-center">Date Return</th>
                                 <th class = "text-center">Total Price</th>
-                                <th class = "text-center">Activity</th>
 							</tr>
 						</thead>
 						<tbody>
                             <?php
-							if ($search_result->num_rows > 0) {
-                                while($row = $search_result->fetch_assoc()) {
-                                    $interval = 8; 
-                                    $totalPrice =  $row['price'] * $interval;
-                                    echo "<form method = 'post' >";
-                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td><ul><li>" 
-                                    . $row['name'] ."</li><li>Brand: ".$row['brand']."</li>
-                                    <li>Car Type: ".$row['car_type']."</li>
-                                    <li>Fuel Type: ".$row['fuel_type']."</li>
-                                    <li>Capacity: ".$row['seater']."</li></ul>
-                                    </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-                                    <li>Email: ".$row['renter_email']."</li></ul></td><td>" . $row['req_date'] ."</td><td>" . $row['date_use'] ."</td><td>" . $row['date_return']  ."</td><td>" . $totalPrice ."</td><td><button type = 'submit' formaction = 'processapproval.php' name = 'Approve'  value = '" . $row['reqID'] . "' >Approve </button><button type = 'submit' name = 'Deny'  formaction = 'processapproval.php' value = '" . $row['reqID'] . "' >Deny </button></td></tr>\n";
-                                }
+							
+if ($search_result->num_rows > 0) {
+    while($row = $search_result->fetch_assoc()) {
+        echo "<form method = 'post' action = 'paynow.php'>";
+        echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td>" . $row['name'].
+        "</td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
+        <li>Email: ".$row['renter_email']."</li></ul></td><td>" . $row['due_date'] ."</td><td>" . $row['date_use'] ."</td><td>" . $row['date_return']  ."</td><td>" . $row['total_amount'] ."</td></tr>\n";
     }
+
+}
 ?>
 
 						</tbody>

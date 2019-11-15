@@ -90,8 +90,8 @@ require_once('connection.php');
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">
 						<ul>
-							<li class="active"><a href="stransactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
-                            <li ><a href="stransactions_denied_requests.php"><i class="fa fa-question"></i>Denied Requests<span>2</span></a></li>
+							<li class><a href="stransactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
+                            <li class="active"><a href="stransactions_denied_requests.php"><i class="fa fa-question"></i>Denied Requests<span>2</span></a></li>
 
                             <li>
 								<a href="stransactions_pending_payments.php"><i class="fa fa-money"></i>Pending Payments<span>5</span></a>
@@ -123,7 +123,6 @@ require_once('connection.php');
                                 <th class = "text-center">Date Use</th>
                                 <th class = "text-center">Date Return</th>
                                 <th class = "text-center">Total Price</th>
-                                <th class = "text-center">Activity</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -139,7 +138,7 @@ require_once('connection.php');
                                     <li>Fuel Type: ".$row['fuel_type']."</li>
                                     <li>Capacity: ".$row['seater']."</li></ul>
                                     </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-                                    <li>Email: ".$row['renter_email']."</li></ul></td><td>" . $row['req_date'] ."</td><td>" . $row['date_use'] ."</td><td>" . $row['date_return']  ."</td><td>" . $totalPrice ."</td><td><button type = 'submit' formaction = 'processapproval.php' name = 'Approve'  value = '" . $row['reqID'] . "' >Approve </button><button type = 'submit' name = 'Deny'  formaction = 'processapproval.php' value = '" . $row['reqID'] . "' >Deny </button></td></tr>\n";
+                                    <li>Email: ".$row['renter_email']."</li></ul></td><td>" . $row['req_date'] ."</td><td>" . $row['date_use'] ."</td><td>" . $row['date_return']  ."</td><td>" . $totalPrice ."</td></tr>\n";
                                 }
     }
 ?>
