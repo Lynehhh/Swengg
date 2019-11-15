@@ -59,21 +59,22 @@ require_once('connection.php');
 ===================================-->
 <?php
             $email = $_SESSION['email'];
-                $query = "select rr.reqID, ci.location, c.name, c.brand, c.car_type, c.fuel_type, c.seater, u.firstname, u.lastname, u.email, rr.req_date, rr.date_use, rr.date_return, rr.totalPrice, rr.ref_req_status
-                from reservation_requests rr
-                join users u on rr.owner_email = u.email
-                join car_images ci on ci. carID = rr.carID
-                join catalogue c on rr.carID = c.carID
-                where rr.renter_email = '".$_SESSION['email']."' and rr.ref_req_status = 'Pending'
-                group by rr.reqID";
-                $search_result = filterTable($query);
-           
-            function filterTable($query)
-            {
-                $con = mysqli_connect("localhost", "root", "", "gogobiyahe");
-                $filter_Result = mysqli_query($con, $query);
-                return $filter_Result;
-            }
+            $query = "SELECT re.rentID,  ci.location, c.name, re.total_amount, re.due_date, re.status, re.date_use, r.date_return, 
+                r.renter_email, r.owner_email, u.firstname, u.lastname FROM rentals re JOIN reservation_requests r ON re.reqID = r.reqID JOIN car_images ci ON r.carID = ci.carID JOIN catalogue c ON c.carID = ci.carID JOIN users u ON r.owner_email = u.email 
+                            WHERE r.renter_email = '".$email."' 
+                            AND re.status = 'Cancelled'
+                            GROUP BY c.carID
+                            ORDER BY re.date_use desc";
+            $search_result = filterTable($query);
+        
+
+       
+        function filterTable($query)
+        {
+            $con = mysqli_connect("localhost", "root", "", "gogobiyahe");
+            $filter_Result = mysqli_query($con, $query);
+            return $filter_Result;
+        }
         ?>
     
     
@@ -87,8 +88,8 @@ require_once('connection.php');
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">
 						<ul>
-                        <li class="active"><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
-                            <li >
+							<li><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
+                            <li>
 								<a href="btransaction_denied_requests.php"><i class="fa fa-question"></i>Denied Requests<span>5</span></a>
 							</li>
 							<li>
@@ -100,7 +101,7 @@ require_once('connection.php');
 							<li>
 								<a href="btransaction_completed_use.php"><i class="fa fa-check-circle"></i>Completed Rental<span>23</span></a>
 							</li>
-							<li>
+							<li class="active">
 								<a href="btransaction_cancelled.php"><i class="fa fa-ban"></i>Cancelled<span>5</span></a>
 							</li>
 						</ul>
@@ -116,40 +117,23 @@ require_once('connection.php');
 							<tr>
 								<th class = "text-center">Image</th>
 								<th class = "text-center">Vehicle Details</th>
-                                <th class = "text-center">Owner</th>
-								<th class="text-center">Request Date</th>
+                                <th class = "text-center">Owner Details</th>
                                 <th class = "text-center">Date Use</th>
                                 <th class = "text-center">Date Return</th>
                                 <th class = "text-center">Total Price</th>
-                                <th class = "text-center">Cancel</th>
 							</tr>
 						</thead>
 						<tbody>
                             <?php
 							if ($search_result->num_rows > 0) {
-    while($row = $search_result->fetch_assoc()) {
-        echo "\t<tr><td><img src =" . $row['location'] . " height ='100px;' width = '100px;'></td>
-        <td><ul>
-        <li>" . $row['name'] ."</li>
-        <li>Brand: ".$row['brand']."</li>
-        <li>Car Type: ".$row['car_type']."</li>
-        <li>Fuel Type: ".$row['fuel_type']."</li>
-        <li>Capacity: ".$row['seater']."</li></ul>
-        </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-        <li>Email: ".$row['email']."</li></ul></td>
-        <td>" . $row['req_date'] ."</td>
-        <td>" . $row['date_use'] ."</td>
-        <td>" . $row['date_return']  ."</td>
-        <td>" . $row['totalPrice'] ."</td>
-        <td><form method='post'><button type='submit' name='cancel_reserve' value=".$row['reqID'].">Cancel Reservation</button></td></tr>\n";
+                                while($row = $search_result->fetch_assoc()) {
+                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td>" . $row['name'].
+                                    "</td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
+                                    <li>Email: ".$row['owner_email']."</li></ul></td><td>" . $row['date_use'] ."</td><td>" . $row['date_return']  ."</td><td>" . $row['total_amount'] ."</td></tr>\n";
     }
-}if(isset($_POST['cancel_reserve'])){
-    $sql='UPDATE reservation_requests
-    SET ref_req_status = "Cancelled"
-    WHERE reqID = '.$_POST["cancel_reserve"];
-    $con->query($sql);
-    header('location:pending_request.php');
-} ?>
+                                }
+ 
+?>
 
 						</tbody>
 					</table>
