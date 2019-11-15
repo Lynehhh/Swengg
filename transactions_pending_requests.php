@@ -101,7 +101,7 @@ require_once('connection.php');
 								<a href="btransaction_completed_use.php"><i class="fa fa-check-circle"></i>Completed Rental<span>23</span></a>
 							</li>
 							<li>
-								<a href="btransaction_cancelled.php"><i class="fa fa-ban"></i>Cancelled<span>5</span></a>
+								<a href="btransaction_cancelled.php"><i class="fa fa-ban"></i>Cancelled Rental<span>5</span></a>
 							</li>
 						</ul>
 					</div>
@@ -129,19 +129,19 @@ require_once('connection.php');
 							if ($search_result->num_rows > 0) {
     while($row = $search_result->fetch_assoc()) {
         echo "\t<tr><td><img src =" . $row['location'] . " height ='100px;' width = '100px;'></td>
-        <td><ul>
-        <li>" . $row['name'] ."</li>
+        <td><ul class='product-details'>
+        <h3 class='title'>" . $row['name'] ."</h3>
         <li>Brand: ".$row['brand']."</li>
         <li>Car Type: ".$row['car_type']."</li>
         <li>Fuel Type: ".$row['fuel_type']."</li>
         <li>Capacity: ".$row['seater']."</li></ul>
         </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
         <li>Email: ".$row['email']."</li></ul></td>
-        <td>" . $row['req_date'] ."</td>
-        <td>" . $row['date_use'] ."</td>
-        <td>" . $row['date_return']  ."</td>
-        <td>" . $row['totalPrice'] ."</td>
-        <td><form method='post'><button type='submit' name='cancel_reserve' value=".$row['reqID'].">Cancel Reservation</button></td></tr>\n";
+        <td class='product-category'>" . $row['req_date'] ."</td>
+        <td class='product-category'>" . $row['date_use'] ."</td>
+        <td class='product-category'>" . $row['date_return']  ."</td>
+        <td class='product-category'>" . $row['totalPrice'] ."</td>
+        <td class='product-category'><form method='post'><button type='submit' name='cancel_reserve' value=".$row['reqID'].">Cancel Reservation</button></td></tr>\n";
     }
 }if(isset($_POST['cancel_reserve'])){
     $sql='UPDATE reservation_requests

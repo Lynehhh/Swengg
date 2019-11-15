@@ -88,9 +88,9 @@ require_once('connection.php');
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">
 						<ul>
-							<li ><a href="btransaction_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
+							<li><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
                             <li>
-								<a href="btransaction_denied_requests.php"><i class="fa fa-question"></i>Denied Requests<span>5</span></a>
+								<a href="btransaction_denied_requests.php"><i class="fa fa-thumbs-down"></i>Denied Requests<span>5</span></a>
 							</li>
 							<li class="active">
 								<a href="btransaction_pending_payments.php"><i class="fa fa-money"></i>Pending Payments<span>5</span></a>
@@ -102,7 +102,7 @@ require_once('connection.php');
 								<a href="btransaction_completed_use.php"><i class="fa fa-check-circle"></i>Completed Rental<span>23</span></a>
 							</li>
 							<li>
-								<a href="btransaction_cancelled.php"><i class="fa fa-ban"></i>Cancelled<span>5</span></a>
+								<a href="btransaction_cancelled.php"><i class="fa fa-ban"></i>Cancelled Rental<span>5</span></a>
 							</li>
 						</ul>
 					</div>
@@ -111,7 +111,7 @@ require_once('connection.php');
 			<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
 				<!-- Recently Favorited -->
 				<div class="widget dashboard-container my-adslist">
-					<h3 class="widget-header">Pending Requests</h3>
+					<h3 class="widget-header">Pending Payments</h3>
 					<table class="table table-responsive product-dashboard-table">
 						<thead>
 							<tr>
@@ -132,7 +132,7 @@ require_once('connection.php');
                                     echo "<form method = 'post' action = 'paynow.php'>";
                                     echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td>" . $row['name'].
                                     "</td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-                                    <li>Email: ".$row['owner_email']."</li></ul></td><td>" . $row['due_date'] ."</td><td>" . $row['date_use'] ."</td><td>" . $row['date_return']  ."</td><td>" . $row['total_amount'] ."</td><td><button type = 'submit' name = 'Pay'  value = '" . $row['rentID'] . "' > Pay Now </button></td></tr>\n";
+                                    <li>Email: ".$row['owner_email']."</li></ul></td><td class='product-category'>" . $row['due_date'] ."</td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $row['total_amount'] ."</td><td class='product-category'><button type = 'submit' name = 'Pay'  value = '" . $row['rentID'] . "' > Pay Now </button></td></tr>\n";
                                  }
     }
                             if(isset($_POST['cancel_reserve'])){
