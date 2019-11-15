@@ -125,7 +125,48 @@ require_once('connection.php');
 				</div>
 			</div>
             <?php
-            //if napress yung "search" button dito pupunta
+            if(isset($_POST['search']))
+{
+    if(empty($_POST['brand'])){
+        $_SESSION['brand'] =  "'' or 'a'='a'";
+    }
+    else{
+        $brand = $_POST['brand'];
+        $_SESSION['brand'] = "'".$brand."'"; 
+
+    }
+
+    if(empty($_POST['car_type'])){
+        $_SESSION['car_type'] =  "'' or 'a'='a'";
+    }
+    else{
+        $car_type = $_POST['car_type'];
+        $_SESSION['car_type'] = "'".$car_type."'"; 
+
+    }
+
+    if(empty($_POST['fuel_type'])){
+        $_SESSION['fuel_type'] = "'' or 'a'='a'";
+    }
+    else{
+        $fuel_type = $_POST['fuel_type'];
+        $_SESSION['fuel_type'] = "'".$fuel_type."'"; 
+
+    }
+
+    if(empty($_POST['seater'])){
+        $_SESSION['seater'] =  "'' or 'a'='a'";
+    }
+    else{
+        $seater = $_POST['seater'];
+        $_SESSION['seater'] = "'".$seater."'"; 
+
+    }
+
+    $sql = "select carID, brand, fuel_type, seater, price, location, name, city from view_catalogue WHERE (brand  = ".  $_SESSION['brand'].") AND (car_type  = ".  $_SESSION['car_type'].") AND (fuel_type  = ".  $_SESSION['fuel_type'].")  AND (seater  = ".  $_SESSION['seater'].") order by price asc";
+}  
+            else{
+                //if napress yung "search" button dito pupunta
             if (isset($_GET['search'])){
                 
                 //if walang laman yung searchtxt na input box, dito papasok
@@ -135,7 +176,7 @@ require_once('connection.php');
                     $_SESSION['search_status']="no";
                     
                     
-                    $sql="select carID, fuel_type, seater, price, location, name, city from view_catalogue order by price asc";
+                    $sql="select carID, brand, fuel_type, seater, price, location, name, city from view_catalogue order by price asc";
                 }
                 
                 //if may laman naman yung searchtxt na input box, dito papasok
@@ -146,11 +187,11 @@ require_once('connection.php');
                     if ($_SESSION['sort_status']=="yes"){
                         
                         if ($_SESSION['filter_status']=="yes"){
-                            $sql="select carID, fuel_type, seater, price, location, name, city from view_catalogue where (brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%') and price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].") order by ".$_SESSION['sortby'];
+                            $sql="select carID, brand, fuel_type, seater, price, location, name, city from view_catalogue where (brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%') and price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].") order by ".$_SESSION['sortby'];
                         }
                         
                         else{
-                            $sql="select carID, fuel_type, seater, price, location, name, city from view_catalogue where brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%' order by ".$_SESSION['sortby'];
+                            $sql="select carID, brand, fuel_type, seater, price, location, name, city from view_catalogue where brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%' order by ".$_SESSION['sortby'];
                         }
                         
                     }
@@ -158,11 +199,11 @@ require_once('connection.php');
                     else{
                         
                         if ($_SESSION['filter_status']=="yes"){
-                            $sql="select carID, fuel_type, seater, price, location, name, city from view_catalogue where (brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%') and price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].")order by price asc";
+                            $sql="select carID, fuel_type, brand, seater, price, location, name, city from view_catalogue where (brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%') and price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].")order by price asc";
                         }
                         
                         else{
-                            $sql="select carID, fuel_type, seater, price, location, name, city from view_catalogue where brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%' order by price asc";
+                            $sql="select carID, fuel_type, brand, seater, price, location, name, city from view_catalogue where brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%' order by price asc";
                         }
                         
                     }
@@ -177,11 +218,11 @@ require_once('connection.php');
                 if($_SESSION['search_status']=='yes'){
                     
                     if($_SESSION['filter_status'] == 'yes'){
-                        $sql="select carID, fuel_type, seater, price, location, name, city from view_catalogue where (brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%') and price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].") order by ".$_SESSION['sortby'];
+                        $sql="select carID, fuel_type, brand, seater, price, location, name, city from view_catalogue where (brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%') and price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].") order by ".$_SESSION['sortby'];
                     }
                     
                     else{
-                        $sql="select carID, fuel_type, seater, price, location, name, city from view_catalogue where brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%' order by ".$_SESSION['sortby'];
+                        $sql="select carID, fuel_type, brand, seater, price, location, name, city from view_catalogue where brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%' order by ".$_SESSION['sortby'];
                     }
                     
                 }
@@ -189,11 +230,11 @@ require_once('connection.php');
                 else{
                     
                     if($_SESSION['filter_status'] == 'yes'){
-                        $sql="select carID, fuel_type, seater, price, location, name, city from view_catalogue where price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].") order by ".$_SESSION['sortby'];
+                        $sql="select carID, fuel_type, brand, seater, price, location, name, city from view_catalogue where price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].") order by ".$_SESSION['sortby'];
                     }
                     
                     else{
-                        $sql="select carID, fuel_type, seater, price, location, name, city from view_catalogue order by ".$_SESSION['sortby'];
+                        $sql="select carID, fuel_type, brand, seater, price, location, name, city from view_catalogue order by ".$_SESSION['sortby'];
                     }
                     
                 } 
@@ -231,15 +272,15 @@ require_once('connection.php');
                 
                 if($_SESSION['search_status']=="yes"){
                     if($_SESSION["sort_status"]=="yes"){
-                        $sql="select carID, fuel_type, seater, price, location, name, city from view_catalogue where (brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%') and price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].") order by ".$_SESSION['sortby'];
+                        $sql="select carID, fuel_type, brand, seater, price, location, name, city from view_catalogue where (brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%') and price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].") order by ".$_SESSION['sortby'];
                     }
                     else{
-                        $sql="select carID, fuel_type, seater, price, location, name, city from view_catalogue where (brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%') and price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].") order by price asc";
+                        $sql="select carID, fuel_type, brand, seater, price, location, name, city from view_catalogue where (brand like '%".$_SESSION['searchtxt']."%' or car_type like '%".$_SESSION['searchtxt']."%' or name like '%".$_SESSION['searchtxt']."%') and price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].") order by price asc";
                     }
                 }
                 else{
                     if($_SESSION["sort_status"]=="yes"){
-                        $sql="select carID, fuel_type, seater, price, location, name, city from view_catalogue where price>=".$_SESSION['price_min']."' and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].") order by ".$_SESSION['sortby'];
+                        $sql="select carID, fuel_type, brand, brand, seater, price, location, name, city from view_catalogue where price>=".$_SESSION['price_min']."' and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].") order by ".$_SESSION['sortby'];
                     }
                     else{
                         $sql="select carID, fuel_type, seater, price, location, name, city from view_catalogue where price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and f(fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].") order by price asc";
@@ -255,6 +296,8 @@ require_once('connection.php');
                 $_SESSION['filter_status']="no";
                 $_SESSION['search_status']="no";
             }
+            }
+            
             ?>
             
 			<div class="col-md-9">
