@@ -65,7 +65,7 @@ require_once('connection.php');
 								<input type="text" class="form-control"  name="valueToSearch" placeholder=" Search by car brand, type or name">
 							</div>
 							<div class="form-group col-md-2">
-								<button name="search" value ="search" class="btn btn-primary" ><img src ="images/magnifying_glass.png" width=20 height = 20></button>
+                                <button name="search" value ="search" class="btn btn-primary" ><span><i class="fa fa-search"></i></span></button>
 							</div>
 						</div>
 					</form>
@@ -114,11 +114,11 @@ require_once('connection.php');
 	<div class="container">
 		<!-- Row Start -->
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0">
 				<!-- Recently Favorited -->
 				<div class="widget dashboard-container my-adslist">
 					<h3 class="widget-header">My Cars</h3>
-					<table class="table table-responsive product-dashboard-table">
+					<table class="product-dashboard-table" style="width: 100% !important;">
 						<thead>
 							<tr>
 								<th>Picture</th>
