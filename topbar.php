@@ -1,11 +1,8 @@
 <?php
 session_start();
 require_once('connection.php');
-
-
 $userType = $_SESSION['user_type'];
     
-
 ?>
 
 <!DOCTYPE html>
@@ -40,9 +37,12 @@ $userType = $_SESSION['user_type'];
   <link href="img/favicon.png" rel="shortcut icon">
 	
     <style>
-	.mb-20 {
-	margin-bottom: 20px;
-	}
+        .mb-20 {
+        margin-bottom: 20px;
+        }
+        a{
+            color: white;
+        }
     </style>
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -54,17 +54,14 @@ $userType = $_SESSION['user_type'];
 </head>
 
 <body>
-    <section>
-	<div class="container mb-20">
+    <section class="" style="height: 85px; background-color: #906088;">
+	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<nav class="navbar navbar-expand-lg  navigation">
-					<a class="navbar-brand" href="home.php">
-						<img src="images/logo.png" alt="" style="width: 70%;">
+                <a class="navbar-brand" href="home.php">
+						<img src="images/logo.png" alt="" style="height: 170%;">
 					</a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-					</button>
+				<nav class="navbar navbar-expand-lg  navigation">
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav ml-auto main-nav ">
 							<li class="nav-item">
