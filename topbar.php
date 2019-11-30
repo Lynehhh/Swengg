@@ -38,6 +38,12 @@ $userType = $_SESSION['user_type'];
 
   <!-- FAVICON -->
   <link href="img/favicon.png" rel="shortcut icon">
+	
+    <style>
+	.mb-20 {
+	margin-bottom: 20px;
+	}
+    </style>
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -49,7 +55,7 @@ $userType = $_SESSION['user_type'];
 
 <body>
     <section>
-	<div class="container">
+	<div class="container mb-20">
 		<div class="row">
 			<div class="col-md-12">
 				<nav class="navbar navbar-expand-lg  navigation">
