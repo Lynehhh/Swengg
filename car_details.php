@@ -85,9 +85,9 @@ require_once("connection.php");
 <!--=================================
 =            Single Blog            =
 ==================================-->
-    <div class="container">
-        <div class="justify-content-center mb-20">
-            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <div class="container" style="display: block;">
+        <div class="justify-content-center mb-20 ">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width:70%; height: auto; left: 15%;">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
                   <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -96,17 +96,15 @@ require_once("connection.php");
                 </ol>
 
                 <!-- Wrapper/ Images for slides -->
-                <div class="carousel-inner">
+                <div class="carousel-inner ">
                     <div class="item active">
-                        <?php echo "<img src='".$row["location"]."' style='width:100%;height:250px;'>"; ?>
+                        <?php echo "<img src='".$row["location"]."' style='width:auto;height:250px;'>"; ?>
                     </div>
                     <?php
                         if(isset($_GET['searched_car'])){
                             $_SESSION['searched_car'] = $_GET['searched_car'];
                         }
-
                             $sql1="select location from car_images where carID=".$_SESSION['searched_car'];
-
                             $result = $con->query($sql1);
                             if ($result->num_rows > 0) { 
                             while($row = $result->fetch_assoc()) {
@@ -140,7 +138,6 @@ require_once("connection.php");
         
         <?php
          $sql2="select oemail, name, price, brand, car_type, fuel_type, seater, description, ofirst_name from view_catalogue where carID=".$_SESSION['searched_car'];
-
           $result = $con->query($sql2);
                 if ($result->num_rows > 0) { 
                     while($row = $result->fetch_assoc()) {
@@ -175,6 +172,9 @@ require_once("connection.php");
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Specifications</a>
+							</li>
+                            <li class="nav-item">
+								<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Reviews</a>
 							</li>
 						</ul>
 						<div class="tab-content" id="pills-tabContent">
@@ -212,6 +212,71 @@ require_once("connection.php");
 								    </tr>
 								  </tbody>
 								</table>
+							</div>
+                            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+								<h3 class="tab-title">Product Review</h3>
+								<div class="product-review">
+							  		<div class="media">
+							  			<!-- Avater -->
+							  			<img src="images/user/user-thumb.jpg" alt="avater">
+							  			<div class="media-body">
+							  				<!-- Ratings -->
+							  				<div class="ratings">
+							  					<ul class="list-inline">
+							  						<li class="list-inline-item">
+							  							<i class="fa fa-star"></i>
+							  						</li>
+							  						<li class="list-inline-item">
+							  							<i class="fa fa-star"></i>
+							  						</li>
+							  						<li class="list-inline-item">
+							  							<i class="fa fa-star"></i>
+							  						</li>
+							  						<li class="list-inline-item">
+							  							<i class="fa fa-star"></i>
+							  						</li>
+							  						<li class="list-inline-item">
+							  							<i class="fa fa-star"></i>
+							  						</li>
+							  					</ul>
+							  				</div>
+							  				<div class="name">
+							  					<h5>Jessica Brown</h5>
+							  				</div>
+							  				<div class="date">
+							  					<p>Mar 20, 2018</p>
+							  				</div>
+							  				<div class="review-comment">
+							  					<p>
+							  						Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape riamipsa eaque.
+							  					</p>
+							  				</div>
+							  			</div>
+							  		</div>
+							  		<div class="review-submission">
+							  			<h3 class="tab-title">Submit your review</h3>
+						  				<!-- Rate -->
+						  				<div class="rate">
+						  					<div class="starrr"></div>
+						  				</div>
+						  				<div class="review-submit">
+						  					<form action="#" class="row">
+						  						<div class="col-lg-6">
+						  							<input type="text" name="name" id="name" class="form-control" placeholder="Name">
+						  						</div>
+						  						<div class="col-lg-6">
+						  							<input type="email" name="email" id="email" class="form-control" placeholder="Email">
+						  						</div>
+						  						<div class="col-12">
+						  							<textarea name="review" id="review" rows="10" class="form-control" placeholder="Message"></textarea>
+						  						</div>
+						  						<div class="col-12">
+						  							<button type="submit" class="btn btn-main" style="float: right;">Submit</button>
+						  						</div>
+						  					</form>
+						  				</div>
+							  		</div>
+							  	</div>
 							</div>
 						</div>
 					</div>
@@ -270,7 +335,7 @@ require_once("connection.php");
                                             </td>
                                             <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                                             <td>
-                                                <span>0.00</span>
+                                                <span>P 0.00</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -279,7 +344,7 @@ require_once("connection.php");
                                             </td>
                                             <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                                             <td>
-                                                <span>0.00</span>
+                                                <span>P 0.00</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -288,7 +353,7 @@ require_once("connection.php");
                                             </td>
                                             <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                                             <td>
-                                                <span>0.00</span>
+                                                <span>P 0.00</span>
                                             </td>
                                         </tr>
                                     </tbody>
