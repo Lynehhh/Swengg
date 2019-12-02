@@ -59,14 +59,18 @@ require_once('connection.php');
 ===================================-->
 <?php
             $email = $_SESSION['email'];
-            $query = " SELECT re.rentID,  ci.location, c.name, re.total_amount, re.due_date, re.status, re.date_use, r.date_return, 
-                r.renter_email, r.owner_email, u.firstname, u.lastname FROM rentals re JOIN reservation_requests r ON re.reqID = r.reqID JOIN car_images ci ON r.carID = ci.carID JOIN catalogue c ON c.carID = ci.carID JOIN users u ON r.owner_email = u.email 
-                            WHERE r.renter_email = '".$email."' 
-                            AND re.status = 'Pending Use'
-                            GROUP BY re.rentID
-                            ORDER BY re.date_use desc";
+            $query = " SELECT r.reqID, r.req_date, r.date_use, r.date_return, r.owner_email, u.firstname, u.lastname, r.ref_req_status, 
+                        ci.location, c.carID, c.name, c.brand, c.car_type, c.fuel_type, c.seater, c.price, c.availability 
+                        FROM users u JOIN reservation_requests r ON u.email = r.owner_email 
+                        JOIN catalogue c ON r.carID = c.carID 
+                        JOIN car_images ci ON c.carID = ci.carID 
+                        WHERE c.renter_email = '".$email."' 
+                        AND r.ref_req_status = 'Pending'
+                        GROUP BY r.reqID
+                        ORDER BY r.req_date";
             $search_result = filterTable($query);
         
+
        
         function filterTable($query)
         {
@@ -149,21 +153,21 @@ require_once('connection.php');
                     }
                     ?>
 						<ul>
-							<li><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span><?php echo $prcount ?></span></a></li>
+							<li class="active"><a href="btransaction_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span><?php echo $prcount ?></span></a></li>
                             <li>
-								<a href="btransaction_denied_requests.php"><i class="fa fa-thumbs-down"></i>Denied Requests<span><?php echo $drcount ?></span></a>
+								<a href="btransaction_denied_requests.php"><i class="fa fa-question"></i>Denied Requests<span><?php echo $drcount ?></span></a>
 							</li>
 							<li>
-								<a href="btransaction_pending_payments.php"><i class="fa fa-money"></i>Pending Payments<span><?php echo $ppcount ?></span></a>
+								<a href="#"><i class="fa fa-money"></i>Pending Payments<span><?php echo $ppcount ?></span></a>
 							</li>
-							<li class="active">
+							<li>
 								<a href="btransaction_pending_use.php"><i class="fa fa-clipboard"></i>Pending Use<span><?php echo $pucount ?></span></a>
 							</li>
 							<li>
 								<a href="btransaction_completed_use.php"><i class="fa fa-check-circle"></i>Completed Rental<span><?php echo $crcount ?></span></a>
 							</li>
 							<li>
-								<a href="btransaction_cancelled.php"><i class="fa fa-ban"></i>Cancelled Rental<span><?php echo $cacount ?></span></a>
+								<a href="btransaction_cancelled.php"><i class="fa fa-ban"></i>Cancelled<span><?php echo $cacount ?></span></a>
 							</li>
 						</ul>
 					</div>
@@ -172,7 +176,7 @@ require_once('connection.php');
 			<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
 				<!-- Recently Favorited -->
 				<div class="widget dashboard-container my-adslist">
-					<h3 class="widget-header">Pending Use</h3>
+					<h3 class="widget-header">Pending Requests</h3>
 					<table class="table table-responsive product-dashboard-table">
 						<thead>
 							<tr>
@@ -190,11 +194,23 @@ require_once('connection.php');
                             <?php
 							if ($search_result->num_rows > 0) {
                                 while($row = $search_result->fetch_assoc()) {
-                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td>" . $row['name'].
-                                    "</td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-                                    <li>Email: ".$row['owner_email']."</li></ul></td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $row['total_amount'] ."</td></tr>\n";
+                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td><ul><li>" 
+                                    . $row['name'] ."</li><li>Brand: ".$row['brand']."</li>
+                                    <li>Car Type: ".$row['car_type']."</li>
+                                    <li>Fuel Type: ".$row['fuel_type']."</li>
+                                    <li>Capacity: ".$row['seater']."</li></ul>
+                                    </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
+                                    <li>Email: ".$row['email']."</li></ul></td><td>" . $row['req_date'] ."</td><td>" . $row['date_use'] ."</td><td>" . $row['date_return']  ."</td><td>" . $row['totalPrice'] ."</td><td><form method='post'><button type='submit' name='cancel_reserve' value=".$row['reqID'].">Cancel Reservation</button></td></tr>\n";
                                 }
     }
+                            if(isset($_POST['cancel_reserve'])){
+                            $sql='UPDATE reservation_requests
+                            SET ref_req_status = "Cancelled"
+                            WHERE reqID = '.$_POST["cancel_reserve"];
+                            $con->query($sql);
+                            header('location:btransaction_pending_use.php');
+
+}
 ?>
 
 						</tbody>
