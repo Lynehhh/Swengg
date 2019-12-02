@@ -40,6 +40,9 @@
         .mb-20 {
             margin-bottom: 20px;
         }
+	    .mt-30{
+            margin-top: 30px;
+        }
     </style>
 
 </head>
@@ -49,7 +52,7 @@
 <?php include 'topbar.php' ?>
     
 
-<section class="section-sm">
+<section class="section-sm mt-30">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-3">
