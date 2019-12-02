@@ -315,7 +315,7 @@
 		<div class="thumb-content" style="width: auto; height: 200px;">
 			<!-- <div class="price">$200</div> -->
 			<a href="">
-				<img class="card-img-top img-fluid" src="'.$row["location"].'" alt="Card image cap">
+				<img class="card-img-top img-fluid" src="'.$row["location"].'" alt="Card image cap" style="width: auto; height: 200px;">
 			</a>
 		</div>
 		<div class="card-body"  style="height: 100%;">
