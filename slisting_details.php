@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <?php session_start(); 
+error_reporting(0);
+
 require_once("connection.php");
+if(isset($_POST['view']))
+{
+    $email = $_SESSION['email'];
+    echo $email;
+    $carID = $_POST['view'];
+    $_SESSION['carID'] = $carID; 
+}
 ?>
 <html lang="en">
 <head>
@@ -92,19 +101,28 @@ require_once("connection.php");
         
         
         <?php
-         $sql2="select oemail, name, price, brand, car_type, fuel_type, seater, description, ofirst_name from view_catalogue where carID=".$_SESSION['searched_car'];
-          $result = $con->query($sql2);
-                if ($result->num_rows > 0) { 
-                    while($row = $result->fetch_assoc()) {
-                        $carname = $row['name'];
-                        $owner = $row['ofirst_name'];
-                        $cartype = $row['car_type'];
-                        $brand = $row['brand'];
-                        $fueltype = $row['fuel_type'];
-                        $seats = $row['seater'];
-                        $description = $row['description'];
-                        $_SESSION['owner_email'] = $row['oemail'];
-                        $_SESSION['price'] = $row['price'];
+          $query="    SELECT ci.location, c.carID, c.name, c.brand, c.car_type, c.fuel_type, c.seater, c.price, c.availability, c.description 
+                FROM catalogue c JOIN car_images ci ON c.carID = ci.carID 
+                WHERE c.owner_email ='".$_SESSION['email']."' AND c.carID = '".$_SESSION['carID']."'";
+			$result =  $con->query($query);
+            if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $name = $row['name'];
+                $brand = $row['brand'];
+                $car_type = $row['car_type'];
+                $fuel_type = $row['fuel_type'];
+                $seater = $row['seater'];
+                $price = $row['price'];
+                $availability = $row['availability'];
+                $description = $row['description'];
+                $_SESSION['name'] = $name; 
+                $_SESSION['brand'] = $brand; 
+                $_SESSION['car_type'] = $car_type; 
+                $_SESSION['fuel_type'] = $fuel_type; 
+                $_SESSION['seater'] = $seater; 
+                $_SESSION['price'] = $price; 
+                $_SESSION['availability'] = $availability; 
+                $_SESSION['description'] = $description; 
                     }
                 }
         ?>
@@ -129,7 +147,7 @@ require_once("connection.php");
                                         if(isset($_GET['searched_car'])){
                                             $_SESSION['searched_car'] = $_GET['searched_car'];
                                         }
-                                            $sql1="select location from car_images where carID=".$_SESSION['searched_car'];
+                                            $sql1="select location from car_images where carID=".$_SESSION['carID'];
                                             $result = $con->query($sql1);
                                             if ($result->num_rows > 0) { 
                                             while($row = $result->fetch_assoc()) {
@@ -167,7 +185,7 @@ require_once("connection.php");
                 <div class="widget">
                     <div class="form-group">
                         <label for="comunity-name">Name</label>
-                        <input type="text" class="form-control" value="<?php echo $carname; ?>" readonly/>
+                        <input type="text" class="form-control" value="<?php echo $name; ?>" readonly/>
                     </div>
                     <!--<h3 class="widget-header user">Renting Information</h3>-->
                     <div class="row mb-20">
@@ -179,19 +197,19 @@ require_once("connection.php");
                             <!-- Car Type -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                 <label for="comunity-name">Car Type</label>
-                                <input type="text" class="form-control" value="<?php echo $cartype ?>" readonly/>
+                                <input type="text" class="form-control" value="<?php echo $car_type ?>" readonly/>
                             </div>                        
                     </div>
                     <div class="row mb-20">
                             <!-- Fuel Type -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                 <label for="comunity-name">Fuel Type</label>
-                                <input type="text" class="form-control" value="<?php echo $fueltype ?>" readonly/>
+                                <input type="text" class="form-control" value="<?php echo $fuel_type ?>" readonly/>
                             </div>
                             <!-- Seater -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                 <label for="comunity-name">Seater</label>
-                                <input type="text" class="form-control" value="<?php echo $seats ?>" readonly/>
+                                <input type="text" class="form-control" value="<?php echo $seater ?>" readonly/>
                             </div>                        
                     </div>
                     <div class="row mb-20">
@@ -203,7 +221,7 @@ require_once("connection.php");
                             <!-- Availability -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                 <label for="comunity-name">Availability</label>
-                                <input type="text" class="form-control" value="Available" readonly/>
+                                <input type="text" class="form-control" value="<?php echo $availability ?>" readonly/>
                             </div>                        
                     </div>
                     <!-- Decription -->
@@ -228,7 +246,7 @@ require_once("connection.php");
                     <!-- Buttons -->
                     <div class="row">
                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                            <button class="btn btn-success" style="width: 100%;">Edit</button>
+                            <button formaction = "slisting_details_edit.php" class="btn btn-success" style="width: 100%;">Edit</button>
                         </div>
                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                             <button class="btn btn-primary" style="width: 100%;">Back</button>

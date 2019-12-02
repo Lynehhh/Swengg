@@ -1,34 +1,10 @@
 <!DOCTYPE html>
-<?php session_start(); 
-require_once("connection.php");
-?>
 <html lang="en">
+    <?php 
+        require_once('connection.php');
+    ?>
 <head>
-<script>
-            function set_todate(date) {
-                document.getElementById("reserve_edate").disabled = false;
-                document.getElementById("reserve_edate").setAttribute("min", date);
-                document.getElementById("reserve_edate").setAttribute("value", date);
-            }
-            
-            function show_price(sdate, edate, price){
-                if(sdate > edate){
-                    alert("Invalid dates. Please try again.");
-                }
-                else{
-                    var date1 = new Date(sdate);
-                    var date2 = new Date(edate);
-                    var label = 'days';
-                    var days = Math.floor((date2 - date1) / (1000*60*60*24) + 1);
-                    
-                    if(days == 1){
-                        label = 'day';
-                    }
-                    var totalprice = price * days;
-                    document.getElementById("price_area").innerHTML = "<table><tr><td>₱"+price+" x "+days+" "+label+"</td><td>₱"+totalprice+"</td></tr><tr><td><b>Total</b></td><td><b>₱"+totalprice+"</b></td></tr></table>";
-                }
-            }
-        </script>
+
   <!-- SITE TITTLE -->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -54,13 +30,6 @@ require_once("connection.php");
   <!-- FAVICON -->
   <link href="img/favicon.png" rel="shortcut icon">
 
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-    
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -68,207 +37,192 @@ require_once("connection.php");
         .mb-20 {
             margin-bottom: 20px;
         }
-        .starrr{
-            color: #f8d90f;
-        }
-        .fa-star{
-            color: #f8d90f;
-        }
-        .mt-30{
-            margin-top: 30px;
-        }
     </style>
 
 </head>
 
 <body class="body-wrapper">
-    
-    <?php include 'topbar.php' ?>
 
-<!--=================================
-=            Single Blog            =
-==================================-->
-    <div class="container mt-30" style="display: block;">
-        
-        
-        <?php
-         $sql2="select oemail, name, price, brand, car_type, fuel_type, seater, description, ofirst_name from view_catalogue where carID=".$_SESSION['searched_car'];
-          $result = $con->query($sql2);
-                if ($result->num_rows > 0) { 
+
+<?php include 'topbar.php' ?>
+<?php 
+$carID =  $_SESSION['carID']; 
+$name=  $_SESSION['name'];
+$brand =  $_SESSION['brand'];
+$car_type =  $_SESSION['car_type'];
+$fuel_type =  $_SESSION['fuel_type'];
+$seater =  $_SESSION['seater']; 
+$price =  $_SESSION['price'];
+$availability =  $_SESSION['availability']; 
+$description  =  $_SESSION['description']; 
+    ?>
+
+<!--==================================
+=            User Profile            =
+===================================-->
+
+<section class="user-profile section">
+	<div class="container">
+        <form method="POST" action="" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                    <div class="widget user-dashboard-menu">
+                        <h3 class="widget-header user mb-20">Vehicle Photos</h3>
+                        <label for="comunity-name">Upload Images</label>
+
+                        <!-- Carousel -->
+                        <div class=" mb-20">
+                          <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                            <!-- Indicators -->
+                            <ol class="carousel-indicators">
+                              <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                              <li data-target="#myCarousel" data-slide-to="1"></li>
+                              <li data-target="#myCarousel" data-slide-to="2"></li>
+                            </ol>
+
+                            <!-- Wrapper/ Images for slides -->
+                            <div class="carousel-inner">
+                            <?php 
+                                $ctr = 0;
+                                $query= "SELECT location FROM car_images WHERE carID =" .$carID;
+                        $result =  $con->query($query);
+                    if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        $carname = $row['name'];
-                        $owner = $row['ofirst_name'];
-                        $cartype = $row['car_type'];
-                        $brand = $row['brand'];
-                        $fueltype = $row['fuel_type'];
-                        $seats = $row['seater'];
-                        $description = $row['description'];
-                        $_SESSION['owner_email'] = $row['oemail'];
-                        $_SESSION['price'] = $row['price'];
-                    }
-                }
-        ?>
-        <form class="row">
-            
-            <div class="col-md-4 offset-md-1 col-lg-7 offset-lg-0 mt-30">
-                <div class="content">
-						<div class="justify-content-center mb-20 ">
-                            <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width: auto; height: 500px;">
-                                <!-- Indicators -->
-                                <ol class="carousel-indicators">
-                                  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                                  <li data-target="#myCarousel" data-slide-to="1"></li>
-                                  <li data-target="#myCarousel" data-slide-to="2"></li>
-                                </ol>
+                        $ctr = $ctr + 1;
+                        if($ctr == 1){
+                            echo '<div class="item active">
+                                <img src="'.$row['location'].'" alt="Photo '.$ctr.'" style="width:100%; height: 300px;">
+                              </div>';
+                        }
+                        else{
+                            echo '<div class="item">
+                                <img src="'.$row['location'].'" alt="Photo '.$ctr.'" style="width:100%; height: 300px;">
+                              </div>';
+                        }
+                    
+            }
+        }
+                                ?>
 
-                                <!-- Wrapper/ Images for slides -->
-                                <div class="carousel-inner ">
-                                    <div class="item active">
-                                        <?php echo "<img src='".$row["location"]."' style='width:auto; height:100%;'>"; ?>
-                                    </div>
-                                    <?php
-                                        if(isset($_GET['searched_car'])){
-                                            $_SESSION['searched_car'] = $_GET['searched_car'];
-                                        }
-                                            $sql1="select location from car_images where carID=".$_SESSION['searched_car'];
-                                            $result = $con->query($sql1);
-                                            if ($result->num_rows > 0) { 
-                                            while($row = $result->fetch_assoc()) {
-                                        ?>
-                                      <div class="item">
-                                          <?php 
-                                                    echo "<img src='".$row["location"]."' style='width:100%;height:250px;'>";
-                                                ?>
-                                      </div>
-                                        <?php
-                                                    }
-                                            } 
-                                            else {
-                                                echo "NO PHOTOS AVAILABLE";
-                                            }
-                                      ?>
+                              
+                            </div>
 
-                                </div>
-
-                                <!-- Left and right controls -->
-                                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                                  <span class="glyphicon glyphicon-chevron-left"></span>
-                                  <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                                  <span class="glyphicon glyphicon-chevron-right"></span>
-                                  <span class="sr-only">Next</span>
-                                </a>
-                              </div>
+                            <!-- Left and right controls -->
+                            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                              <span class="glyphicon glyphicon-chevron-left"></span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                              <span class="glyphicon glyphicon-chevron-right"></span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                          </div>
                         </div>
-                    <!-- Upload Vehicle Images -->
-                    <label for="comunity-name">Upload Vehicle Images</label>
+                        
+                        <!-- Upload Image -->
                         <div class="form-group choose-file mb-20">
-                            <input type="file" class="form-control-file d-inline" id="input-file">
+                            <input type="file" name="files[]" class="form-control-file d-inline" multiple>
                          </div>
                     </div>
-            </div>
-    
-            <div class="col-md-4 offset-md-1 col-lg-5 offset-lg-0">
-                <div class="widget">
-                    <div class="form-group">
-                        <label for="comunity-name">Name</label>
-                        <input type="text" class="form-control" value="<?php echo $carname; ?>"/>
+
+                    <div class="widget user-dashboard-menu">
+                        <!-- Documents -->
+                        <h3 class="widget-header user mb-20">Vehicle Documents</h3>
+                        <label for="comunity-name">Upload Documents</label>
+                        <div class="form-group choose-file mb-20">
+                            <input type="file" name="docs[]" class="form-control-file d-inline" multiple>
+                         </div>
                     </div>
-                    <!--CAR DETAILS-->
-                    <div class="row mb-20">
-                            <!-- Brand -->
+                </div>
+
+
+                <div class="col-md-20 offset-md-1 col-lg-6 offset-lg-0">
+                    <!-- Input Vehicle Info -->
+                    <div class="widget personal-info">
+                        <h3 class="widget-header user">Vehicle Information</h3>
+                        <!-- Name -->
+                        <div class="form-group">
+                            <label for="first-name">Name</label>
+                            <input type="text" class="form-control" name="carname" placeholder = "<?php echo $name?>">
+                        </div>
+
+                        <!-- Brand -->
+                        <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                            <label for="last-name">Brand</label>
+                            <input type="text" class="form-control" name="brand" placeholder ="<?php echo $brand?>">
+                        </div>                       
+
+                        <div class="row mb-20">
+                            <!-- Category -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                                <label for="comunity-name">Brand</label>
-                                <input type="text" class="form-control" value="<?php echo $brand ?>"/>
-                            </div>
-                            <!-- Car Type -->
-                            <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                                <?php
+                                    $selectCarType = "SELECT type FROM ref_car_type"; 
+                                    $result = $con->query($selectCarType);
+                                ?>
                                 <label for="comunity-name">Car Type</label>
-                                <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" style="border-color: #ced4da;" name = "car_type">
-                                    <option disabled="disabled" selected="selected">Select Vehicle Type<i class="fa fa-angle-down"></i></option>
-                                    <option value="SUV">SUV</option>
-                                    <option value="Sedan">Sedan</option>
-                                    <option value="Pickup">Pickup</option>
-                                    <option value="Minivan">Minivan</option>
-                                    <option value="Campervan">Campervan</option>
+                                <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" name= "car_type"style="border-color: #ced4da;">
+                                    <option disabled="disabled" selected="selected">Select Car Type<i class="fa fa-angle-down"></i></option>
+                                    <?php while($row = $result->fetch_assoc()) { ?>
+                                    <option> <?php echo $row['type'];?> </option>
+                                    <?php } ?>
                                 </select>
-                            </div>                        
-                    </div>
-                    <div class="row mb-20">
+                            </div>
                             <!-- Fuel Type -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                                <?php
+                                    $selectFuelType = "SELECT type FROM ref_fuel_type"; 
+                                    $result2 = $con->query($selectFuelType);
+                                ?>
                                 <label for="comunity-name">Fuel Type</label>
-                                <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" name = "fuel_type">
+                                <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" name= "fuel_type" style="border-color: #ced4da;">
                                     <option disabled="disabled" selected="selected">Select Fuel Type</option>
-                                    <option value="Gasoline">Gasoline</option>
-                                    <option value="Diesel">Diesel</option>
+                                    <?php while($row = $result2->fetch_assoc()) { ?>
+                                    <option> <?php echo $row['type'];?> </option>
+                                    <?php } ?>
                                 </select>
                             </div>
+                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                                <?php
+                                    $selectAvailability = "SELECT status FROM ref_car_status"; 
+                                    $result3 = $con->query($selectAvailability);
+                                ?>
+                                <label for="comunity-name">Availability</label>
+                                <select name =  "availability" class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" style="border-color: #ced4da;">
+                                    <option disabled="disabled" selected="selected">Select Car Status</option>
+                                    <?php while($row = $result3->fetch_assoc()) { ?>
+                                    <option> <?php echo $row['status'];?> </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-20">
                             <!-- Seater -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                 <label for="comunity-name">Seater</label>
-                                <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" name = "seater">
-                                    <option disabled="disabled" selected="selected">Select Seater<i class="fa fa-angle-down"></i></option>
-                                    <option value="4">4</option>
-                                    <option value="6">6</option>
-                                    <option value="8">8</option>
-                                    <option value="12">12</option>
-                                    <option value="14">14+</option>
-                                </select>
-                            </div>                        
-                    </div>
-                    <div class="row mb-20">
+                                <input type="number" class="form-control" name="seater" min="0" placeholder ="<?php echo $seater?>" >
+                            </div>
                             <!-- Price -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                 <label for="comunity-name">Price</label>
-                                <input type="number" class="form-control" step='0.05' value="<?php echo $_SESSION['price'] ?>"/>
+                                <input type="number" class="form-control" name="price" step="0.01" min="0" placeholder ="<?php echo $price?>">
                             </div>
-                            <!-- Availability -->
-                            <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                                <label for="comunity-name">Availability</label>
-                                <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" name = "fuel_type">
-                                    <option selected="selected">Available</option>
-                                    <option value="Gasoline">Not Available</option>
-                                </select>
-                            </div>                        
-                    </div>
-                    <!-- Decription -->
-                    <div class="form-group">
-                        <label for="comunity-name">Description</label>
-                        <textarea type="text" class="form-control" value=""><?php echo $description ?></textarea>
-                    </div>
+                        </div>
 
-                    <!-- Guests 
-                    <div class="form-group">
-                        <label for="comunity-name">Guests</label>
-                        <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" style="border-color: #ced4da;">
-                            <option disabled="disabled" selected="selected">Select Number<i class="fa fa-angle-down"></i></option>
-                            <option value="1">1-3</option>
-                            <option value="2">4-6</option>
-                            <option value="3">7-10</option>
-                            <option value="4">More than 10</option>
-                        </select>
-                    </div> -->
-                    
+                        <!-- Description -->
+                        <div class="form-group">
+                            <label for="comunity-name">Description</label>
+                            <textarea type="text" class="form-control" name="description" placeholder = "<?php echo $description ?>" style="height: 150px;"></textarea>
+                        </div> 
 
-                    <!-- Buttons -->
-                    <div class="row">
-                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-                            <button class="btn btn-success" style="width: 100%;">Edit</button>
-                        </div>
-                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-                            <button class="btn btn-danger" style="width: 100%;">Delete</button>
-                        </div>
-                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-                            <button class="btn btn-primary" style="width: 100%;">Back</button>
-                        </div>
+                        <!-- Submit button -->
+                        <input type = "submit" name="update" value="Update" formaction = "processedit.php" class="btn btn-transparent" style="margin-left: 40%;">
                     </div>
                 </div>
             </div>
         </form>
-    </div>
-    
+	</div>
+</section>
 
   <!-- JAVASCRIPTS -->
   <script src="plugins/jquery/jquery.min.js"></script>

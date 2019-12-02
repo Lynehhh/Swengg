@@ -3,14 +3,14 @@ session_start();
 require_once("connection.php");
 if(isset($_POST['update'])){
 
-    $carID = $_SESSION['carID'];
-    if(empty($_POST['name'])){
+   $carID = $_SESSION['carID'];
+    if(empty($_POST['carname'])){
         $name =  $_SESSION['name'];
         $_SESSION['name'] = $name; 
 
     }
     else{
-        $name = $_POST['name'];
+        $name = $_POST['carname'];
         $_SESSION['name'] = $name; 
 
     }
@@ -81,7 +81,7 @@ if(isset($_POST['update'])){
         description = '".$_SESSION['description']."' 
          WHERE carID = $carID";
              if(mysqli_query($con,$updateListing)){
-                 header("location:specificlisting.php");
+                 header("location:slisting_details.php");
                      }
              else{
                 $errormessage = mysqli_error($con);
