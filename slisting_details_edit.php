@@ -167,6 +167,7 @@ $description  =  $_SESSION['description'];
                                     <?php } ?>
                                 </select>
                             </div>
+                            </div>
                             <!-- Fuel Type -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                 <?php
@@ -194,7 +195,7 @@ $description  =  $_SESSION['description'];
                                     <?php } ?>
                                 </select>
                             </div>
-                        </div>
+                       <!-- </div> -->
                         
                         <div class="row mb-20">
                             <!-- Seater -->
