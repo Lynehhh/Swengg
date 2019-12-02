@@ -74,6 +74,9 @@ require_once("connection.php");
         .fa-star{
             color: #f8d90f;
         }
+        .mt-30{
+            margin-top: 30px;
+        }
     </style>
 
 </head>
@@ -85,7 +88,7 @@ require_once("connection.php");
 <!--=================================
 =            Single Blog            =
 ==================================-->
-    <div class="container" style="display: block;">
+    <div class="container mt-30" style="display: block;">
         <div class="justify-content-center mb-20 ">
             <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width:70%; height: auto; left: 15%;">
                 <!-- Indicators -->
@@ -166,14 +169,14 @@ require_once("connection.php");
                     </div>
                 </div>
                 <div class="content">
-						<ul class="nav nav-pills justify-content-center" style="margin-bottom: 20px;" id="pills-tab" role="tablist" >
+						<ul class="nav nav-pills  justify-content-center" id="pills-tab" role="tablist">
 							<li class="nav-item">
 								<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Product Details</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Specifications</a>
 							</li>
-                            <li class="nav-item">
+							<li class="nav-item">
 								<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Reviews</a>
 							</li>
 						</ul>
