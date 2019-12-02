@@ -52,7 +52,7 @@
 <?php include 'topbar.php' ?>
     
 
-<section class="section-sm mt-30">
+<section class="section-sm">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-3">
