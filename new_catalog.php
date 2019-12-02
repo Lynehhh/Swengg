@@ -171,7 +171,6 @@
                 </section>
                 
                 <?php
-
             //if napress yung "search" button dito pupunta
             if (isset($_GET['search'])){
                 
@@ -183,7 +182,6 @@
                     
                     
                     $sql="select brand, carID, fuel_type, seater, price, location, name, city from view_catalogue WHERE availability='Available' order by price asc";
-
                 }
                 
                 //if may laman naman yung searchtxt na input box, dito papasok
@@ -310,17 +308,17 @@
             if($result = $con->query($sql)){
                 if ($result->num_rows > 0) { 
                     while($row = $result->fetch_assoc()) {
-                        echo '<div class="col-sm-12 col-lg-4 col-md-6">
+                        echo '<div class="col-sm-12 col-lg-4 col-md-6 d-flex align-items-stretch">
 							<!-- product card -->
 <div class="product-item bg-light">
 	<div class="card">
-		<div class="thumb-content">
+		<div class="thumb-content" style="width: auto; height: 200px;">
 			<!-- <div class="price">$200</div> -->
 			<a href="">
 				<img class="card-img-top img-fluid" src="'.$row["location"].'" alt="Card image cap">
 			</a>
 		</div>
-		<div class="card-body">
+		<div class="card-body"  style="height: 100%;">
 		    <h4 class="card-title"><a href="">'.$row["name"].'</a></h4>
 		    <ul class="list-inline product-meta">
 		    	<li class="list-inline-item">
