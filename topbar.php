@@ -1,8 +1,13 @@
 <?php
+error_reporting(E_ALL ^ E_NOTICE);
 session_start();
 require_once('connection.php');
+
+
+
 $userType = $_SESSION['user_type'];
-    
+$email = $_SESSION['email'];
+
 ?>
 
 <!DOCTYPE html>
@@ -35,15 +40,6 @@ $userType = $_SESSION['user_type'];
 
   <!-- FAVICON -->
   <link href="img/favicon.png" rel="shortcut icon">
-	
-    <style>
-        .mb-20 {
-        margin-bottom: 20px;
-        }
-        a{
-            color: white;
-        }
-    </style>
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -54,14 +50,19 @@ $userType = $_SESSION['user_type'];
 </head>
 
 <body>
-    <section class="" style="height: 85px; background-color: #906088;">
+    <section>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-                <a class="navbar-brand" href="home.php">
-						<img src="images/logo.png" alt="" style="height: 170%;">
-					</a>
 				<nav class="navbar navbar-expand-lg  navigation">
+					<a class="navbar-brand" href="home.php">
+						<img src="images/logo.png" alt="" style="width: 50%;">
+					</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+					</button>
+					<?php if($email != "" ){?>
+
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav ml-auto main-nav ">
 							<li class="nav-item">
@@ -70,22 +71,18 @@ $userType = $_SESSION['user_type'];
 							<li class="nav-item">
 								<a class="nav-link" href="new_catalog.php">Car Catalog</a>
 							</li>
+							<?php if($userType == "Owner" ){?>
 							<li class="nav-item dropdown dropdown-slide">
 								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Pages <span><i class="fa fa-angle-down"></i></span>
+									Owner Pages <span><i class="fa fa-angle-down"></i></span>
 								</a>
 								<!-- Dropdown list -->
 								<div class="dropdown-menu dropdown-menu-right">
-									<a class="dropdown-item" href="category.html">Category</a>
-									<a class="dropdown-item" href="car_details.php">Car Details</a>
-									<a class="dropdown-item" href="listing_new.php">New Listing</a>
-									<a class="dropdown-item" href="dashboard.html">Dashboard</a>
-									<a class="dropdown-item" href="user-profile.html">User Profile</a>
-									<a class="dropdown-item" href="submit-coupon.html">Submit Coupon</a>
-									<a class="dropdown-item" href="blog.html">Blog</a>
-									<a class="dropdown-item" href="single-blog.html">Single Post</a>
+									<a class="dropdown-item" href="sviewlisting.php">My Listings</a>
+									<a class="dropdown-item" href="listing.php">Add New Listing</a>
 								</div>
 							</li>
+							<?php } ?>
 							<li class="nav-item dropdown dropdown-slide">
 								<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									My Transactions <span><i class="fa fa-angle-down"></i></span>
@@ -101,6 +98,9 @@ $userType = $_SESSION['user_type'];
 							</li>
 
 						</ul>
+						<?php } ?>
+
+						<?php if($email == "" ){?>
 						<ul class="navbar-nav ml-auto mt-10">
 							<li class="nav-item">
 								<a class="nav-link login-button" href="login.php">Login</a>
@@ -109,6 +109,8 @@ $userType = $_SESSION['user_type'];
 								<a class="nav-link add-button" href="signup.php"><i class="fa fa-plus-circle"></i> Sign In</a>
 							</li>
 						</ul>
+						<?php } ?>
+
 					</div>
 				</nav>
 			</div>
