@@ -215,8 +215,18 @@ $description  =  $_SESSION['description'];
                             <textarea type="text" class="form-control" name="description" placeholder = "<?php echo $description ?>" style="height: 150px;"></textarea>
                         </div> 
 
-                        <!-- Submit button -->
-                        <input type = "submit" name="update" value="Update" formaction = "processedit.php" class="btn btn-transparent" style="margin-left: 40%;">
+                        <!-- Buttons -->
+                        <div class="row">
+                            <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+                                <button class="btn btn-success" style="width: 100%;" type = "submit" name="update" value="Update" formaction = "processedit.php">Update</button>
+                            </div>
+                            <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+                                <button class="btn btn-danger" style="width: 100%;">Delete</button>
+                            </div>
+                            <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+                                <button type="button" class="btn btn-primary" style="width: 100%;" onclick="history.back()">Back</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
