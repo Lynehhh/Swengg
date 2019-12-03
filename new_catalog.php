@@ -310,7 +310,7 @@
                     while($row = $result->fetch_assoc()) {
                         echo '<div class="col-sm-12 col-lg-4 col-md-6 d-flex align-items-stretch">
 							<!-- product card -->
-<div class="product-item bg-light">
+<form class="product-item bg-light" method="get" action="car_details.php">
 	<div class="card">
 		<div class="thumb-content" style="width: auto; height: 200px;">
 			<!-- <div class="price">$200</div> -->
@@ -319,21 +319,21 @@
 			</a>
 		</div>
 		<div class="card-body"  style="height: 100%;">
-		    <h4 class="card-title"><a href="">'.$row["name"].'</a></h4>
+		    <button name ="searched_car" style = "background-color: Transparent; background-repeat:no-repeat; border: none; overflow: hidden; outline:none;"><h3 class="card-title" style="color: #28a745;">'.$row["name"].'</h3></button>
 		    <ul class="list-inline product-meta">
 		    	<li class="list-inline-item">
-		    		<a href=""><i class="fa fa-copyright"></i>'.$row["name"].'</a>
+		    		<i class="fa fa-copyright"></i> '.$row["name"].'
 		    	</li>
 		    	<li class="list-inline-item">
-		    		<a href=""><i class="fa fa-location-arrow"></i>'.$row["city"].'</a>
+		    		<i class="fa fa-location-arrow"></i> '.$row["city"].'
 		    	</li>
 		    </ul>
 		    <div class="">
-		    	<h4 class="card-text text-center"><a href="">'.$row["price"].'</a></h4>
+		    	<h4 class="card-text text-center">'.$row["price"].'</h4>
 		    </div>
 		</div>
 	</div>
-</div>
+</form>
 						</div>';
                     }
                 } 
