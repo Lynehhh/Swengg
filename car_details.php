@@ -1,40 +1,91 @@
-<!DOCTYPE html>
-<?php session_start(); 
-require_once("connection.php");
+<?php 
+include 'topbar.php';
+    //session_start();
+    require_once("connection.php"); 
 ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <script>
             function set_todate(date) {
-                document.getElementById("reserve_edate").disabled = false;
+               
+               if (document.getElementById("reserve_edate").disabled == true){
+                   document.getElementById("reserve_edate").disabled = false;
+               }
                 document.getElementById("reserve_edate").setAttribute("min", date);
                 document.getElementById("reserve_edate").setAttribute("value", date);
-            }
-            
-            function show_price(sdate, edate, price){
-                if(sdate > edate){
-                    alert("Invalid dates. Please try again.");
+                
+                 document.getElementById("reserve_btn").disabled = false;
+                
+                var edate = document.getElementById("reserve_edate").value;
+                
+                if(date > edate){
+                    document.getElementById("view_pricebreakdown").innerHTML = '';
+                    document.getElementById("reserve_btn").disabled = true;
+                    
+                    alert("Invalid dates. Try again.");
+                    
                 }
                 else{
-                    var date1 = new Date(sdate);
-                    var date2 = new Date(edate);
-                    var label = 'days';
-                    var days = Math.floor((date2 - date1) / (1000*60*60*24) + 1);
+                    document.getElementById("reserve_btn").disabled = false;
                     
-                    if(days == 1){
-                        label = 'day';
+                    if(window.XMLHttpRequest){
+                        xmlhttp = new XMLHttpRequest();
                     }
-                    var totalprice = price * days;
-                    document.getElementById("price_area").innerHTML = "<table><tr><td>₱"+price+" x "+days+" "+label+"</td><td>₱"+totalprice+"</td></tr><tr><td><b>Total</b></td><td><b>₱"+totalprice+"</b></td></tr></table>";
+                    else{
+                        xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+                    }
+                    xmlhttp.onreadystatechange = function(){
+                        if (this.readyState == 4 && this.status == 200){
+                            document.getElementById("view_pricebreakdown").innerHTML = this.responseText;
+                        }
+                    }
+                    xmlhttp.open("GET","car_details_price.php?sdate="+date+"&edate="+edate, true);
+                    xmlhttp.send();
+                    
                 }
             }
+                
+                function set_fromdate(date) {
+               
+                var sdate = document.getElementById("reserve_sdate").value;
+                
+                if(document.getElementById("reserve_sdate") > document.getElementById("reserve_edate")){
+                    document.getElementById("view_pricebreakdown").innerHTML = '';
+                    document.getElementById("reserve_btn").disabled = true;
+                    
+                    alert("Invalid dates. Try again.");
+                }
+                else{
+                    document.getElementById("reserve_btn").disabled = false;
+                    
+                    if(window.XMLHttpRequest){
+                        xmlhttp = new XMLHttpRequest();
+                    }
+                    else{
+                        xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+                    }
+                    xmlhttp.onreadystatechange = function(){
+                        if (this.readyState == 4 && this.status == 200){
+                            document.getElementById("view_pricebreakdown").innerHTML = this.responseText;
+                        }
+                    }
+                    xmlhttp.open("GET","car_details_price.php?edate="+date+"&sdate="+sdate, true);
+                    xmlhttp.send();
+                } 
+            }
+    function submit_confirm(){
+        var retVal = confirm("Do you want to continue ?");
+               if( retVal == true ) {
+                  window.location.href = 'http://localhost/car_details_process.php';
+               }
+    }
         </script>
   <!-- SITE TITTLE -->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GOGO Biyahe</title>
-  
   <!-- PLUGINS CSS STYLE -->
   <link href="plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
   <!-- Bootstrap -->
@@ -50,17 +101,14 @@ require_once("connection.php");
   <link href="plugins/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css" rel="stylesheet">
   <!-- CUSTOM CSS -->
   <link href="css/style.css" rel="stylesheet">
-
   <!-- FAVICON -->
   <link href="img/favicon.png" rel="shortcut icon">
-
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-    
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -74,21 +122,26 @@ require_once("connection.php");
         .fa-star{
             color: #f8d90f;
         }
-        .mt-30{
-            margin-top: 30px;
-        }
     </style>
-
 </head>
-
 <body class="body-wrapper">
+    <?php 
+    include 'topbar.php';
+    //session_start();
+    require_once("connection.php"); 
     
-    <?php include 'topbar.php' ?>
-
-<!--=================================
+        if(isset($_GET['searched_car'])){
+            $_SESSION['searched_car'] = $_GET['searched_car'];
+        }
+        else{
+            header('location:new_catalog.php');
+        }
+    
+    
+/*<!--=================================
 =            Single Blog            =
-==================================-->
-    <div class="container mt-30" style="display: block;">
+==================================-->*/
+    echo '<div class="container" style="display: block;">
         <div class="justify-content-center mb-20 ">
             <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width:70%; height: auto; left: 15%;">
                 <!-- Indicators -->
@@ -99,33 +152,35 @@ require_once("connection.php");
                 </ol>
 
                 <!-- Wrapper/ Images for slides -->
-                <div class="carousel-inner ">
-                    <div class="item active">
-                        <?php echo "<img src='".$row["location"]."' style='width:auto;height:250px;'>"; ?>
-                    </div>
-                    <?php
-                        if(isset($_GET['searched_car'])){
-                            $_SESSION['searched_car'] = $_GET['searched_car'];
-                        }
-                            $sql1="select location from car_images where carID=".$_SESSION['searched_car'];
+                <div class="carousel-inner ">';
+                
+                $ctr = 0;
+                 $sql1="select location from car_images where carID=".$_SESSION['searched_car'];
                             $result = $con->query($sql1);
                             if ($result->num_rows > 0) { 
-                            while($row = $result->fetch_assoc()) {
-                        ?>
-                      <div class="item">
-                          <?php 
-                                    echo "<img src='".$row["location"]."' style='width:100%;height:250px;'>";
-                                ?>
-                      </div>
-                        <?php
-                                    }
+                            while($row = $result->fetch_assoc()){
+                                $ctr = $ctr + 1;
+                                if($ctr == 1){
+                                    echo '<div class="item active">
+                    <img src="'.$row["location"].'" style="width:auto;height:250px;">
+                    </div>';
+                                }
+                                else{
+                                    echo "<div class='item'>
+                                    <img src='".$row["location"]."' style='width:100%;height:250px;'>
+                                    </div>";
+
+                      
+                                }
+                            }
+                                
+                           
                             } 
                             else {
                                 echo "NO PHOTOS AVAILABLE";
                             }
-                      ?>
                   
-                </div>
+                echo '</div>
 
                 <!-- Left and right controls -->
                 <a class="left carousel-control" href="#myCarousel" data-slide="prev">
@@ -137,9 +192,9 @@ require_once("connection.php");
                   <span class="sr-only">Next</span>
                 </a>
               </div>
-        </div>
+        </div>';
         
-        <?php
+
          $sql2="select oemail, name, price, brand, car_type, fuel_type, seater, description, ofirst_name from view_catalogue where carID=".$_SESSION['searched_car'];
           $result = $con->query($sql2);
                 if ($result->num_rows > 0) { 
@@ -155,35 +210,34 @@ require_once("connection.php");
                         $_SESSION['price'] = $row['price'];
                     }
                 }
-        ?>
-        <div class="row">
+        echo '<div class="row">
             <div class="col-md-4 offset-md-1 col-lg-7 offset-lg-0">
                 <div class="product-details mb-20">
-                    <h1 class="product-title"><?php echo $carname; ?></h1>
+                    <h1 class="product-title">'.$carname.'</h1>
                     <div class="product-meta">
                         <ul class="list-inline">
-                            <li class="list-inline-item"><i class="fa fa-user-o"></i> By <?php echo $owner ?></li>
-                            <li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Car Type <?php echo $cartype ?></li>
+                            <li class="list-inline-item"><i class="fa fa-user-o"></i> By '.$owner.'</li>
+                            <li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Car Type '.$cartype.'</li>
                             <li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a href="">Manila</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="content">
-						<ul class="nav nav-pills  justify-content-center" id="pills-tab" role="tablist">
+						<ul class="nav nav-pills justify-content-center" style="margin-bottom: 20px;" id="pills-tab" role="tablist" >
 							<li class="nav-item">
 								<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Product Details</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Specifications</a>
 							</li>
-							<li class="nav-item">
+                            <li class="nav-item">
 								<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Reviews</a>
 							</li>
 						</ul>
 						<div class="tab-content" id="pills-tabContent">
 							<div class="tab-pane fade show active mb-20" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 								<h3 class="tab-title">Product Description</h3>
-								<p><?php echo $description ?></p>
+								<p>'.$description.'</p>
 							</div>
 							<div class="tab-pane fade mb-20" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 								<h3 class="tab-title">Product Specifications</h3>
@@ -191,27 +245,27 @@ require_once("connection.php");
 								  <tbody>
 								    <tr>
 								      <td>Brand</td>
-								      <td><?php echo $brand ?></td>
+								      <td>'.$brand.'</td>
 								    </tr>
 								    <tr>
 								      <td>Car Type</td>
-								      <td><?php echo $cartype ?></td>
+								      <td>'.$cartype.'</td>
 								    </tr>
 								    <tr>
 								      <td>Fuel Type</td>
-								      <td><?php echo $fueltype ?></td>
+								      <td>'.$fueltype.'</td>
 								    </tr>
 								    <tr>
 								      <td>Name</td>
-								      <td><?php echo $carname ?></td>
+								      <td>'.$carname.'</td>
 								    </tr>
 								    <tr>
 								      <td>Seater</td>
-								      <td><?php echo $seats?></td>
+								      <td>'.$seats.'</td>
 								    </tr>
                                     <tr>
 								      <td>Rental Price</td>
-								      <td><?php echo $_SESSION['price'] ?></td>
+								      <td>'.$_SESSION['price'].'</td>
 								    </tr>
 								  </tbody>
 								</table>
@@ -257,26 +311,13 @@ require_once("connection.php");
 							  			</div>
 							  		</div>
 							  		<div class="review-submission">
-							  			<h3 class="tab-title">Submit your review</h3>
+							  			<h3 class="tab-title"></h3>
 						  				<!-- Rate -->
 						  				<div class="rate">
 						  					<div class="starrr"></div>
 						  				</div>
 						  				<div class="review-submit">
-						  					<form action="#" class="row">
-						  						<div class="col-lg-6">
-						  							<input type="text" name="name" id="name" class="form-control" placeholder="Name">
-						  						</div>
-						  						<div class="col-lg-6">
-						  							<input type="email" name="email" id="email" class="form-control" placeholder="Email">
-						  						</div>
-						  						<div class="col-12">
-						  							<textarea name="review" id="review" rows="10" class="form-control" placeholder="Message"></textarea>
-						  						</div>
-						  						<div class="col-12">
-						  							<button type="submit" class="btn btn-main" style="float: right;">Submit</button>
-						  						</div>
-						  					</form>
+						  					
 						  				</div>
 							  		</div>
 							  	</div>
@@ -294,12 +335,12 @@ require_once("connection.php");
                             <!-- Date -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                 <label for="comunity-name">From</label>
-                                <input type="date" class="form-control" method="get" id="reserve_sdate" name="start_date" placeholder="From" min="" onchange="set_todate(this.value)"/>
+                                <input type="date" class="form-control" method="get" id="reserve_sdate" name="start_date" placeholder="From" min="'.date("Y-m-d", strtotime($date ." +1 day")).'" onchange="set_todate(this.value)"/>
                             </div>
                             <!-- Date -->
                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                 <label for="comunity-name">To</label>
-                                <input type="date" class="form-control" method="get" id="reserve_edate" name="end_date" placeholder="To" min="" value="" disabled />
+                                <input type="date" class="form-control" method="get" id="reserve_edate" name="end_date" placeholder="To" min="" value="" onchange="set_fromdate(this.value)" disabled />
                             </div>
                         </form>                        
                     </div>
@@ -316,72 +357,17 @@ require_once("connection.php");
                         </select>
                     </div> -->
                     
-                    
-                        <label for="comunity-name">Charges</label>
-                            <font size="3">
-                                <table class="table table-responsive product-dashboard-table mb-20">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <span>P 1,500.00</span>
-                                                <span> x </span>
-                                                <span>1 day</span>
-                                            </td>
-                                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                                            <td>
-                                                <span>P 1,500.00</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span>Service Fees: </span>
-                                            </td>
-                                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                                            <td>
-                                                <span>P 0.00</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span>Initial Gas Fees: </span>
-                                            </td>
-                                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                                            <td>
-                                                <span>P 0.00</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span>Additional Fees: </span>
-                                            </td>
-                                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                                            <td>
-                                                <span>P 0.00</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td>
-                                                <span><strong>Total: </strong></span>
-                                            </td>
-                                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                                            <td>
-                                                <span><strong>P 1,500.00 </strong></span>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </font>
-
+                    <div id="view_pricebreakdown">
+                        </div>
+                        
                     <!-- Submit button -->
-                    <button class="btn btn-transparent" style="width: 100%;">Submit Reservation</button>
+                    <button class="btn btn-transparent" style="width: 100%;" id="reserve_btn" onclick="submit_confirm()" disabled>Submit Reservation</button>
                 </div>
             </div>
         </div>
-    </div>
+    </div>';
     
-
+?>
   <!-- JAVASCRIPTS -->
   <script src="plugins/jquery/jquery.min.js"></script>
   <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -396,7 +382,7 @@ require_once("connection.php");
   <script src="plugins/smoothscroll/SmoothScroll.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
   <script src="js/scripts.js"></script>
-
+   
 </body>
 
 </html>
