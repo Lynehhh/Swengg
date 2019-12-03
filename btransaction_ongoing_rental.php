@@ -62,11 +62,11 @@ require_once('connection.php');
 ===================================-->
 <?php
             $email = $_SESSION['email'];
-            $query = "SELECT re.rentID,  ci.location, c.name, re.total_amount, re.due_date, re.status, re.date_use, r.date_return, 
+            $query = " SELECT re.rentID,  ci.location, c.name, re.total_amount, re.due_date, re.status, re.date_use, r.date_return, 
                 r.renter_email, r.owner_email, u.firstname, u.lastname FROM rentals re JOIN reservation_requests r ON re.reqID = r.reqID JOIN car_images ci ON r.carID = ci.carID JOIN catalogue c ON c.carID = ci.carID JOIN users u ON r.owner_email = u.email 
                             WHERE r.renter_email = '".$email."' 
-                            AND re.status = 'Cancelled'
-                            GROUP BY c.carID
+                            AND re.status = 'Ongoing'
+                            GROUP BY re.rentID
                             ORDER BY re.date_use desc";
             $search_result = filterTable($query);
         
@@ -131,6 +131,16 @@ require_once('connection.php');
                         }
                     }
 
+                    $orQuery = "SELECT count(r.rentID) AS orcount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Ongoing'";
+                    $result6 = mysqli_query($con,$orQuery);
+                    if($result6 = $con->query($orQuery)){
+                        if ($result6->num_rows > 0) { 
+                            while($row = $result6->fetch_assoc()) {
+                                $orcount = $row['orcount'];
+                            }
+                        }
+                    }
+
                     $crQuery = "SELECT count(r.rentID) AS crcount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Completed'";
                     $result4 = mysqli_query($con,$crQuery);
                     if($result4 = $con->query($crQuery)){
@@ -150,16 +160,6 @@ require_once('connection.php');
                             }
                         }
                     }
-
-                    $orQuery = "SELECT count(r.rentID) AS orcount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Ongoing'";
-                    $result6 = mysqli_query($con,$orQuery);
-                    if($result6 = $con->query($orQuery)){
-                        if ($result6->num_rows > 0) { 
-                            while($row = $result6->fetch_assoc()) {
-                                $orcount = $row['orcount'];
-                            }
-                        }
-                    }
                     ?>
 						<ul>
 							<li><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span><?php echo $prcount ?></span></a></li>
@@ -169,20 +169,18 @@ require_once('connection.php');
 							<li>
 								<a href="btransaction_pending_payments.php"><i class="fa fa-money"></i>Pending Payments<span><?php echo $ppcount ?></span></a>
 							</li>
-                         
 							<li>
 								<a href="btransaction_pending_use.php"><i class="fa fa-clipboard"></i>Pending Use<span><?php echo $pucount ?></span></a>
 							</li>
 
-                            <li>
-                            <a href="btransaction_ongoing_rental.php"><i class="fa fa-money"></i>Ongoing Use<span><?php echo $orcount ?></span></a>
+                            <li class="active">
+								<a href="btransaction_ongoing_rental.php"><i class="fa fa-money"></i>Ongoing Use<span><?php echo $orcount ?></span></a>
 							</li>
-
 							<li>
 								<a href="btransaction_completed_use.php"><i class="fa fa-check-circle"></i>Completed Rental<span><?php echo $crcount ?></span></a>
 							</li>
-							<li class="active">
-								<a href="btransaction_cancelled.php"><i class="fa fa-ban"></i>Cancelled Rentals<span><?php echo $cacount ?></span></a>
+							<li>
+								<a href="btransaction_cancelled.php"><i class="fa fa-ban"></i>Cancelled Rental<span><?php echo $cacount ?></span></a>
 							</li>
 						</ul>
 					</div>
@@ -191,14 +189,14 @@ require_once('connection.php');
 			<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
 				<!-- Recently Favorited -->
 				<div class="widget dashboard-container my-adslist">
-					<h3 class="widget-header">Cancelled Rentals</h3>
+					<h3 class="widget-header">Pending Use</h3>
 					<table class="table product-dashboard-table">
 						<thead>
 							<tr>
 								<th class = "text-center">Image</th>
                                 <th class = "text-center"></th>
 								<th class = "text-center">Vehicle Details</th>
-                                <th class = "text-center">Renter Details</th>
+                                <th class = "text-center">Owner Details</th>
                                 <th class = "text-center">Date Use</th>
                                 <th class = "text-center">Date Return</th>
                                 <th class = "text-center">Total Price</th>
@@ -208,16 +206,9 @@ require_once('connection.php');
                             <?php
 							if ($search_result->num_rows > 0) {
                                 while($row = $search_result->fetch_assoc()) {
-                                    $interval = 8; 
-                                    $totalPrice =  $row['price'] * $interval;
-                                    echo "<form method = 'post' >";
-                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td></td><td class='product-details'><ul><h3 class='title'>" 
-                                    . $row['name'] ."</h3><li>Brand: ".$row['brand']."</li>
-                                    <li>Car Type: ".$row['car_type']."</li>
-                                    <li>Fuel Type: ".$row['fuel_type']."</li>
-                                    <li>Capacity: ".$row['seater']."</li></ul>
-                                    </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-                                    <li>Email: ".$row['renter_email']."</li></ul></td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $totalPrice ."</td>\n";
+                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td></td><td class='product-details'><h3 class='title'>" 
+                                    . $row['name'] ."</h3></td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
+                                    <li>Email: ".$row['owner_email']."</li></ul></td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $row['total_amount'] ."</td></tr>\n";
                                 }
     }
 ?>

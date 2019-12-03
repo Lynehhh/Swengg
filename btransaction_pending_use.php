@@ -47,6 +47,9 @@ require_once('connection.php');
         .mb-20 {
             margin-bottom: 20px;
         }
+        .mt-30{
+            margin-top: 30px;
+        }
     </style>
 
 </head>
@@ -77,9 +80,9 @@ require_once('connection.php');
         ?>
     
     
-<section class="">
+<section class="mt-30">
 	<!-- Container Start -->
-	<div class="container">
+	<div class="">
 		<!-- Row Start -->
 		<div class="row">
 			<div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
@@ -147,6 +150,16 @@ require_once('connection.php');
                             }
                         }
                     }
+
+                    $orQuery = "SELECT count(r.rentID) AS orcount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Ongoing'";
+                    $result6 = mysqli_query($con,$orQuery);
+                    if($result6 = $con->query($orQuery)){
+                        if ($result6->num_rows > 0) { 
+                            while($row = $result6->fetch_assoc()) {
+                                $orcount = $row['orcount'];
+                            }
+                        }
+                    }
                     ?>
 						<ul>
 							<li><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span><?php echo $prcount ?></span></a></li>
@@ -158,6 +171,10 @@ require_once('connection.php');
 							</li>
 							<li class="active">
 								<a href="btransaction_pending_use.php"><i class="fa fa-clipboard"></i>Pending Use<span><?php echo $pucount ?></span></a>
+							</li>
+
+                            <li>
+                            <a href="btransaction_ongoing_rental.php"><i class="fa fa-money"></i>Ongoing Use<span><?php echo $orcount ?></span></a>
 							</li>
 							<li>
 								<a href="btransaction_completed_use.php"><i class="fa fa-check-circle"></i>Completed Rental<span><?php echo $crcount ?></span></a>
@@ -173,25 +190,24 @@ require_once('connection.php');
 				<!-- Recently Favorited -->
 				<div class="widget dashboard-container my-adslist">
 					<h3 class="widget-header">Pending Use</h3>
-					<table class="table table-responsive product-dashboard-table">
+					<table class="table product-dashboard-table">
 						<thead>
 							<tr>
 								<th class = "text-center">Image</th>
+                                <th class = "text-center"></th>
 								<th class = "text-center">Vehicle Details</th>
                                 <th class = "text-center">Owner Details</th>
-								<th class="text-center">Request Date</th>
                                 <th class = "text-center">Date Use</th>
                                 <th class = "text-center">Date Return</th>
                                 <th class = "text-center">Total Price</th>
-                                <th class = "text-center">Activity</th>
 							</tr>
 						</thead>
 						<tbody>
                             <?php
 							if ($search_result->num_rows > 0) {
                                 while($row = $search_result->fetch_assoc()) {
-                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td>" . $row['name'].
-                                    "</td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
+                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td></td><td class='product-details'><h3 class='title'>" 
+                                    . $row['name'] ."</h3></td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
                                     <li>Email: ".$row['owner_email']."</li></ul></td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $row['total_amount'] ."</td></tr>\n";
                                 }
     }

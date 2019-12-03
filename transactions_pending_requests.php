@@ -47,6 +47,9 @@ require_once('connection.php');
         .mb-20 {
             margin-bottom: 20px;
         }
+        .mt-30{
+            margin-top: 30px;
+        }
     </style>
 
 </head>
@@ -77,31 +80,107 @@ require_once('connection.php');
         ?>
     
     
-<section class="">
+<section class="mt-30">
 	<!-- Container Start -->
-	<div class="container">
+	<div class="">
 		<!-- Row Start -->
 		<div class="row">
 			<div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
 				<div class="sidebar">
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">
+                    <?php
+                     $prQuery = "SELECT count(reqID) AS prcount FROM reservation_requests WHERE renter_email ='".$_SESSION['email']."' AND ref_req_status = 'Pending'";
+                     $result = mysqli_query($con,$prQuery);
+                    if($result = $con->query($prQuery)){
+                        if ($result->num_rows > 0) { 
+                            while($row = $result->fetch_assoc()) {
+                                $prcount = $row['prcount'];
+                            }
+                        }
+                    }
+                    $drQuery = "SELECT count(reqID) AS drcount FROM reservation_requests WHERE renter_email ='".$_SESSION['email']."' AND ref_req_status = 'Denied'";
+                    $result1 = mysqli_query($con,$drQuery);
+                    if($result1 = $con->query($drQuery)){
+                        if ($result1->num_rows > 0) { 
+                            while($row = $result1->fetch_assoc()) {
+                                $drcount = $row['drcount'];
+                            }
+                        }
+                    }
+
+                
+
+                    $ppQuery = "SELECT count(r.rentID) AS ppcount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Unpaid'";
+                    $result2 = mysqli_query($con,$ppQuery);
+                    if($result2 = $con->query($ppQuery)){
+                        if ($result2->num_rows > 0) { 
+                            while($row = $result2->fetch_assoc()) {
+                                $ppcount = $row['ppcount'];
+                            }
+                        }
+                    }
+
+                    $puQuery = "SELECT count(r.rentID) AS pucount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Pending Use'";
+                    $result3 = mysqli_query($con,$puQuery);
+                    if($result3 = $con->query($puQuery)){
+                        if ($result3->num_rows > 0) { 
+                            while($row = $result3->fetch_assoc()) {
+                                $pucount = $row['pucount'];
+                            }
+                        }
+                    }
+
+                    $crQuery = "SELECT count(r.rentID) AS crcount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Completed'";
+                    $result4 = mysqli_query($con,$crQuery);
+                    if($result4 = $con->query($crQuery)){
+                        if ($result4->num_rows > 0) { 
+                            while($row = $result4->fetch_assoc()) {
+                                $crcount = $row['crcount'];
+                            }
+                        }
+                    }
+
+                    $caQuery = "SELECT count(r.rentID) AS cacount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Cancelled'";
+                    $result5 = mysqli_query($con,$caQuery);
+                    if($result5 = $con->query($caQuery)){
+                        if ($result5->num_rows > 0) { 
+                            while($row = $result5->fetch_assoc()) {
+                                $cacount = $row['cacount'];
+                            }
+                        }
+                    }
+
+                    $orQuery = "SELECT count(r.rentID) AS orcount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Ongoing'";
+                    $result6 = mysqli_query($con,$orQuery);
+                    if($result6 = $con->query($orQuery)){
+                        if ($result6->num_rows > 0) { 
+                            while($row = $result6->fetch_assoc()) {
+                                $orcount = $row['orcount'];
+                            }
+                        }
+                    }
+                    ?>
 						<ul>
-                        <li class="active"><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span>2</span></a></li>
+                        <li class="active"><a href="transactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span><?php echo $prcount ?></span></a></li>
                             <li >
-								<a href="btransaction_denied_requests.php"><i class="fa fa-thumbs-down"></i>Denied Requests<span>5</span></a>
+								<a href="btransaction_denied_requests.php"><i class="fa fa-thumbs-down"></i>Denied Requests<span><?php echo $drcount ?></span></a>
 							</li>
 							<li>
-								<a href="btransaction_pending_payments.php"><i class="fa fa-money"></i>Pending Payments<span>5</span></a>
+								<a href="btransaction_pending_payments.php"><i class="fa fa-money"></i>Pending Payments<span><?php echo $ppcount ?></span></a>
 							</li>
 							<li>
-								<a href="btransaction_pending_use.php"><i class="fa fa-clipboard"></i>Pending Use<span>12</span></a>
+								<a href="btransaction_pending_use.php"><i class="fa fa-clipboard"></i>Pending Use<span><?php echo $pucount ?></span></a>
+							</li>
+
+                            <li>
+								<a href="btransaction_ongoing_rental.php"><i class="fa fa-money"></i>Ongoing Use<span><?php echo $orcount ?></span></a>
 							</li>
 							<li>
-								<a href="btransaction_completed_use.php"><i class="fa fa-check-circle"></i>Completed Rental<span>23</span></a>
+								<a href="btransaction_completed_use.php"><i class="fa fa-check-circle"></i>Completed Rental<span><?php echo $crcount ?></span></a>
 							</li>
 							<li>
-								<a href="btransaction_cancelled.php"><i class="fa fa-ban"></i>Cancelled Rental<span>5</span></a>
+								<a href="btransaction_cancelled.php"><i class="fa fa-ban"></i>Cancelled Rental<span><?php echo $cacount ?></span></a>
 							</li>
 						</ul>
 					</div>
@@ -111,37 +190,35 @@ require_once('connection.php');
 				<!-- Recently Favorited -->
 				<div class="widget dashboard-container my-adslist">
 					<h3 class="widget-header">Pending Requests</h3>
-					<table class="table table-responsive product-dashboard-table">
+					<table class="table product-dashboard-table">
 						<thead>
 							<tr>
 								<th class = "text-center">Image</th>
+                                <th class = "text-center"></th>
 								<th class = "text-center">Vehicle Details</th>
                                 <th class = "text-center">Owner</th>
 								<th class="text-center">Request Date</th>
                                 <th class = "text-center">Date Use</th>
                                 <th class = "text-center">Date Return</th>
                                 <th class = "text-center">Total Price</th>
-                                <th class = "text-center">Cancel</th>
+                                <th class = "text-center">Cancel?</th>
 							</tr>
 						</thead>
 						<tbody>
                             <?php
 							if ($search_result->num_rows > 0) {
-    while($row = $search_result->fetch_assoc()) {
-        echo "\t<tr><td><img src =" . $row['location'] . " height ='100px;' width = '100px;'></td>
-        <td><ul class='product-details'>
-        <h3 class='title'>" . $row['name'] ."</h3>
-        <li>Brand: ".$row['brand']."</li>
-        <li>Car Type: ".$row['car_type']."</li>
-        <li>Fuel Type: ".$row['fuel_type']."</li>
-        <li>Capacity: ".$row['seater']."</li></ul>
-        </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-        <li>Email: ".$row['email']."</li></ul></td>
-        <td class='product-category'>" . $row['req_date'] ."</td>
-        <td class='product-category'>" . $row['date_use'] ."</td>
-        <td class='product-category'>" . $row['date_return']  ."</td>
-        <td class='product-category'>" . $row['totalPrice'] ."</td>
-        <td class='product-category'><form method='post'><button type='submit' name='cancel_reserve' value=".$row['reqID'].">Cancel Reservation</button></td></tr>\n";
+                                while($row = $search_result->fetch_assoc()) {
+                                    echo "<form method = 'post' >";
+                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td></td><td class='product-details'><ul><h3 class='title'>" 
+                                    . $row['name'] ."</h3><li>Brand: ".$row['brand']."</li>
+                                    <li>Car Type: ".$row['car_type']."</li>
+                                    <li>Fuel Type: ".$row['fuel_type']."</li>
+                                    <li>Capacity: ".$row['seater']."</li></ul>
+                                    </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
+                                    <li>Email: ".$row['email']."</li></ul></td><td class='product-category'>" . $row['req_date'] ."</td>
+                                    <td class='product-category'>" . $row['date_use'] ."</td>
+                                    <td class='product-category'>" . $row['date_return']  ."</td>
+                                    <td class='product-category'>" . $row['totalPrice'] ."</td><td class='product-category'><form method='post'><button type='submit' name='cancel_reserve' value='".$row['reqID']."' style = 'background-color: Transparent; background-repeat:no-repeat; color: #e74a3b; border: none; overflow: hidden; outline:none;'><i class='fa fa-ban'></i> </button></td></tr>\n";
     }
 }if(isset($_POST['cancel_reserve'])){
     $sql='UPDATE reservation_requests
