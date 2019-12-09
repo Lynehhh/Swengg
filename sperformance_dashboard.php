@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <?php
- 
-$dataPoints = array( 
-	array("label"=>"Chrome", "y"=>64.02),
-	array("label"=>"Firefox", "y"=>12.55),
-	array("label"=>"IE", "y"=>8.47),
-	array("label"=>"Safari", "y"=>6.08),
-	array("label"=>"Edge", "y"=>4.29),
-	array("label"=>"Others", "y"=>4.59)
-)
+session_start();
+require_once("connection.php");
+$email = $_SESSION['email'];
+
+
+$query1 = "SELECT sum(amount) AS totalsales, month, year FROM auditsales WHERE month!= month(now()) AND year= year(now()) Group BY month,year"; 
+$result1 = mysqli_query($con, $query1);  
+if ($result1->num_rows > 0) {
+    echo "1";
+}
+else{
+    echo "yo";
+}
+
+
 
  
 ?>
@@ -59,24 +65,32 @@ $dataPoints = array(
         }
     </style>
     
-    <script>
-        var chart = new CanvasJS.Chart("chartContainer1", {
-            animationEnabled: true,
-            title: {
-                //text: "Usage Share of Desktop Browsers"
-            },
-            subtitles: [{
-                //text: "November 2017"
-            }],
-            data: [{
-                type: "pie",
-                yValueFormatString: "#,##0.00\"%\"",
-                indexLabel: "{label} ({y})",
-                dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-            }]
-        });
-        
-        chart1.render();
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([  
+                          ['Month', 'Total Sales'],  
+                          <?php  
+                          while($row = mysqli_fetch_array($result1))  
+                          {  
+                               echo "['".$row["month"]."', ".$row["totalsales"]."],";  
+                          }  
+                          ?>  
+                     ]);
+
+        var options = {
+          title: 'Monthly Sales',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chartContainer2'));
+
+        chart.draw(data, options);
+      }
     </script>
     <style>
         .d-icon{
@@ -85,6 +99,7 @@ $dataPoints = array(
             padding-right: 5px;
             top: calc(50% - 10px);
         }
+
     </style>
 
 </head>
@@ -104,8 +119,40 @@ $dataPoints = array(
                         <div class="">
                             <div class="row">
                                 <div class="col-lg-8">
+                                <?php 
+
+                                $totalQuery = "SELECT COUNT(r.rentID) AS totalcount, rr.owner_email   FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID 
+                                WHERE rr.owner_email = '".$email."'";
+                                $result1 = mysqli_query($con,$totalQuery);
+                                if($result1 = $con->query($totalQuery)){
+                                    if ($result1->num_rows > 0) { 
+                                        while($row = $result1->fetch_assoc()) {
+                                         $totalcount = $row['totalcount'];
+                                        }
+                                    }
+                                }
+                                        
+                                   
+
+                                
+
+                                $cancelQuery = "SELECT COUNT(rentID) AS cancelcount FROM audit_cancel WHERE 
+                                owner_email = '".$email."'";
+                                    $result2 = mysqli_query($con,$cancelQuery);
+                                    if($result2 = $con->query($cancelQuery)){
+                                        if ($result2->num_rows > 0) { 
+                                            while($row = $result2->fetch_assoc()) {
+                                             $cancelcount = $row['cancelcount'];
+                                            }
+                                        }
+                                    }
+
+                                $cancelrate = ($cancelcount / $totalcount) * 100;
+                            
+                                    
+                            ?>
                                     <h4 class="mb-20 list-inline-item top-link"><span>Cancellation Rate</span></h4>
-                                    <h1 class="mb-20 top-link"><span> 5</span></h1>
+                                    <h1 class="mb-20 top-link"><span> <?php echo $cancelrate ?> %  </span></h1>
                                 </div>
                                 <div class="col-lg-2 d-icon">
                                     <i class="fa fa-ban top-link"></i>
@@ -167,7 +214,7 @@ $dataPoints = array(
                             <h5 class="">As of November 2019</h5>
                         </div>
                         <div class="card-body">
-                            <div id="chartContainer1" style="height: 370px; width: 100%;"></div>
+                            <!-- <div id="chartContainer1" style="height: 370px; width: 100%;"></div> -->
                         </div>
                     </div>
                 </div>
@@ -182,7 +229,7 @@ $dataPoints = array(
                             <h5 class="">As of November 2019</h5>
                         </div>
                         <div class="card-body">
-                            <div id="chartContainer2" style="height: 370px; width: 100%;"></div>
+                            <div id="chartContainer2" style="width: 100%; height: 100%"></div>
                         </div>
                     </div>
                 </div>
@@ -209,5 +256,3 @@ $dataPoints = array(
   <script src="js/scripts.js"></script>
 
 </body>
-
-</html>
