@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php session_start(); 
 error_reporting(0);
-
 require_once("connection.php");
 if(isset($_POST['view']))
 {
