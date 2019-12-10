@@ -52,7 +52,7 @@
 	<div class="container">
 		<!-- Advance Search -->
         <div class="advance-search">
-            <form action="dashboard.php" method="post">
+            <form action="" method="post">
                 <div class="form-row">
                     <div class="form-group col-md-10">
                         <input type="text" class="form-control"  name="valueToSearch" placeholder=" Search by car brand, type or name">
@@ -75,7 +75,6 @@
                     WHERE CONCAT(c.brand, c.car_type, c.name) LIKE '%".$valueToSearch."%' 
                     AND c.owner_email = '".$email."'GROUP BY c.carID";
         $search_result = filterTable($query);
-
     }
     else {
         $query = "  SELECT ci.location, c.carID, c.name, c.brand, c.car_type, c.fuel_type, c.seater, c.price, c.availability 
@@ -83,7 +82,6 @@
                     WHERE c.owner_email = '".$email."'GROUP BY c.carID";
         $search_result = filterTable($query);
     }
-
     function filterTable($query)
     {
         $con = mysqli_connect("localhost", "root", "", "gogobiyahe");

@@ -171,6 +171,24 @@
                 
                 <?php
             //if napress yung "search" button dito pupunta
+            if(isset($_GET['homesearch'])){
+                
+                if(empty($_GET['seater'])){
+                    $_GET['seater'] = "'' or 'a'='a'";
+                }
+                if(empty($_GET['car_type'])){
+                    $_GET['car_type'] = "'' or 'a'='a'";
+                }
+                if(empty($_GET['fuel_type'])){
+                    $_GET['fuel_type'] = "'' or 'a'='a'";
+                }
+
+                $sql="select brand, carID, fuel_type, seater, price, location, name, city from view_catalogue where
+                 availability='Available' AND (fuel_type=".$_GET['fuel_type'].") and (seater>=".$_GET['seater'].") and oemail <> '".$_GET['email']."' and brand like '%".$_GET['brand']."%' AND (car_type=".$_GET['car_type'].") ";
+                
+            }
+            else{
+
             if (isset($_GET['search'])){
                 
                 //if walang laman yung searchtxt na input box, dito papasok
@@ -305,10 +323,9 @@
                 $_SESSION['filter_status']="no";
                 $_SESSION['search_status']="no";
             }
-            
+        }    
             echo '<div class="product-grid-list">
 					<div class="row mt-30">';
-        
             if($result = $con->query($sql)){
                 if ($result->num_rows > 0) { 
                     while($row = $result->fetch_assoc()) {
