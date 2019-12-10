@@ -198,6 +198,8 @@ require_once('connection.php');
                                 <th class = "text-center">Date Use</th>
                                 <th class = "text-center">Date Return</th>
                                 <th class = "text-center">Total Price</th>
+                                <th class = "text-center">Activity</th>
+
 							</tr>
 						</thead>
 						<tbody>
@@ -205,10 +207,10 @@ require_once('connection.php');
 							
                             if ($search_result->num_rows > 0) {
                                 while($row = $search_result->fetch_assoc()) {
-                                    echo "<form method = 'post' action = 'paynow.php'>";
+                                    echo "<form method = 'post' action = 'processcancel.php'>";
                                     echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td></td><td class='product-details'><h3 class='title'>" 
                                     . $row['name'] ."</h3></td><td class=''><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-                                    <li>Email: ".$row['renter_email']."</li></ul></td><td class='product-category'>" . $row['due_date'] ."</td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $row['total_amount'] ."</td></tr>\n";
+                                    <li>Email: ".$row['renter_email']."</li></ul></td><td class='product-category'>" . $row['due_date'] ."</td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $row['total_amount'] ."</td><td class='product-category'><button class = 'btn btn-primary' style = 'padding: 3% 7%;' type = 'submit' name = 'Cancel'  value = '" . $row['rentID'] . "' > Cancel </button></td></tr>\n";
                                 }
                             }
                             ?>

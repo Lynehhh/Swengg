@@ -222,10 +222,9 @@ require_once('connection.php');
     }
 }if(isset($_POST['cancel_reserve'])){
     $sql='UPDATE reservation_requests
-    SET ref_req_status = "Cancelled"
+    SET ref_req_status = "Denied"
     WHERE reqID = '.$_POST["cancel_reserve"];
     $con->query($sql);
-    header('location:pending_request.php');
 } ?>
 
 						</tbody>

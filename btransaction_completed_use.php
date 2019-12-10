@@ -215,68 +215,14 @@ require_once('connection.php');
                                     <li>Fuel Type: ".$row['fuel_type']."</li>
                                     <li>Capacity: ".$row['seater']."</li></ul>
                                     </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-                                    <li>Email: ".$row['renter_email']."</li></ul></td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $totalPrice ."</td>
-				    <td class='product-category'><button class = 'btn btn-warning' style = 'padding: 3% 7%;' type = 'button' data-toggle='modal' data-target='#myModal' > Rate </button></td>\n";
+                                    <li>Email: ".$row['renter_email']."</li></ul></td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $totalPrice ."</td>\n";
                                 }
     }
 ?>
 
 						</tbody>
 					</table>
-		    	<!-- Modal -->
-                        <div id="myModal" class="modal fade" role="dialog">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header" style="background-image: linear-gradient(to right, #44A08D, #093637)">
-                                  <!-- yun violet shit  linear-gradient(to right, #24243e, #302b63)-->
-                                  <img src="images/logo.png" alt="" style="width: 20%; margin: 0 3% 0 0;">
-                                  <h3 class="name" id="exampleModalLabel" style=" margin: 3% 0 1% 5%; color: white; font-family: Verdana, Geneva, sans-serif">Send Us Some Feedback</h3>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                              <div class="modal-body text-center w-100">
-                                <div class="media-body">
-                                    <!-- Image -->
-                                    <img src="images/user/user-thumb.jpg" alt="avater" style="height: 50%;">
-                                    <div class="name">
-                                        <!-- Name -->
-                                        <h5>CAR NAME HERE</h5>
-                                    </div>
-                                    <div class="date">
-                                        <!-- Date -->
-                                        <p>INSERT DATE HERE</p>
-                                    </div>
-                                    <div class="review-submission">
-                                        <h3 class="tab-title">How was your experience?</h3>
-                                        <!-- Rate -->
-                                        <div class="review-submit">
-                                            <!-- FORM START -->
-                                            <form action="#" class="">
-                                                <!-- Ratings -->
-                                                <div class="rate">
-                                                    <div class="starrr" style="font-size: 1.50em;"></div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <!-- Comment Message -->
-                                                    <textarea name="review" id="review" rows="10" class="form-control" placeholder="Message"></textarea>
-                                                </div>
-                                            </form>
-                                            <!-- FORM END -->
-                                        </div>
-                                    </div>
-                                </div>
-                                  <hr>
-                                  ...
-                              </div>
-                              <div class="modal-footer">
-                                  <!-- Buttons -->
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Submit Review</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+					
 				</div>
 			</div>
 		</div>
