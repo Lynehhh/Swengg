@@ -272,7 +272,12 @@
                     $_SESSION['seater']=$_GET['seater'];
                 }
                    
-                $_SESSION['location']=$_GET['location'];
+                if(empty($_GET['location'])){
+                    $_SESSION['location'] = "'' or 'a'='a'";
+                }
+                else{
+                    $_SESSION['location']=$_GET['location'];
+                }
                 
                 if($_SESSION['search_status']=="yes"){
                     if($_SESSION["sort_status"]=="yes"){
@@ -287,7 +292,7 @@
                         $sql="select brand, carID, fuel_type, seater, price, location, name, city from view_catalogue where availability='Available' AND (price>=".$_SESSION['price_min']."' and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].")) AND oemail <> '".$_SESSION['email']."' order by ".$_SESSION['sortby'];
                     }
                     else{
-                        $sql="select brand, carID, fuel_type, seater, price, location, name, city from view_catalogue where (price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and f(fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].")) AND availability='Available' AND oemail <> '".$_SESSION['email']."' order by price asc";
+                        $sql="select brand, carID, fuel_type, seater, price, location, name, city from view_catalogue where (price>=".$_SESSION['price_min']." and price<=".$_SESSION['price_max']." and (fuel_type=".$_SESSION['fuel_type'].") and (seater>=".$_SESSION['seater'].") and (city=".$_SESSION['location'].")) AND availability='Available' AND oemail <> '".$_SESSION['email']."' order by price asc";
                     }
                 }
             }
