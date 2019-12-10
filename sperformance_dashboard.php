@@ -11,7 +11,6 @@ if ($result1->num_rows > 0) {
 else{
     echo "yo";
 }
-
 $rating5 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 5";
 $search_result = mysqli_query($con, $rating5);
     if ($search_result->num_rows > 0) {
@@ -22,7 +21,6 @@ $search_result = mysqli_query($con, $rating5);
     else{
         $count5 = 0;
     }
-
     $rating4 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 4";
     $search_result = mysqli_query($con, $rating4);
         if ($search_result->num_rows > 0) {
@@ -33,7 +31,6 @@ $search_result = mysqli_query($con, $rating5);
         else{
             $count4 = 0;
         }
-
         $rating3 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 3";
         $search_result = mysqli_query($con, $rating3);
             if ($search_result->num_rows > 0) {
@@ -44,7 +41,6 @@ $search_result = mysqli_query($con, $rating5);
             else{
                 $count3 = 0;
             }
-
             
         $rating2 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 2";
         $search_result = mysqli_query($con, $rating2);
@@ -56,7 +52,6 @@ $search_result = mysqli_query($con, $rating5);
             else{
                 $count2 = 0;
             }
-
         
             $rating1 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 1";
             $search_result = mysqli_query($con, $rating1);
@@ -121,7 +116,6 @@ $search_result = mysqli_query($con, $rating5);
     <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(pieChart);
-
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = google.visualization.arrayToDataTable([  
@@ -141,9 +135,7 @@ $search_result = mysqli_query($con, $rating5);
         var chart = new google.visualization.LineChart(document.getElementById('chartContainer2'));
         chart.draw(data, options);
       }
-
       function pieChart() {
-
 var data = google.visualization.arrayToDataTable([
   ['Rating Level', 'Total'],
   <?php
@@ -156,13 +148,10 @@ var data = google.visualization.arrayToDataTable([
     ?>
     
 ]);
-
 var options = {
   title: 'My Car Ratings'
 };
-
 var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
 chart.draw(data, options);
 }
     </script>
@@ -298,7 +287,7 @@ chart.draw(data, options);
                             <h5 class="">As of November 2019</h5>
                         </div>
                         <div class="card-body">
-                            <div id="chartContainer2" style="width: 100%; height: 100%"></div>
+                            <div id="chartContainer2" style="height: 370px; width: 100%;"></div>
                         </div>
                     </div>
                 </div>
