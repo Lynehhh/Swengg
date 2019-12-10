@@ -55,6 +55,13 @@ $email = $_SESSION['email'];
         .top-link {
         color: white;
         }
+        .bg-img{
+            background-size: cover;
+            background-position: center;
+        }
+        .bg-div{
+            background: rgba(225, 225, 225, .9);
+        }
 
     </style>
 </head>
@@ -111,6 +118,7 @@ $email = $_SESSION['email'];
                                     My Profile <span><i class="fa fa-angle-down"></i></span></a>
                                 <div class="dropdown-menu dropdown-menu-right">
 									<a class="dropdown-item" href="">View Profile</a>
+                                    <a class="dropdown-item" href="sperformance_dashboard.php">Performance Dashboard</a>
 									<a class="dropdown-item" href="">Log Out</a>
 								</div>
 							</li>
