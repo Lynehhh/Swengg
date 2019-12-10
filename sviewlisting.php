@@ -74,7 +74,6 @@ require_once('connection.php');
             $email = $_SESSION['email'];
             if(isset($_POST['search']))
             {
-
                 $valueToSearch = $_POST['valueToSearch'];
                 // search in all table columns
                 // using concat mysql function
@@ -91,7 +90,6 @@ require_once('connection.php');
                             WHERE c.owner_email = '".$email."'GROUP BY c.carID";
                 $search_result = filterTable($query);
             }
-
            
             function filterTable($query)
             {
@@ -99,7 +97,6 @@ require_once('connection.php');
                 $filter_Result = mysqli_query($con, $query);
                 return $filter_Result;
             }
-
         ?>
     
 				</div>
@@ -134,11 +131,9 @@ require_once('connection.php');
 						<tbody>
 							<tr>
                                 <?php
-
-
                                 if ($search_result->num_rows > 0) {
                                     while($row = $search_result->fetch_assoc()) {
-                                            echo "<form method = 'post' action = 'specificlisting.php'>";
+                                            echo "<form method = 'post' action = 'slisting_details.php'>";
                                             echo "\t<tr><td class 'product-category'><img src =" . $row['location'] . " width ='200px' height = 'auto' </td>
                                             <td class='product-category'><button class = 'banana'  button type = 'submit' name = 'view'  value = '" . $row['carID'] . "' >" . $row['name'] ."  </button></td>
                                             <td class='product-category'>" . $row['brand'] ."</td><td>" . $row['car_type'] ."</td>
