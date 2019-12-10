@@ -5,12 +5,7 @@ require_once("connection.php");
 $email = $_SESSION['email'];
 $query1 = "SELECT sum(amount) AS totalsales, month, year FROM auditsales WHERE month!= month(now()) AND year= year(now()) Group BY month,year"; 
 $result1 = mysqli_query($con, $query1);  
-if ($result1->num_rows > 0) {
-    echo "1";
-}
-else{
-    echo "yo";
-}
+
 $rating5 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 5";
 $search_result = mysqli_query($con, $rating5);
     if ($search_result->num_rows > 0) {
@@ -123,7 +118,43 @@ $search_result = mysqli_query($con, $rating5);
                           <?php  
                           while($row = mysqli_fetch_array($result1))  
                           {  
-                               echo "['".$row["month"]."', ".$row["totalsales"]."],";  
+                              if($row["month"]==1){
+                                  $month = "January";
+                              }
+                              else if($row["month"]==2){
+                                $month = "February";
+                            }
+                            else if($row["month"]==3){
+                                $month = "March";
+                            }
+                            else if($row["month"]==4){
+                                $month = "April";
+                            }
+                            else if($row["month"]==5){
+                                $month = "May";
+                            }
+                            else if($row["month"]==6){
+                                $month = "June";
+                            }
+                            else if($row["month"]==7){
+                                $month = "July";
+                            }
+                            else if($row["month"]==8){
+                                $month = "August";
+                            }
+                            else if($row["month"]==9){
+                                $month = "September";
+                            }
+                            else if($row["month"]==10){
+                                $month = "October";
+                            }
+                            else if($row["month"]==11){
+                                $month = "November";
+                            }
+                            else if($row["month"]==12){
+                                $month = "December";
+                            }
+                               echo "['".$month."', ".$row["totalsales"]."],";  
                           }  
                           ?>  
                      ]);
@@ -192,6 +223,18 @@ chart.draw(data, options);
                                         }
                                     }
                                 }
+
+                                $salesQuery = "SELECT SUM(a.amount) AS totalsales, rr.owner_email   FROM auditsales a JOIN rentals r ON a.rentID = r.rentID JOIN reservation_requests  rr ON r.reqID = rr.reqID 
+                                WHERE rr.owner_email = '".$email."'  AND a.month = month(current_date())";
+                                $result3= mysqli_query($con,$salesQuery);
+                                if($result3 = $con->query($salesQuery)){
+                                    if ($result3->num_rows > 0) { 
+                                        while($row = $result3->fetch_assoc()) {
+                                         $totalsales = $row['totalsales'];
+                                        }
+                                    }
+                                }
+                                    
                                         
                                    
                                 
@@ -229,7 +272,7 @@ chart.draw(data, options);
                             <div class="row">
                                 <div class="col-lg-8">
                                     <h4 class="mb-20 list-inline-item top-link"><span>Total Sales</span></h4>
-                                    <h1 class="mb-20 top-link"><span>P 1000.00</span></h1>
+                                    <h1 class="mb-20 top-link"><span>P <?php echo round($totalsales,2) ?></span></h1>
                                 </div>
                                 <div class="col-lg-2 d-icon top-link">
                                     <i class="fa fa-cart-plus" ></i>
@@ -248,7 +291,7 @@ chart.draw(data, options);
                             <div class="row">
                                 <div class="col-lg-8">
                                     <h4 class="mb-20 list-inline-item top-link"><span>Number of Sales</span></h4>
-                                    <h1 class="mb-20 top-link"><span> 5</span></h1>
+                                    <h1 class="mb-20 top-link"><span> <?php echo $totalcount?></span></h1>
                                 </div>
                                 <div class="col-lg-2 d-icon top-link">
                                     <i class="fa fa-shopping-cart" ></i>
