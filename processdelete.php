@@ -21,10 +21,10 @@ if(isset($_POST['delete'])){
  
     $deleteDocs = " DELETE FROM car_docs WHERE carID = $carID ";
         if(mysqli_query($con,$deletDocs)){
-            header("location:viewlistings.php");
+            header("location:sviewlisting.php");
         }
         else{
-            header("location:viewlistings.php");
+            header("location:sviewlisting.php");
             }                                 
     
             ?>

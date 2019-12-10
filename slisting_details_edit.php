@@ -102,7 +102,7 @@ $price =  $_SESSION['price'];
 $availability =  $_SESSION['availability']; 
 $description  =  $_SESSION['description']; 
         ?>
-        <form class="row">
+        <form class="row" method = "post">
 
             <div class="col-md-4 offset-md-1 col-lg-7 offset-lg-0 mt-30">
                 <div class="content">
@@ -264,13 +264,13 @@ $description  =  $_SESSION['description'];
                     
                     <div class="row">
                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-                            <button class="btn btn-success" style="width: 100%;" >Submit</button>
+                            <button class="btn btn-success" style="width: 100%;" name = "update" formaction = "processedit.php" >Submit</button>
                         </div>
                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-                            <button class="btn btn-danger" style="width: 100%;">Delete</button>
+                            <button class="btn btn-danger" style="width: 100%;" name = "delete" formaction = "processdelete.php">Delete</button>
                         </div>
                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-                            <button class="btn btn-primary" style="width: 100%;">Back</button>
+                            <button class="btn btn-primary" style="width: 100%;" formaction = "slisting_details.php">Back</button>
                         </div>
                     </div>
                 </div>
