@@ -3,8 +3,6 @@
 session_start();
 require_once("connection.php");
 $email = $_SESSION['email'];
-
-
 $query1 = "SELECT sum(amount) AS totalsales, month, year FROM auditsales WHERE month!= month(now()) AND year= year(now()) Group BY month,year"; 
 $result1 = mysqli_query($con, $query1);  
 if ($result1->num_rows > 0) {
@@ -14,8 +12,62 @@ else{
     echo "yo";
 }
 
+$rating5 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 5";
+$search_result = mysqli_query($con, $rating5);
+    if ($search_result->num_rows > 0) {
+        while($row = $search_result->fetch_assoc()) {
+            $count5 = $row['count'];
+        }
+    }
+    else{
+        $count5 = 0;
+    }
 
+    $rating4 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 4";
+    $search_result = mysqli_query($con, $rating4);
+        if ($search_result->num_rows > 0) {
+            while($row = $search_result->fetch_assoc()) {
+                $count4 = $row['count'];
+            }
+        }
+        else{
+            $count4 = 0;
+        }
 
+        $rating3 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 3";
+        $search_result = mysqli_query($con, $rating3);
+            if ($search_result->num_rows > 0) {
+                while($row = $search_result->fetch_assoc()) {
+                    $count3 = $row['count'];
+                }
+            }
+            else{
+                $count3 = 0;
+            }
+
+            
+        $rating2 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 2";
+        $search_result = mysqli_query($con, $rating2);
+            if ($search_result->num_rows > 0) {
+                while($row = $search_result->fetch_assoc()) {
+                    $count2 = $row['count'];
+                }
+            }
+            else{
+                $count2 = 0;
+            }
+
+        
+            $rating1 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 1";
+            $search_result = mysqli_query($con, $rating1);
+                if ($search_result->num_rows > 0) {
+                    while($row = $search_result->fetch_assoc()) {
+                        $count1 = $row['count'];
+                    }
+                }
+                else{
+                    $count1 = 0;
+                }
  
 ?>
 <html lang="en">
@@ -68,8 +120,9 @@ else{
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(pieChart);
 
+      google.charts.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = google.visualization.arrayToDataTable([  
                           ['Month', 'Total Sales'],  
@@ -80,17 +133,38 @@ else{
                           }  
                           ?>  
                      ]);
-
         var options = {
           title: 'Monthly Sales',
           curveType: 'function',
           legend: { position: 'bottom' }
         };
-
         var chart = new google.visualization.LineChart(document.getElementById('chartContainer2'));
-
         chart.draw(data, options);
       }
+
+      function pieChart() {
+
+var data = google.visualization.arrayToDataTable([
+  ['Rating Level', 'Total'],
+  <?php
+    echo "['5', ".$count5."], 
+        ['4', ".$count4."],
+        ['3', ".$count3."],
+        ['2', ".$count2."],
+        ['1', ".$count1."],"; 
+     
+    ?>
+    
+]);
+
+var options = {
+  title: 'My Car Ratings'
+};
+
+var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+chart.draw(data, options);
+}
     </script>
     <style>
         .d-icon{
@@ -99,7 +173,6 @@ else{
             padding-right: 5px;
             top: calc(50% - 10px);
         }
-
     </style>
 
 </head>
@@ -120,7 +193,6 @@ else{
                             <div class="row">
                                 <div class="col-lg-8">
                                 <?php 
-
                                 $totalQuery = "SELECT COUNT(r.rentID) AS totalcount, rr.owner_email   FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID 
                                 WHERE rr.owner_email = '".$email."'";
                                 $result1 = mysqli_query($con,$totalQuery);
@@ -133,9 +205,7 @@ else{
                                 }
                                         
                                    
-
                                 
-
                                 $cancelQuery = "SELECT COUNT(rentID) AS cancelcount FROM audit_cancel WHERE 
                                 owner_email = '".$email."'";
                                     $result2 = mysqli_query($con,$cancelQuery);
@@ -146,13 +216,12 @@ else{
                                             }
                                         }
                                     }
-
                                 $cancelrate = ($cancelcount / $totalcount) * 100;
                             
                                     
                             ?>
                                     <h4 class="mb-20 list-inline-item top-link"><span>Cancellation Rate</span></h4>
-                                    <h1 class="mb-20 top-link"><span> <?php echo $cancelrate ?> %  </span></h1>
+                                    <h1 class="mb-20 top-link"><span> <?php echo round($cancelrate,2) ?> %  </span></h1>
                                 </div>
                                 <div class="col-lg-2 d-icon">
                                     <i class="fa fa-ban top-link"></i>
@@ -214,7 +283,7 @@ else{
                             <h5 class="">As of November 2019</h5>
                         </div>
                         <div class="card-body">
-                            <!-- <div id="chartContainer1" style="height: 370px; width: 100%;"></div> -->
+                            <div id="piechart" style="height: 370px; width: 100%;"></div> 
                         </div>
                     </div>
                 </div>
