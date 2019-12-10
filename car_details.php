@@ -328,7 +328,7 @@ include 'topbar.php';
     
             <div class="col-md-4 offset-md-1 col-lg-5 offset-lg-0">
                 <div class="widget">
-                    <h1 class="mb-20"><span>P 1,500.00</span> / day</h1>
+                    <h1 class="mb-20"><span>P '.$_SESSION['price'].'</span> / day</h1>
                     <!--<h3 class="widget-header user">Renting Information</h3>-->
                     <div class="row mb-20">
                         <form id="reserve_form" method="get">
