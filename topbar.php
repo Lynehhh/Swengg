@@ -40,7 +40,8 @@ $email = $_SESSION['email'];
 
   <!-- FAVICON -->
   <link href="img/favicon.png" rel="shortcut icon">
-
+    <!-- background-image: linear-gradient(to right, #187e7e, #093637, #051b1b) -->
+    
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -51,6 +52,12 @@ $email = $_SESSION['email'];
     <style>
         .mb-20 {
         margin-bottom: 20px;
+        }
+        .mb-10 {
+            margin-bottom: 10px;
+        }
+        .mt-30{
+            margin-top: 30px;
         }
         .top-link {
         color: white;
@@ -67,7 +74,7 @@ $email = $_SESSION['email'];
 </head>
 
 <body>
-    <section style="height: 85px; background-image: linear-gradient(to right, #187e7e, #093637, #051b1b)">
+    <section style="height: 85px; background-color: #1d222e;">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -117,7 +124,7 @@ $email = $_SESSION['email'];
 								<a class="nav-link top-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     My Profile <span><i class="fa fa-angle-down"></i></span></a>
                                 <div class="dropdown-menu dropdown-menu-right">
-									<a class="dropdown-item" href="">View Profile</a>
+									<a class="dropdown-item" href="viewprofile.php">View Profile</a>
                                     <a class="dropdown-item" href="sperformance_dashboard.php">Performance Dashboard</a>
 									<a class="dropdown-item" href="">Log Out</a>
 								</div>

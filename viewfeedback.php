@@ -350,7 +350,6 @@ if(isset($_POST['view']))
                         <h2 class=""><?php echo $firstname; ?> <?php echo $lastname ?> <span style="display:inline-block; width: 18%;"></span> <i class="fa fa-star"></i> 5 Ratings</h2>
                         <h4 class="comunity-name mb-10"><?php echo $usertype ?></h4>
                         <h4 class="comunity-name"><i class="fa fa-birthday-cake"></i> <?php echo $birthday ?></h4>
-                        <button formaction = "update_profile.php" class="btn btn-success mt-30" style="padding: 2% 10%;">Edit</button>
                     </div>
                 </div>
                 
