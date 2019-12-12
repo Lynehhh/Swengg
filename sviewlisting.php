@@ -73,13 +73,13 @@
         $query = "  SELECT ci.location, c.carID, c.name, c.brand, c.car_type, c.fuel_type, c.seater, c.price, c.availability  FROM catalogue c 
                     JOIN car_images ci ON c.carID = ci.carID 
                     WHERE CONCAT(c.brand, c.car_type, c.name) LIKE '%".$valueToSearch."%' 
-                    AND c.owner_email = '".$email."'GROUP BY c.carID";
+                    AND c.owner_email = '".$email."' AND (c.availability = 'Available' OR c.availability = 'Unavailable') GROUP BY c.carID";
         $search_result = filterTable($query);
     }
     else {
         $query = "  SELECT ci.location, c.carID, c.name, c.brand, c.car_type, c.fuel_type, c.seater, c.price, c.availability 
                     FROM catalogue c JOIN car_images ci ON c.carID = ci.carID 
-                    WHERE c.owner_email = '".$email."'GROUP BY c.carID";
+                    WHERE c.owner_email = '".$email."' AND (c.availability = 'Available' OR c.availability = 'Unavailable') GROUP BY c.carID";
         $search_result = filterTable($query);
     }
     function filterTable($query)

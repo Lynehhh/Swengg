@@ -5,7 +5,6 @@ require_once("connection.php");
 if(isset($_POST['view']))
 {
     $email = $_SESSION['email'];
-    echo $email;
     $carID = $_POST['view'];
     $_SESSION['carID'] = $carID; 
 }
@@ -248,7 +247,7 @@ if(isset($_POST['view']))
                             <button formaction = "slisting_details_edit.php" class="btn btn-success" style="width: 100%;">Edit</button>
                         </div>
                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                            <button class="btn btn-primary" style="width: 100%;">Back</button>
+                            <button class="btn btn-primary" style="width: 100%;" formaction ="sviewlisting.php">Back</button>
                         </div>
                     </div>
                 </div>
