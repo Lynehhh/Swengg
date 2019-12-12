@@ -208,7 +208,8 @@ require_once('connection.php');
                             <?php
 							if ($search_result->num_rows > 0) {
                                 while($row = $search_result->fetch_assoc()) {
-                                    echo "<form method = 'post' >";
+                                    $carID = $row['carID'];
+                                    echo "<form method = 'post' action =  'processcancelrequest.php'>";
                                     echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td></td><td class='product-details'><ul><h3 class='title'>" 
                                     . $row['name'] ."</h3><li>Brand: ".$row['brand']."</li>
                                     <li>Car Type: ".$row['car_type']."</li>
@@ -218,17 +219,15 @@ require_once('connection.php');
                                     <li>Email: ".$row['email']."</li></ul></td><td class='product-category'>" . $row['req_date'] ."</td>
                                     <td class='product-category'>" . $row['date_use'] ."</td>
                                     <td class='product-category'>" . $row['date_return']  ."</td>
-                                    <td class='product-category'>" . $row['totalPrice'] ."</td><td class='product-category'><form method='post'><button type='submit' name='cancel_reserve' value='".$row['reqID']."' style = 'background-color: Transparent; background-repeat:no-repeat; color: #e74a3b; border: none; overflow: hidden; outline:none;'><i class='fa fa-ban'></i> </button></td></tr>\n";
+                            
+                                                <td class='product-category'>" . $row['totalPrice'] ."</td><td class='product-category'><button type='submit' name='cancel_reserve' value='".$row['reqID']."' style = 'background-color: Transparent; background-repeat:no-repeat; color: #e74a3b; border: none; overflow: hidden; outline:none;'><i class='fa fa-ban'></i> </button></td></tr>\n";
     }
-}if(isset($_POST['cancel_reserve'])){
-    $sql='UPDATE reservation_requests
-    SET ref_req_status = "Denied"
-    WHERE reqID = '.$_POST["cancel_reserve"];
-    $con->query($sql);
-} ?>
+}
+   ?>
 
 						</tbody>
 					</table>
+                    </form>
 					
 				</div>
 			</div>
