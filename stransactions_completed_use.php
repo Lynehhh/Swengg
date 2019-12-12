@@ -32,6 +32,9 @@ require_once('connection.php');
 
   <!-- FAVICON -->
   <link href="img/favicon.png" rel="shortcut icon">
+    
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -43,6 +46,7 @@ require_once('connection.php');
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src='http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css' rel="stylesheet"></script>
     <style>
         .mb-20 {
             margin-bottom: 20px;
@@ -62,11 +66,12 @@ require_once('connection.php');
 ===================================-->
 <?php
            $email = $_SESSION['email'];
-           $query = " SELECT re.rentID,  ci.location, c.name, re.total_amount, re.due_date, re.status, re.date_use, r.date_return, 
-           r.renter_email, r.owner_email, u.firstname, u.lastname FROM rentals re JOIN reservation_requests r ON re.reqID = r.reqID JOIN car_images ci ON r.carID = ci.carID JOIN catalogue c ON c.carID = ci.carID JOIN users u ON r.renter_email = u.email 
+           $query = "SELECT re.rentID,  ci.location, c.name, re.total_amount, re.due_date, re.status, re.date_use, r.date_return, c.brand, c.fuel_type, c.car_type, c.seater, c.carID,
+           r.renter_email, r.owner_email, u.firstname, u.lastname FROM rentals re JOIN reservation_requests r ON re.reqID = r.reqID JOIN car_images ci ON r.carID = ci.carID JOIN catalogue c ON c.carID = ci.carID JOIN users u ON r.renter_email = u.email
                        WHERE r.owner_email = '".$email."' 
                        AND re.status = 'Completed Use'
-                       GROUP BY re.rentID";
+                       group by re.rentid";
+    
            $search_result = filterTable($query);
        
       
@@ -131,7 +136,7 @@ require_once('connection.php');
                         }
                     }
 
-                    $crQuery = "SELECT count(r.rentID) AS crcount, rr.owner_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email ='".$_SESSION['email']."' AND r.status = 'Completed'";
+                    $crQuery = "SELECT count(r.rentID) AS crcount, rr.owner_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email ='".$_SESSION['email']."' AND r.status = 'Completed Use'";
                     $result4 = mysqli_query($con,$crQuery);
                     if($result4 = $con->query($crQuery)){
                         if ($result4->num_rows > 0) { 
@@ -178,7 +183,7 @@ require_once('connection.php');
 								<a href="stransactions_completed_use.php"><i class="fa fa-check-circle"></i>Completed Rental<span><?php echo $crcount?></span></a>
 							</li>
 							<li>
-								<a href="stransactions_cancelled_rentals.php"><i class="fa fa-ban"></i>Cancelled Rental<span<?php echo $cacount?></span></a>
+								<a href="stransactions_cancelled_rentals.php"><i class="fa fa-ban"></i>Cancelled Rental<span><?php echo $cacount?></span></a>
 							</li>
 						</ul>
 					</div>
@@ -198,26 +203,59 @@ require_once('connection.php');
                                 <th class = "text-center">Date Use</th>
                                 <th class = "text-center">Date Return</th>
                                 <th class = "text-center">Total Price</th>
+                                <th class = "text-center">Action</th>
 							</tr>
 						</thead>
+                    
 						<tbody>
                             <?php
 							if ($search_result->num_rows > 0) {
                                 while($row = $search_result->fetch_assoc()) {
-                                    $interval = 8; 
-                                    $totalPrice =  $row['price'] * $interval;
-                                    echo "<form method = 'post' >";
+                                    //echo "<form method = 'post' >";
                                     echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td></td><td class='product-details'><ul><h3 class='title'>" 
                                     . $row['name'] ."</h3><li>Brand: ".$row['brand']."</li>
                                     <li>Car Type: ".$row['car_type']."</li>
                                     <li>Fuel Type: ".$row['fuel_type']."</li>
                                     <li>Capacity: ".$row['seater']."</li></ul>
                                     </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-                                    <li>Email: ".$row['renter_email']."</li></ul></td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $totalPrice ."</td>\n";
+                                    <li>Email: ".$row['renter_email']."</li></ul></td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $row['total_amount'] ."</td>";
+                                    
+                                    $rentID = $row['rentID'];
+                                    
+                                    $sql2 = "select count(*) as is_Rated from feedback where rentID = ".$rentID." and type = 'Renter'";
+                                    $result = $con->query($sql2);
+                                        if ($result->num_rows > 0) { 
+                                            while($row = $result->fetch_assoc()) {
+                                                if($row['is_Rated'] == 0){
+                                                ?>
+                                                    <td class='product-category'>
+                                                        <form action="submit_rate4r.php" method="get">
+                                                            <button style = 'padding: 3% 7%;' type = 'submit' name ='rate_btn' value="<?php echo $rentID; ?>">Rate</button>
+                                                        </form>
+                                                    </td>
+                                                <?php
+                                                }
+                                                else{
+                                                    echo '<td class="product-category"><form action="view_rate4r_s.php" method="get"><button style = "padding: 3% 7%;" type="submit" name="view_rrate_btn" value="'.$rentID.'">View Renter Rating</button></form>';
+                                                    $sql1 = "select if(rating is null, 0, 1) as is_Rated_byb from feedback where rentID=".$rentID." and type='Owner'";
+                                                    $result = $con->query($sql1);
+                                                    if ($result->num_rows > 0) { 
+                                                    while($row = $result->fetch_assoc()) {
+                                                            if($row['is_Rated_byb'] == 1){
+                                                                echo '<form action="view_rate4o_s.php" method="get"><button style = "padding: 3% 7%;" type="submit" name="view_orate_btn" value="'.$rentID.'">View Owner Rating</button></form>';
+                                                            }
+                                                        }
+                                                    }
+                                                    echo '</td>';
+                                                }
+                                            }
+                                        }
+                                    echo "\n";
+                                    echo '';
                                 }
-    }
+                            }
+                                
 ?>
-
 						</tbody>
 					</table>
 					
@@ -228,7 +266,6 @@ require_once('connection.php');
 	
 	<!-- Container End -->
 </section>
-
 
   <!-- JAVASCRIPTS -->
   <script src="plugins/jquery/jquery.min.js"></script>
@@ -244,7 +281,73 @@ require_once('connection.php');
   <script src="plugins/smoothscroll/SmoothScroll.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
   <script src="js/scripts.js"></script>
+<!-- Modal -->
+<!--
+<div id="myModal" style="block" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-image: linear-gradient(to right, #44A08D, #093637)"> -->
+                <!-- yun violet shit  linear-gradient(to right, #24243e, #302b63)-->
+                <!-- <img src="images/logo.png" alt="" style="width: 20%; margin: 0 3% 0 0;">
+                <h3 class="name" id="exampleModalLabel" style=" margin: 3% 0 1% 5%; color: white; font-family: Verdana, Geneva, sans-serif">Send Us Some Feedback</h3>
+                <span onclick="document.getElementById('myModal').style.display='none'" class="w3-button w3-display-topright">&times;</span> 
+            </div>
+            <div class="modal-body text-center w-100">
+                <div class="media-body" id="modal_body"> -->
+                    <!-- Image -->
+                    <!--<div id="modalimage">
+                    </div>
+                    
+                    <div class="name"> -->
+                        <!-- Name -->
+                        <!-- <h5 id="car_name"></h5>
+                    </div>
+                    
+                    
+                    <div class="review-submission">
 
+                        <h3 class="tab-title">How was the renter?</h3> -->
+                        
+                        
+                        <!-- Rate -->
+                        <!-- <div class="review-submit"> -->
+                        <!-- FORM START -->
+                        <!-- <form method="get" id="rate_form" > --> 
+                            <!-- Ratings -->
+                            <!-- <div class="rate">
+                                <div class ="rating" style = "text-align:center">
+                                    <div class="rate">
+                                        <input type="radio" id="star5" name="rate" value="5" />
+                                        <label for="star5" title="Awesome - 5 stars">5 stars</label>
+                                        <input type="radio" id="star4" name="rate" value="4" />
+                                        <label for="star4" title="Pretty Cool - 4 stars">4 stars</label>
+                                        <input type="radio" id="star3" name="rate" value="3" />
+                                        <label for="star3" title="Meh - 3 stars">3 stars</label>
+                                        <input type="radio" id="star2" name="rate" value="2" />
+                                        <label for="star2" title="Pretty Bad - 2 stars">2 stars</label>
+                                        <input type="radio" id="star1" name="rate" value="1" />
+                                        <label for="star1" title="Sucks - 1 star">1 star</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12"> -->
+                                <!-- Comment Message -->
+                                <!-- <textarea name="review" id="review" rows="10" class="form-control" placeholder="Message"></textarea>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+           
+            <div class="modal-footer"> -->
+                <!-- Buttons -->
+                <!-- <button type="button" class="btn btn-secondary" onclick="document.getElementById('myModal').style.display='none'">Close</button>
+                <button type ="submit" form="rate_form" class="btn btn-primary" name="rate_form_submit" value="" onclick="document.getElementById('rate_form').submit();">Submit</button>
+            </div>        
+        </div>
+    </div>
+</div> -->
 </body>
 
 </html>

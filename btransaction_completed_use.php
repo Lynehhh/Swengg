@@ -43,6 +43,7 @@ require_once('connection.php');
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src='http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css' rel="stylesheet"></script>
     <style>
         .mb-20 {
             margin-bottom: 20px;
@@ -50,7 +51,7 @@ require_once('connection.php');
         .mt-30{
             margin-top: 30px;
         }
-    </style>
+</style>
 
 </head>
 
@@ -62,12 +63,12 @@ require_once('connection.php');
 ===================================-->
 <?php
             $email = $_SESSION['email'];
-            $query = " SELECT re.rentID,  ci.location, c.name, re.total_amount, re.due_date, re.status, re.date_use, r.date_return, 
-                r.renter_email, r.owner_email, u.firstname, u.lastname FROM rentals re JOIN reservation_requests r ON re.reqID = r.reqID JOIN car_images ci ON r.carID = ci.carID JOIN catalogue c ON c.carID = ci.carID JOIN users u ON r.owner_email = u.email 
-                            WHERE r.renter_email = '".$email."' 
-                            AND re.status = 'Completed Use'
-                            GROUP BY re.rentID
-                            ORDER BY re.date_use asc";
+            $query = "SELECT re.rentID,  ci.location, c.name, re.total_amount, re.due_date, re.status, re.date_use, r.date_return, c.brand, c.fuel_type, c.car_type, c.seater, c.carID,
+           r.renter_email, r.owner_email, u.firstname, u.lastname FROM rentals re JOIN reservation_requests r ON re.reqID = r.reqID JOIN car_images ci ON r.carID = ci.carID JOIN catalogue c ON c.carID = ci.carID JOIN users u ON r.owner_email = u.email
+                       WHERE r.renter_email = '".$email."' 
+                       AND re.status = 'Completed Use'
+                       group by re.rentid
+                       order by re.date_return desc";
             $search_result = filterTable($query);
         
        
@@ -206,18 +207,51 @@ require_once('connection.php');
                             <?php
 							if ($search_result->num_rows > 0) {
                                 while($row = $search_result->fetch_assoc()) {
-                                    $interval = 8; 
-                                    $totalPrice =  $row['price'] * $interval;
-                                    echo "<form method = 'post' >";
+                                    //echo "<form method = 'post' >";
                                     echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td></td><td class='product-details'><ul><h3 class='title'>" 
                                     . $row['name'] ."</h3><li>Brand: ".$row['brand']."</li>
                                     <li>Car Type: ".$row['car_type']."</li>
                                     <li>Fuel Type: ".$row['fuel_type']."</li>
                                     <li>Capacity: ".$row['seater']."</li></ul>
                                     </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-                                    <li>Email: ".$row['renter_email']."</li></ul></td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $totalPrice ."</td>\n";
+                                    <li>Email: ".$row['renter_email']."</li></ul></td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td>";
+                                    
+                                    $rentID = $row['rentID'];
+                                    
+                                    $sql2 = "select count(*) as is_Rated from feedback where rentID = ".$rentID." and type = 'Owner'";
+                                    $result = $con->query($sql2);
+                                        if ($result->num_rows > 0) { 
+                                            while($row = $result->fetch_assoc()) {
+                                                if($row['is_Rated'] == 0){
+                                                ?>
+                                                    <td class='product-category'>
+                                                        <form action="submit_rate4o.php" method="get">
+                                                            <button style = 'padding: 3% 7%;' type = 'submit' name ='rate_btn' value="<?php echo $rentID; ?>">Rate</button>
+                                                        </form>
+                                                    </td>
+                                                <?php
+                                                }
+                                                else{
+                                                    echo '<td class="product-category">';
+                                                    $sql1 = "select if(rating is null, 0, 1) as is_Rated_byb from feedback where rentID=".$rentID." and type='Renter'";
+                                                    $result = $con->query($sql1);
+                                                    if ($result->num_rows > 0) { 
+                                                    while($row = $result->fetch_assoc()) {
+                                                            if($row['is_Rated_byb'] == 1){
+                                                                echo '<form action="view_rate4r_b.php" method="get"><button style = "padding: 3% 7%;" type="submit" name="view_rrate_btn" value="'.$rentID.'">View Renter Rating</button></form>';
+                                                            }
+                                                        }
+                                                    }
+                                                                echo '<form action="view_rate4o_b.php" method="get"><button style = "padding: 3% 7%;" type="submit" name="view_orate_btn" value="'.$rentID.'">View Owner Rating</button></form>';
+                                                           
+                                                    echo '</td>';
+                                                }
+                                            }
+                                        }
+                                    echo "\n";
+                                    echo '';
                                 }
-    }
+                            }
 ?>
 
 						</tbody>

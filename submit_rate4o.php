@@ -102,13 +102,13 @@
                 $sql = "select concat( u.firstname , ' ' , u.lastname) as fullname
                         from rentals r
                         join reservation_requests rr on r.reqID = rr.reqID
-                        join users u on rr.renter_email = u.email
+                        join users u on rr.owner_email = u.email
                         where r.rentID = ".$_SESSION['rate_rent'];
                 
                 if($result = $con->query($sql)){
                     if ($result->num_rows > 0) { 
                         while($row = $result->fetch_assoc()){
-                            $renter_name = $row['fullname'];
+                            $owner_name = $row['fullname'];
                         }
                     }
                 }
@@ -123,16 +123,16 @@
                 <div class="pmd-card-media text-center">
                     <h1 class="card-title mt-30" name="">Give Us a Feedback!</h1>
                     <img src="http://propeller.in/assets/images/profile-pic.png" width="500" height="666" class="img-fluid mt-30 mb-20">
-                    <h2 class="card-title" name=""><?php echo $renter_name; ?></h2>	
+                    <h2 class="card-title" name=""><?php echo $owner_name; ?></h2>	
                 </div>
                 
                 <div class="card-body text-center">
                     <div class="review-submission">
-                        <h3 class="tab-title">Rate this Renter</h3>
+                        <h3 class="tab-title">Rate Your Experience</h3>
                         <!-- Rate -->
                         <div class="review-submit">
                             <!-- FORM START -->
-                            <form method="get" action="rrate_submit_process.php" id="form1">
+                            <form method="get" action="orate_submit_process.php" id="form1">
                                 <!-- Ratings -->
                                 <div class ="rating" style = "margin-left: 38%;">
                                     <div class="rate">

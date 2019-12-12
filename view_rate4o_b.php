@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
 <?php
-    require_once('connection.php');
-    session_start(); ?>
+        require_once('connection.php');
+ ?>
 
 <html lang="en">
 <head>
@@ -42,49 +42,18 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <style>
-        .mb-20 {
-            margin-bottom: 20px;
-        }
-        .mt-30{
-            margin-top: 30px;
-        }
-        .rate {
-                float: left;
-                height: 46px;
-                padding: 0 10px;
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            .mb-20 {
+                margin-bottom: 20px;
             }
-            .rate:not(:checked) > input {
-                position:absolute;
-                top:-9999px;
+            .mt-30{
+                margin-top: 30px;
             }
-            .rate:not(:checked) > label {
-                float:right;
-                width:1em;
-                overflow:hidden;
-                white-space:nowrap;
-                cursor:pointer;
-                font-size:30px;
-                color:#ccc;
+            .checked {
+              color: orange;
             }
-            .rate:not(:checked) > label:before {
-                content: '★ ';
-            }
-            .rate > input:checked ~ label {
-                color: #ffc700;    
-            }
-            .rate:not(:checked) > label:hover,
-            .rate:not(:checked) > label:hover ~ label {
-                color: #deb217;  
-            }
-            .rate > input:checked + label:hover,
-            .rate > input:checked + label:hover ~ label,
-            .rate > input:checked ~ label:hover,
-            .rate > input:checked ~ label:hover ~ label,
-            .rate > label:hover ~ input:checked ~ label {
-                color: #c59b08;
-            }
-    </style>
+        </style>
 
 </head>
 
@@ -95,25 +64,33 @@
 <!--=================================
 =            Single Blog            =
 ==================================-->
-    
-    <?php 
-            if(isset($_GET['rate_btn'])){
-                $_SESSION['rate_rent'] = $_GET['rate_btn'];
-                $sql = "select concat( u.firstname , ' ' , u.lastname) as fullname
+        <?php 
+            if(isset($_GET['view_orate_btn'])){
+                
+                $sql = "select concat( u.firstname , ' ' , u.lastname) as fullname, f.rating, if(f.comment is null, '<null>', f.comment) as comment, f.date, rr.carID, ci.location, c.name
                         from rentals r
                         join reservation_requests rr on r.reqID = rr.reqID
                         join users u on rr.renter_email = u.email
-                        where r.rentID = ".$_SESSION['rate_rent'];
+                        join feedback f on r.rentID = f.rentID
+                        join car_images ci on ci.carID = rr.carID
+                        join catalogue c on c.carID = ci.carID
+                        where r.rentID = ".$_GET['view_orate_btn']." and f.type='Owner'";
                 
                 if($result = $con->query($sql)){
                     if ($result->num_rows > 0) { 
                         while($row = $result->fetch_assoc()){
                             $renter_name = $row['fullname'];
+                            $rating = $row['rating'];
+                            $comment = $row['comment'];
+                            $date = $row['date'];
+                            $carimage = $row['location'];
+                            $carname = $row['name'];
                         }
                     }
                 }
                 
         ?>
+
     <div class="container mt-30 d-flex justify-content-center">
         <div class="col-lg-8">
           <!-- Media, Title and Actions Card -->
@@ -121,48 +98,52 @@
 
                 <!-- Card Media -->
                 <div class="pmd-card-media text-center">
-                    <h1 class="card-title mt-30" name="">Give Us a Feedback!</h1>
+                    <h1 class="card-title mt-30" name="">Owner Rating</h1>
                     <img src="http://propeller.in/assets/images/profile-pic.png" width="500" height="666" class="img-fluid mt-30 mb-20">
-                    <h2 class="card-title" name=""><?php echo $renter_name; ?></h2>	
+                    <h4><?php echo $carname; ?></h4>
+                    <h2 class="card-title" name="">By <?php echo $renter_name; ?></h2>
+                    <p class="card-subtitle" name=""><?php echo $date; ?></p>		
                 </div>
                 
                 <div class="card-body text-center">
                     <div class="review-submission">
-                        <h3 class="tab-title">Rate this Renter</h3>
+                        
                         <!-- Rate -->
                         <div class="review-submit">
-                            <!-- FORM START -->
-                            <form method="get" action="rrate_submit_process.php" id="form1">
-                                <!-- Ratings -->
-                                <div class ="rating" style = "margin-left: 38%;">
-                                    <div class="rate">
-                                        <input type="radio" id="star5" name="rate" value="5" />
-                                        <label for="star5" title="Awesome - 5 stars">5 stars</label>
-                                        <input type="radio" id="star4" name="rate" value="4" />
-                                        <label for="star4" title="Pretty Cool - 4 stars">4 stars</label>
-                                        <input type="radio" id="star3" name="rate" value="3" />
-                                        <label for="star3" title="Meh - 3 stars">3 stars</label>
-                                        <input type="radio" id="star2" name="rate" value="2" />
-                                        <label for="star2" title="Pretty Bad - 2 stars">2 stars</label>
-                                        <input type="radio" id="star1" name="rate" value="1" />
-                                        <label for="star1" title="Sucks - 1 star">1 star</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <!-- Comment Message -->
-                                    <textarea name="review" id="review" rows="10" class="form-control" placeholder="Comments"></textarea>
-                                </div>
-                            </form>
-                            <!-- FORM END -->
+                            <!-- Ratings -->
+                            <div class ="rating" style = "font-size: 3em;">
+                                <?php 
+                                    $lighted_star = $rating;
+                                    $unlighted_star = 5 - $rating;
+
+                                    while($lighted_star > 0){
+                                        echo "<span class='fa fa-star checked'></span>";
+                                        $lighted_star = $lighted_star - 1;
+                                    }   
+                                    while($unlighted_star > 0){
+                                        echo "<span class='fa fa-star'></span>";
+                                        $unlighted_star = $unlighted_star - 1;
+                                    }
+                                ?>
+                            </div>
+                            <div class="col-12">
+                                <!-- DISPLAY COMMENT HERE IF HAVE-->
+                                <?php if($comment <> '<null>'){ ?>
+                                    <p><?php echo $comment; ?></p>
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Card Actions -->
                 <div class="card-footer text-right">
+                    <!-- FORM START -->
+                    <form action="btransaction_completed_use.php">
                     <!-- Buttons -->
-                    <button type="submit" name="rate_form_submit" form="form1" class="btn btn-primary">Submit Review</button>
-                    <button type="button" class="btn btn-secondary">Back</button>
+                        <button type="submit" class="btn btn-secondary">Back</button>
+                    </form>
+                    <!-- FORM END -->
                 </div>
             </div>
         </div>       
