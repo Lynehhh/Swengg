@@ -2,12 +2,8 @@
 error_reporting(E_ALL ^ E_NOTICE);
 session_start();
 require_once('connection.php');
-
-
-
 $userType = $_SESSION['user_type'];
 $email = $_SESSION['email'];
-
 ?>
 
 <!DOCTYPE html>
@@ -69,7 +65,6 @@ $email = $_SESSION['email'];
         .bg-div{
             background: rgba(225, 225, 225, .9);
         }
-
     </style>
 </head>
 
@@ -104,6 +99,8 @@ $email = $_SESSION['email'];
 								<div class="dropdown-menu dropdown-menu-right">
 									<a class="dropdown-item" href="sviewlisting.php">My Listings</a>
 									<a class="dropdown-item" href="listing.php">Add New Listing</a>
+									<a class="dropdown-item" href="sperformance_dashboard.php">Performance Dashboard</a>
+
 								</div>
 							</li>
 							<?php } ?>
@@ -125,8 +122,7 @@ $email = $_SESSION['email'];
                                     My Profile <span><i class="fa fa-angle-down"></i></span></a>
                                 <div class="dropdown-menu dropdown-menu-right">
 									<a class="dropdown-item" href="viewprofile.php">View Profile</a>
-                                    <a class="dropdown-item" href="sperformance_dashboard.php">Performance Dashboard</a>
-									<a class="dropdown-item" href="">Log Out</a>
+									<a class="dropdown-item" href="logout.php">Log Out</a>
 								</div>
 							</li>
 
