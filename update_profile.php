@@ -37,11 +37,14 @@
         .mb-20 {
             margin-bottom: 20px;
         }
+        button{
+            width: 100%;
+        }
     </style>
 
 </head>
 
-<body class="body-wrapper">
+<body class="body-wrapper" background = "images\background2.jpg" style="background-repeat: no-repeat; background-size: cover;">
 
 
 <?php include 'topbar.php' ?>
@@ -53,7 +56,6 @@ $address =  $_SESSION['address'];
 $city =  $_SESSION['city'];
 $birthday =  $_SESSION['birthday']; 
 $usertype =  $_SESSION['user_type'];
-
     ?>
 
 <!--==================================
@@ -64,25 +66,24 @@ $usertype =  $_SESSION['user_type'];
 	<div class="container">
         <form method="POST" action="" enctype="multipart/form-data">
             <div class="row">
-                <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0">
+                    <!--  Image 
                     <div class="widget user-dashboard-menu">
                         <h3 class="widget-header user mb-20">User Photo</h3>
-                        <!--  Image -->
                         <img src="images/user/user-thumb.jpg" style="width:auto;height:250px;">
                         
-                        <!-- Upload Image -->
                         <div class="form-group choose-file mt-30">
                             <h5 for="comunity-name">Upload Images</h5>
                             <input type="file" name="files[]" class="form-control-file d-inline" multiple>
                          </div>
-                    </div>
+                    </div> -->
 
                     </div>
 
                     
-                    <div class="col-md-4 offset-md-1 col-lg-5 offset-lg-0">
+                    <div class="col-md-4 offset-md-1 col-lg-8 offset-lg-0">
                 <div class="widget">
-                    <div class="form-group">
+                    <div class="form-group p-5">
                     <div class="row mb-20">
                         <label for="comunity-name">First Name</label>
                         <input type="text" class="form-control" name = "firstname" placeholder="<?php echo $firstname; ?>">
@@ -118,13 +119,13 @@ $usertype =  $_SESSION['user_type'];
 
                         <!-- Buttons -->
                         <div class="row">
-                            <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+                            <div class="col-md-5 offset-md-1 col-lg-4 offset-lg-0">
                                 <button class="btn btn-success" type = "submit" name="update" value="Update" formaction = "processeditprofile.php">Update</button>
                             </div>
-                            <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+                            <div class="col-md-5 offset-md-1 col-lg-4 offset-lg-0">
                                 <button class="btn btn-danger" name= "upgrade" formaction = "processupgrade.php">Upgrade</button>
                             </div>
-                            <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+                            <div class="col-md-5 offset-md-1 col-lg-4 offset-lg-0">
                                 <button type="button" class="btn btn-primary"onclick="history.back()">Back</button>
                             </div>
                         </div>
