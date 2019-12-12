@@ -6,6 +6,7 @@ if(isset($_GET['ownerprofile']))
 {
     $email = $_GET['ownerprofile'];
     $_SESSION['viewprofile'] = $email;
+    echo $_SESSION['viewprofile'];
 }
 
 else if(isset($_POST['buyerprofile'])){
@@ -276,7 +277,7 @@ $_SESSION['viewprofile'] = $email;
         
         
         <?php
-          $query="    SELECT firstname, lastname, streetadd, city, birthday, usertype FROM users
+          $query="    SELECT firstname, lastname, streetadd, city,  usertype FROM users
                 WHERE email ='".$_SESSION['viewprofile']."'";
 			$result =  $con->query($query);
             if ($result->num_rows > 0) {
@@ -285,7 +286,6 @@ $_SESSION['viewprofile'] = $email;
                 $lastname = $row['lastname'];
                 $address = $row['streetadd'];
                 $city = $row['city'];
-                $birthday = $row['birthday'];
                 $usertype = $row['usertype'];
                 $_SESSION['firstname'] = $firstname; 
                 $_SESSION['lastname'] = $lastname; 

@@ -272,7 +272,7 @@ if(isset($_POST['view']))
         
         
         <?php
-          $query="    SELECT firstname, lastname, streetadd, city, birthday, usertype FROM users
+          $query="    SELECT firstname, lastname, streetadd, city, usertype FROM users
                 WHERE email ='".$_SESSION['email']."'";
 			$result =  $con->query($query);
             if ($result->num_rows > 0) {
@@ -281,7 +281,6 @@ if(isset($_POST['view']))
                 $lastname = $row['lastname'];
                 $address = $row['streetadd'];
                 $city = $row['city'];
-                $birthday = $row['birthday'];
                 $usertype = $row['usertype'];
                 $_SESSION['firstname'] = $firstname; 
                 $_SESSION['lastname'] = $lastname; 
