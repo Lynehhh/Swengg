@@ -32,7 +32,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
     <style>
-
     </style>
     
 
@@ -79,7 +78,7 @@
 				<!-- Advance Search -->
 				<div class="advance-search">
                     <!-- PHP FOR FORM -->
-					<form method = "post" action = "new_catalog.php">
+					<form method = "get" action = "new_catalog.php">
                         <div style="margin-top: 25px;"> <!-- For magin spacing-->
                             <div class="row" style="margin-top: 25px;">
                                 <!-- PHP FOR BRAND SEARCHING -->
@@ -112,11 +111,8 @@
                                     <section class="block d-flex">
                                         <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" name = "car_type">
                                             <option disabled="disabled" selected="selected">Select Vehicle Type<i class="fa fa-angle-down"></i></option>
-                                            <option value="SUV">SUV</option>
-                                            <option value="Sedan">Sedan</option>
-                                            <option value="Pickup">Pickup</option>
-                                            <option value="Minivan">Minivan</option>
-                                            <option value="Campervan">Campervan</option>
+                                            <option value="'SUV'">SUV</option>
+                                            <option value="'Truck'">Truck</option>
                                         </select>									
                                     </section>
                                 </div>
@@ -127,8 +123,8 @@
                                     <div class="block d-flex">
                                         <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" name = "fuel_type">
                                             <option disabled="disabled" selected="selected">Select Fuel Type</option>
-                                            <option value="Gasoline">Gasoline</option>
-                                            <option value="Diesel">Diesel</option>
+                                            <option value="'Gas'">Gasoline</option>
+                                            <option value="'Diesel'">Diesel</option>
                                         </select>	
                                     </div>
                                 </div>
@@ -144,10 +140,10 @@
                                 <div class="col-lg-6 col-md-12" style="margin-top: 30px;">
                                     <div class="d-flex">		
                                         <!-- Search Button -->
-                                        <button class="btn btn-success" name = "search"  value = "search" style="margin-right: 20%;">SEARCH</button>
+                                        <button class="btn btn-success" name = "homesearch"  value = "search" style=" margin-right: 20%;">SEARCH</button>
                                         		
                                         <!-- PROCEED Button -->
-                                        <button class="btn btn-main btn-primary" name = "proceed"  value = "proceed" style="">PROCEED</button>
+                                        <button class="btn btn-main btn-primary" name = "proceed"  value = "proceed" style="margin-right: 20%;">PROCEED</button>
                                     
                                     </div>
                                 </div>
@@ -185,6 +181,3 @@
 </body>
 
 </html>
-
-
-
