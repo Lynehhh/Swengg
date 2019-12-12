@@ -1,7 +1,8 @@
 <?php 
-include 'topbar.php';
     //session_start();
     require_once("connection.php"); 
+    include 'topbar.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,7 +78,7 @@ include 'topbar.php';
     function submit_confirm(){
         var retVal = confirm("Do you want to continue ?");
                if( retVal == true ) {
-                  window.location.href = 'http://localhost/car_details_process.php';
+                  window.location.href = 'http://localhost/SWENGG2/car_details_process.php';
                }
     }
         </script>
@@ -126,9 +127,8 @@ include 'topbar.php';
 </head>
 <body class="body-wrapper">
     <?php 
-    include 'topbar.php';
+
     //session_start();
-    require_once("connection.php"); 
     
         if(isset($_GET['searched_car'])){
             $_SESSION['searched_car'] = $_GET['searched_car'];
@@ -150,7 +150,6 @@ include 'topbar.php';
                   <li data-target="#myCarousel" data-slide-to="1"></li>
                   <li data-target="#myCarousel" data-slide-to="2"></li>
                 </ol>
-
                 <!-- Wrapper/ Images for slides -->
                 <div class="carousel-inner ">';
                 
@@ -169,7 +168,6 @@ include 'topbar.php';
                                     echo "<div class='item'>
                                     <img src='".$row["location"]."' style='width:100%;height:250px;'>
                                     </div>";
-
                       
                                 }
                             }
@@ -181,7 +179,6 @@ include 'topbar.php';
                             }
                   
                 echo '</div>
-
                 <!-- Left and right controls -->
                 <a class="left carousel-control" href="#myCarousel" data-slide="prev">
                   <span class="glyphicon glyphicon-chevron-left"></span>
@@ -193,7 +190,7 @@ include 'topbar.php';
                 </a>
               </div>
         </div>';
-        
+      
 
          $sql2="select oemail, name, price, brand, car_type, fuel_type, seater, description, ofirst_name from view_catalogue where carID=".$_SESSION['searched_car'];
           $result = $con->query($sql2);
@@ -210,6 +207,9 @@ include 'topbar.php';
                         $_SESSION['price'] = $row['price'];
                     }
                 }
+    
+
+        
         echo '<div class="row">
             <div class="col-md-4 offset-md-1 col-lg-7 offset-lg-0">
                 <div class="product-details mb-20">
@@ -273,13 +273,26 @@ include 'topbar.php';
                             <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
 								<h3 class="tab-title">Product Review</h3>
 								<div class="product-review">
-							  		<div class="media">
-							  			<!-- Avater -->
-							  			<img src="images/user/user-thumb.jpg" alt="avater">
+                                      <div class="media">
+                                    
+                                          <!-- Avater -->';
+                                          $carfeedback =  "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.owner_email, rr.carID, u.firstname , u.lastname  
+                                            FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID
+                                            LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID
+                                            LEFT JOIN users u ON rr.renter_email = u.email
+                                            WHERE  f.type = 'Owner' AND rr.carID = ". $_SESSION['searched_car'];
+
+                                    $result2 = mysqli_query($con, $carfeedback);
+                                    if ($result2->num_rows > 0) {
+                                        while($row = $result2->fetch_assoc()) { 
+
+                                     
+							  			echo '<img src="images/user/user-thumb.jpg" alt="avater">
 							  			<div class="media-body">
 							  				<!-- Ratings -->
-							  				<div class="ratings">
-							  					<ul class="list-inline">
+                                              <div class="ratings">';
+                                        if($row['rating'] == 5){
+							  					echo '<ul class="list-inline">
 							  						<li class="list-inline-item">
 							  							<i class="fa fa-star"></i>
 							  						</li>
@@ -295,27 +308,91 @@ include 'topbar.php';
 							  						<li class="list-inline-item">
 							  							<i class="fa fa-star"></i>
 							  						</li>
-							  					</ul>
-							  				</div>
+                                                  </ul>';
+                                        }
+
+                                        else if($row['rating'] == 4){
+                                            echo '<ul class="list-inline">
+                                                <li class="list-inline-item">
+                                                    <i class="fa fa-star"></i>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <i class="fa fa-star"></i>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <i class="fa fa-star"></i>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <i class="fa fa-star"></i>
+                                                </li>
+                                            </ul>';
+                                  }
+                                    else if($row['rating'] == 3){
+                                        echo '<ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <i class="fa fa-star"></i>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <i class="fa fa-star"></i>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <i class="fa fa-star"></i>
+                                            </li>
+                                        </ul>';
+                              }
+                              else if($row['rating'] == 2){
+                                echo '<ul class="list-inline">
+                                    <li class="list-inline-item">
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                </ul>';
+                      }
+                            else if($row['rating'] == 1){
+                                echo '<ul class="list-inline">
+                                    <li class="list-inline-item">
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                
+                                </ul>';
+                      }
+                                                  
+							  				echo '</div>
 							  				<div class="name">
-							  					<h5>Jessica Brown</h5>
+							  					<h5> '.$row['firstname'] .' '. $row['lastname'].' </h5>
 							  				</div>
 							  				<div class="date">
-							  					<p>Mar 20, 2018</p>
+							  					<p>'.$row['date'] .'</p>
 							  				</div>
 							  				<div class="review-comment">
 							  					<p>
-							  						Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape riamipsa eaque.
-							  					</p>
-							  				</div>
-							  			</div>
-							  		</div>
-							  		<div class="review-submission">
+                                                  '.$row['comments'] .'	
+                                                  </p>
+                                              </div>
+                                              </div>
+                                      
+                                   '	;
+                                            }
+                                        }
+                                        else{
+                                            echo '0 results';
+                                            echo $_SESSION['searched_car'];
+                                        }
+                                           
+                                          
+                                
+                            	
+                                        
+                                    
+                                      
+                                
+
+
+							  	echo '		</div> <div class="review-submission">
 							  			<h3 class="tab-title"></h3>
-						  				<!-- Rate -->
-						  				<div class="rate">
-						  					<div class="starrr"></div>
-						  				</div>
+						  				
 						  				<div class="review-submit">
 						  					
 						  				</div>
@@ -344,7 +421,6 @@ include 'topbar.php';
                             </div>
                         </form>                        
                     </div>
-
                     <!-- Guests 
                     <div class="form-group">
                         <label for="comunity-name">Guests</label>
