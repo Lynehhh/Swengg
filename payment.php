@@ -98,21 +98,67 @@ require_once("connection.php");
                     $_SESSION['description'] = $description; 
                 }
         }
-        $imageQuery="SELECT * from car_images ci JOIN reservation_requests r ON ci.carID = r.carID
-        WHERE r.reqID = $reqID";
-        $result1 =  $con->query($imageQuery);
-        if ($result1->num_rows > 0) {
-        while($row = $result1->fetch_assoc()) {
     ?>
-    <div class="container">
-        <div class="justify-content-center mb-20">
-            <img src="<?php echo $row['location']; ?>" height="150px;" width="150px;">
+    <div class="container mt-30">
+        <div class="d-flex justify-content-center mb-20">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width:50%; height: auto;">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                  <li data-target="#myCarousel" data-slide-to="1"></li>
+                  <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+                <!-- Wrapper/ Images for slides -->
+                <!-- PLEASE RECHECK KUNG TAMA START-->
+                <div class="carousel-inner ">;
+                <?php
+                $imageQuery="SELECT * from car_images ci JOIN reservation_requests r ON ci.carID = r.carID
+                WHERE r.reqID = $reqID";
+                $result1 =  $con->query($imageQuery);
+                if ($result1->num_rows > 0) {
+                    while($row = $result1->fetch_assoc()) {
+                $ctr = 0;
+                 $sql1="select location from car_images where carID=".$_SESSION['searched_car'];
+                            $result = $con->query($sql1);
+                            if ($result->num_rows > 0) { 
+                            while($row = $result->fetch_assoc()){
+                                $ctr = $ctr + 1;
+                                if($ctr == 1){ ?>
+                                    <div class="item active">
+                    <img src="<?php $row["location"] ?>" style="width:100%;height:100%;">
+                    </div>;
+                    <?php
+                                }
+                                else{
+                                    echo "<div class='item'>
+                                    <img src='".$row["location"]."' style='width:100%;height:100%;'>
+                                    </div>";
+                      
+                                }
+                            }
+                                
+                           
+                            } 
+                            else {
+                                echo "NO PHOTOS AVAILABLE";
+                            }
+                    }
+            }
+                  ?>
+                    <!-- PLEASE RECHECK KUNG TAMA END-->
+                </div>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
         </div>
-        <?php
-            }
-            }
-            
-        ?>
+        
         <div class="row">
             <div class="col-md-4 offset-md-1 col-lg-7 offset-lg-0">
                 <div class="product-details mb-20">
