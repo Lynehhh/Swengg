@@ -388,7 +388,16 @@ if(isset($_POST['view']))
                                 <div class="row">
 
                                     <div class="col-md-12">
-                                    <!-- TAB CONTENT START -->      
+                                    <!-- TAB CONTENT START --> 
+                                    <?php 
+                                        if(isset($_GET['ownerprofile'])){
+                                            $email = $_GET['ownerprofile'];
+
+        $renterquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.renter_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.owner_email = u.email
+        WHERE rr.renter_email = 'lliam_sanchez@dlsu.edu.ph' AND f.type = 'Renter'";
+                                        $result = mysqli_query($con, $renterquery);
+                                        if ($result->num_rows > 0) {
+                                            while($row = $result->fetch_assoc()) { ?>
                                     <div class="product-review">
                                         <div class="media">
                                             <!-- Avater -->
@@ -415,60 +424,25 @@ if(isset($_POST['view']))
                                                     </ul>
                                                 </div>
                                                 <div class="name">
-                                                    <h5>Jessica Brown</h5>
+                                                    <h5><?php echo  $row['firstname'] . " " . $row['lastname']?></h5>
                                                 </div>
                                                 <div class="date">
-                                                    <p>Mar 20, 2018</p>
+                                                    <p><?php echo $row['date']?></p>
                                                 </div>
                                                 <div class="review-comment">
                                                     <p>
-                                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape riamipsa eaque.
+                                                        <?php echo $row['comments']?>
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- TAB CONTENT END -->
-                                    <!-- TAB CONTENT START -->      
-                                    <div class="product-review">
-                                        <div class="media">
-                                            <!-- Avater -->
-                                            <img src="images/user/user-thumb.jpg" alt="avater">
-                                            <div class="media-body">
-                                                <!-- Ratings -->
-                                                <div class="ratings">
-                                                    <ul class="list-inline">
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="name">
-                                                    <h5>Jessica Brown</h5>
-                                                </div>
-                                                <div class="date">
-                                                    <p>Mar 20, 2018</p>
-                                                </div>
-                                                <div class="review-comment">
-                                                    <p>
-                                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape riamipsa eaque.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <?php
+                                            }
+                                        }
+                                        else{
+                                           echo "0 Results";
+                                        }  ?>
                                     <!-- TAB CONTENT END -->
                                     
                                     </div>
@@ -477,7 +451,15 @@ if(isset($_POST['view']))
                                     <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
                                         <div class="row">
                                                 <div class="col-md-12">
-                                                    <!-- TAB CONTENT START -->      
+                                                    <!-- TAB CONTENT START --> 
+                                                    <?php 
+
+                $ownerquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.owner_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.renter_email = u.email
+                WHERE rr.owner_email = 'lliam_sanchez@dlsu.edu.ph' AND f.type = 'Owner'";
+                            $result1 = mysqli_query($con, $ownerquery);
+                            if ($result1->num_rows > 0) {
+                                while($row = $result1->fetch_assoc()) {
+                                                    ?>
                                     <div class="product-review">
                                         <div class="media">
                                             <!-- Avater -->
@@ -504,60 +486,27 @@ if(isset($_POST['view']))
                                                     </ul>
                                                 </div>
                                                 <div class="name">
-                                                    <h5>Jessica Brown</h5>
+                                                    <h5><?php echo  $row['firstname'] . " " . $row['lastname']?></h5>
                                                 </div>
                                                 <div class="date">
-                                                    <p>Mar 20, 2018</p>
+                                                    <p><?php echo $row['date']?></p>
                                                 </div>
                                                 <div class="review-comment">
                                                     <p>
-                                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape riamipsa eaque.
+                                                        <?php echo $row['comments']?>
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- TAB CONTENT END --> 
-                                    <!-- TAB CONTENT START -->      
-                                    <div class="product-review">
-                                        <div class="media">
-                                            <!-- Avater -->
-                                            <img src="images/user/user-thumb.jpg" alt="avater">
-                                            <div class="media-body">
-                                                <!-- Ratings -->
-                                                <div class="ratings">
-                                                    <ul class="list-inline">
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="name">
-                                                    <h5>Jessica Brown</h5>
-                                                </div>
-                                                <div class="date">
-                                                    <p>Mar 20, 2018</p>
-                                                </div>
-                                                <div class="review-comment">
-                                                    <p>
-                                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape riamipsa eaque.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <?php
+                                            }
+                                        }
+                                        else{
+                                           echo "0 Results";
+                                        } 
+                                        }
+                                        ?>
                                     <!-- TAB CONTENT END --> 
 
                                                 </div>
