@@ -109,9 +109,7 @@ require_once('connection.php');
                             }
                         }
                     }
-
                 
-
                     $ppQuery = "SELECT count(r.rentID) AS ppcount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Unpaid'";
                     $result2 = mysqli_query($con,$ppQuery);
                     if($result2 = $con->query($ppQuery)){
@@ -121,7 +119,6 @@ require_once('connection.php');
                             }
                         }
                     }
-
                     $puQuery = "SELECT count(r.rentID) AS pucount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Pending Use'";
                     $result3 = mysqli_query($con,$puQuery);
                     if($result3 = $con->query($puQuery)){
@@ -131,8 +128,7 @@ require_once('connection.php');
                             }
                         }
                     }
-
-                    $crQuery = "SELECT count(r.rentID) AS crcount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Completed'";
+                    $crQuery = "SELECT count(r.rentID) AS crcount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Completed Use'";
                     $result4 = mysqli_query($con,$crQuery);
                     if($result4 = $con->query($crQuery)){
                         if ($result4->num_rows > 0) { 
@@ -141,7 +137,6 @@ require_once('connection.php');
                             }
                         }
                     }
-
                     $caQuery = "SELECT count(r.rentID) AS cacount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Cancelled'";
                     $result5 = mysqli_query($con,$caQuery);
                     if($result5 = $con->query($caQuery)){
@@ -151,7 +146,6 @@ require_once('connection.php');
                             }
                         }
                     }
-
                     $orQuery = "SELECT count(r.rentID) AS orcount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Ongoing'";
                     $result6 = mysqli_query($con,$orQuery);
                     if($result6 = $con->query($orQuery)){

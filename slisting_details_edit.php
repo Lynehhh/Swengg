@@ -107,7 +107,7 @@ $description  =  $_SESSION['description'];
             <div class="col-md-4 offset-md-1 col-lg-7 offset-lg-0 mt-30">
                 <div class="content">
 						<div class="justify-content-center mb-20 ">
-                            <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width: auto; height: 500px;">
+                        <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width: 100%; height: 100%;">
                                 <!-- Indicators -->
                                 <ol class="carousel-indicators">
                                   <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -117,29 +117,32 @@ $description  =  $_SESSION['description'];
 
                                 <!-- Wrapper/ Images for slides -->
                                 <div class="carousel-inner ">
-                                     <?php 
-                                $ctr = 0;
-                                $query= "SELECT location FROM car_images WHERE carID =" .$carID;
-                        $result =  $con->query($query);
-                    if ($result->num_rows > 0) {
-                    while($row = $result->fetch_assoc()) {
-                        $ctr = $ctr + 1;
-                        if($ctr == 1){
-                            echo '<div class="item active">
-                                <img src="'.$row['location'].'" alt="Photo '.$ctr.'" style="width:100%; height: 300px;">
-                              </div>';
-                        }
-                        else{
-                            echo '<div class="item">
-                                <img src="'.$row['location'].'" alt="Photo '.$ctr.'" style="width:100%; height: 300px;">
-                              </div>';
-                        }
-                    
-            }
-        }
-                                ?>
-                                </div>
+                                    <div class="item active">
+                                        <?php echo "<img src='".$row["location"]."' style='width:auto;height: 100%;'>"; ?>
+                                    </div>
+                                    <?php
+                                        if(isset($_GET['searched_car'])){
+                                            $_SESSION['searched_car'] = $_GET['searched_car'];
+                                        }
+                                            $sql1="select location from car_images where carID=".$_SESSION['carID'];
+                                            $result = $con->query($sql1);
+                                            if ($result->num_rows > 0) { 
+                                            while($row = $result->fetch_assoc()) {
+                                        ?>
+                                      <div class="item">
+                                          <?php 
+                                                    echo "<img src='".$row["location"]."' style='width:100%;height:250px;'>";
+                                                ?>
+                                      </div>
+                                        <?php
+                                                    }
+                                            } 
+                                            else {
+                                                echo "NO PHOTOS AVAILABLE";
+                                            }
+                                      ?>
 
+                                </div>
                                 <!-- Left and right controls -->
                                 <a class="left carousel-control" href="#myCarousel" data-slide="prev">
                                   <span class="glyphicon glyphicon-chevron-left"></span>
@@ -151,15 +154,15 @@ $description  =  $_SESSION['description'];
                                 </a>
                               </div>
                         </div>
-                    <!-- Upload Vehicle Images -->
+                    <!-- Upload Vehicle Images 
                     <label for="comunity-name">Upload Vehicle Images</label>
                         <div class="form-group choose-file mb-20">
-                            <input type="file" name="files[]" class="form-control-file d-inline" id="input-file" multiple>
+                            <input type="file" name="files[]" class="form-control-file d-inline" multiple>
                          </div>
                     <label for="comunity-name">Upload Documents</label>
-                        <div class="form-group choose-file mb-20">
+                    <div class="form-group choose-file mb-20">
                             <input type="file" name="docs[]" class="form-control-file d-inline" multiple>
-                         </div>
+                         </div> -->
                     </div>
                 
                 
@@ -229,7 +232,7 @@ $description  =  $_SESSION['description'];
                                     $result3 = $con->query($selectAvailability);
                                 ?>
                                 <label for="comunity-name">Availability</label>
-                                <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" name = "fuel_type">
+                                <select class="nice-select w-100 form-control mb-2 mr-sm-2 mb-sm-0" name = "availability">
                                     <option selected="selected" disabled="disabled">Select Car Status</option>
                                     <?php while($row = $result3->fetch_assoc()) { ?>
                                     <option> <?php echo $row['status'];?> </option>
@@ -270,7 +273,7 @@ $description  =  $_SESSION['description'];
                             <button class="btn btn-danger" style="width: 100%;" name = "delete" formaction = "processdelete.php">Delete</button>
                         </div>
                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-                            <button class="btn btn-primary" style="width: 100%;" formaction = "slisting_details.php">Back</button>
+                            <button class="btn btn-primary" style="width: 100%;" formaction = "slisting_details.php" >Back</button>
                         </div>
                     </div>
                 </div>

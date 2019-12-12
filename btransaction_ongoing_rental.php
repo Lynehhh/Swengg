@@ -141,7 +141,7 @@ require_once('connection.php');
                         }
                     }
 
-                    $crQuery = "SELECT count(r.rentID) AS crcount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Completed'";
+                    $crQuery = "SELECT count(r.rentID) AS crcount, rr.renter_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.renter_email ='".$_SESSION['email']."' AND r.status = 'Completed Use'";
                     $result4 = mysqli_query($con,$crQuery);
                     if($result4 = $con->query($crQuery)){
                         if ($result4->num_rows > 0) { 
