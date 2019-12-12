@@ -6,7 +6,7 @@ $email = $_SESSION['email'];
 $query1 = "SELECT sum(amount) AS totalsales, month, year FROM auditsales WHERE month!= month(now()) AND year= year(now()) Group BY month,year"; 
 $result1 = mysqli_query($con, $query1);  
 
-$rating5 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 5";
+$rating5 ="SELECT count(f.rentID) AS count, rr.owner_email, f.type FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 5 AND f.type = 'Owner'";
 $search_result = mysqli_query($con, $rating5);
     if ($search_result->num_rows > 0) {
         while($row = $search_result->fetch_assoc()) {
@@ -16,7 +16,7 @@ $search_result = mysqli_query($con, $rating5);
     else{
         $count5 = 0;
     }
-    $rating4 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 4";
+    $rating4 ="SELECT count(f.rentID) AS count, rr.owner_email, f.type FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 4 AND f.type = 'Owner'";
     $search_result = mysqli_query($con, $rating4);
         if ($search_result->num_rows > 0) {
             while($row = $search_result->fetch_assoc()) {
@@ -26,7 +26,7 @@ $search_result = mysqli_query($con, $rating5);
         else{
             $count4 = 0;
         }
-        $rating3 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 3";
+        $rating3 ="SELECT count(f.rentID) AS count, rr.owner_email, f.type FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 3 AND f.type = 'Owner'";
         $search_result = mysqli_query($con, $rating3);
             if ($search_result->num_rows > 0) {
                 while($row = $search_result->fetch_assoc()) {
@@ -37,7 +37,7 @@ $search_result = mysqli_query($con, $rating5);
                 $count3 = 0;
             }
             
-        $rating2 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 2";
+        $rating2 ="SELECT count(f.rentID) AS count, rr.owner_email, f.type FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 2 AND f.type = 'Owner'";
         $search_result = mysqli_query($con, $rating2);
             if ($search_result->num_rows > 0) {
                 while($row = $search_result->fetch_assoc()) {
@@ -48,7 +48,7 @@ $search_result = mysqli_query($con, $rating5);
                 $count2 = 0;
             }
         
-            $rating1 ="SELECT count(f.rentID) AS count, rr.owner_email FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 1";
+            $rating1 ="SELECT count(f.rentID) AS count, rr.owner_email, f.type FROM feedback f JOIN rentals r ON f.rentID = r.rentID JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email = '".$email."' and rating = 1 AND f.type = 'Owner'";
             $search_result = mysqli_query($con, $rating1);
                 if ($search_result->num_rows > 0) {
                     while($row = $search_result->fetch_assoc()) {

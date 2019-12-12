@@ -468,13 +468,14 @@ $_SESSION['viewprofile'] = $email;
                                     </div>
                               
                             <!-- OWNER TAB --> 
+                           
+                            <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
                             <?php $ownerquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.owner_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.renter_email = u.email
                               WHERE rr.owner_email = '".$_SESSION['viewprofile']."' AND f.type = 'Owner'";
 
                               $result1 = mysqli_query($con, $ownerquery);
                               if ($result1->num_rows > 0) {
                                   while($row = $result1->fetch_assoc()) { ?>
-                            <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
                                         <div class="row">
                                                 <div class="col-md-12">
                                     <!-- TAB CONTENT START -->      
