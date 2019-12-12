@@ -6,7 +6,6 @@ if(isset($_POST['view']))
 {
     $email = $_SESSION['email'];
     $usertype = $_SESSION["user_type"];
-
 }
 ?>
 <html lang="en">
@@ -337,7 +336,7 @@ if(isset($_POST['view']))
                                     </li>
                             
                             <?php } else if($usertype == "Renter"){ ?>
-                             <li class="tab fancyTab active">
+                             <li class="tab fancyTab active" style="width: 100%;">
                                     <div class="arrow-down"><div class="arrow-down-inner"></div></div>	
                                         <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-tag"></span><span class="hidden-xs">Renter</span></a>
                                         <div class="whiteBlock"></div>
@@ -353,16 +352,16 @@ if(isset($_POST['view']))
                                 <div class="row">
 
                                     <div class="col-md-12">
-                                    <!-- TAB CONTENT START -->      
-                                    <div class="product-review">
-                                        <div class="media">
-                                            <!-- Avater -->
-                                            <?php $renterquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.renter_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.owner_email = u.email
+                                    <!-- TAB CONTENT START -->  
+                                        <?php $renterquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.renter_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.owner_email = u.email
                                                     WHERE  f.type = 'Renter' AND rr.renter_email = '".$email."'";
                                                                                                         
                                                     $result = mysqli_query($con, $renterquery);
                                                     if ($result->num_rows > 0) {
                                                         while($row = $result->fetch_assoc()) { ?>
+                                    <div class="product-review">
+                                        <div class="media">
+                                            <!-- Avater -->
                                             <img src="images/user/user-thumb.jpg" alt="avater">
                                             <div class="media-body">
                                                 <!-- Ratings -->
@@ -396,17 +395,17 @@ if(isset($_POST['view']))
                                                     <?php echo $row['comments']?>                                                    
                                                     </p>
                                                 </div>
-                                                <?php
-                                                        }
-                                                    }
-                                                   ?>
+                                                
                                                   
                                             </div>
                                             
                                         </div>
                                     </div>
                                      
-
+                                    <?php
+                                                        }
+                                                    }
+                                                   ?>
                                                 </div>
                                             </div>
                                     </div>
