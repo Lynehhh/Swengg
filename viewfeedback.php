@@ -2,11 +2,9 @@
 <?php session_start(); 
 error_reporting(0);
 require_once("connection.php");
-if(isset($_POST['view']))
-{
-    $email = $_SESSION['email'];
-    echo $email;
-}
+if(isset($_GET['ownerprofile'])){
+    $email = $_GET['ownerprofile'];
+    }
 ?>
 <html lang="en">
 <head>
@@ -350,6 +348,7 @@ if(isset($_POST['view']))
                         <h2 class=""><?php echo $firstname; ?> <?php echo $lastname ?> <span style="display:inline-block; width: 18%;"></span> <i class="fa fa-star"></i> 5 Ratings</h2>
                         <h4 class="comunity-name mb-10"><?php echo $usertype ?></h4>
                         <h4 class="comunity-name"><i class="fa fa-birthday-cake"></i> <?php echo $birthday ?></h4>
+                        <button formaction = "update_profile.php" class="btn btn-success mt-30" style="padding: 2% 10%;">Edit</button>
                     </div>
                 </div>
                 
@@ -382,12 +381,26 @@ if(isset($_POST['view']))
                                     </li>
                         </ul>
                         <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
+                            <?php
+                            
+                                
+                            ?>
+                            
                             <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
 
                                 <div class="row">
 
                                     <div class="col-md-12">
-                                    <!-- TAB CONTENT START -->      
+                                    <!-- TAB CONTENT START --> 
+                                        
+                                        <?php
+                                $renterquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.renter_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.owner_email = u.email
+                                WHERE rr.renter_email = 'lliam_sanchez@dlsu.edu.ph' AND f.type = 'Renter'";
+
+                                $result = mysqli_query($con, $renterquery);
+                                while($row = $result->fetch_assoc()) {
+                                        ?>
+                                        
                                     <div class="product-review">
                                         <div class="media">
                                             <!-- Avater -->
@@ -414,65 +427,33 @@ if(isset($_POST['view']))
                                                     </ul>
                                                 </div>
                                                 <div class="name">
-                                                    <h5>Jessica Brown</h5>
+                                                    <h5><?php echo  $row['firstname'] . " " . $row['lastname']?></h5>
                                                 </div>
                                                 <div class="date">
-                                                    <p>Mar 20, 2018</p>
+                                                    <p><?php echo $row['date']?></p>
                                                 </div>
                                                 <div class="review-comment">
                                                     <p>
-                                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape riamipsa eaque.
+                                                        <?php echo $row['comments']?>
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- TAB CONTENT END -->
-                                    <!-- TAB CONTENT START -->      
-                                    <div class="product-review">
-                                        <div class="media">
-                                            <!-- Avater -->
-                                            <img src="images/user/user-thumb.jpg" alt="avater">
-                                            <div class="media-body">
-                                                <!-- Ratings -->
-                                                <div class="ratings">
-                                                    <ul class="list-inline">
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="name">
-                                                    <h5>Jessica Brown</h5>
-                                                </div>
-                                                <div class="date">
-                                                    <p>Mar 20, 2018</p>
-                                                </div>
-                                                <div class="review-comment">
-                                                    <p>
-                                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape riamipsa eaque.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- TAB CONTENT END -->
-                                    
+                                        <?php
+                                }
+                                        ?>
+                                    <!-- TAB CONTENT END -->                                    
                                     </div>
                                 </div>
                             </div>
+                            
+                            <?php
+                                $ownerquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.owner_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.renter_email = u.email WHERE rr.owner_email = 'lliam_sanchez@dlsu.edu.ph' AND f.type = 'Owner'";
+
+                                $result1 = mysqli_query($con, $ownerquery);
+                                ?>
+                            
                                     <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
                                         <div class="row">
                                                 <div class="col-md-12">
@@ -516,53 +497,14 @@ if(isset($_POST['view']))
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- TAB CONTENT END --> 
-                                    <!-- TAB CONTENT START -->      
-                                    <div class="product-review">
-                                        <div class="media">
-                                            <!-- Avater -->
-                                            <img src="images/user/user-thumb.jpg" alt="avater">
-                                            <div class="media-body">
-                                                <!-- Ratings -->
-                                                <div class="ratings">
-                                                    <ul class="list-inline">
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="name">
-                                                    <h5>Jessica Brown</h5>
-                                                </div>
-                                                <div class="date">
-                                                    <p>Mar 20, 2018</p>
-                                                </div>
-                                                <div class="review-comment">
-                                                    <p>
-                                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape riamipsa eaque.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- TAB CONTENT END --> 
+                                    <!-- TAB CONTENT END -->  
 
                                                 </div>
                                             </div>
                                     </div>
-
+                            <?php
+                            
+                            ?>
                         </div>
 
                     </section>
