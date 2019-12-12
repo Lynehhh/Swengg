@@ -43,7 +43,7 @@
     </style>
 </head>
 
-<body class="body-wrapper bg-img" background = "images\background2.jpg" style="">
+<body class="body-wrapper" background = "images\background2.jpg" style="">
     
 <?php include 'topbar.php' ?>
     
@@ -94,7 +94,7 @@
         
         <div class="">
 				<!-- Recently Favorited -->
-				<div class="widget dashboard-container my-adslist bg-div">
+				<div class="widget dashboard-container my-adslist">
 					<h3 class="widget-header text-center">My Cars</h3>
 					<table class="product-dashboard-table">
 						<thead>
