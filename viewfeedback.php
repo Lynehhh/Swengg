@@ -2,10 +2,11 @@
 <?php session_start(); 
 error_reporting(0);
 require_once("connection.php");
-if(isset($_POST['view']))
+if(isset($_GET['ownerprofile']))
 {
-    $email = $_SESSION['email'];
-    $usertype = $_SESSION["user_type"];
+    $email = $_GET['ownerprofile'];
+    echo $email;
+    $_SESSION['viewprofile'] = $email;
 }
 ?>
 <html lang="en">
@@ -272,7 +273,7 @@ if(isset($_POST['view']))
         
         <?php
           $query="    SELECT firstname, lastname, streetadd, city, birthday, usertype FROM users
-                WHERE email ='".$_SESSION['email']."'";
+                WHERE email ='".$_SESSION['viewprofile']."'";
 			$result =  $con->query($query);
             if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
@@ -310,7 +311,7 @@ if(isset($_POST['view']))
                 <div class="col-md-3 offset-md-1 col-lg-4 offset-lg-0" style="padding: 100px 0;">
                     <div class="justify-content-center mb-20 ">
                         <label class="comunity-name mb-20">Contact Information</label>
-                        <h4 class="mb-10"><i class="fa fa-envelope"></i> <?php echo $email; ?></h4>
+                        <h4 class="mb-10"><i class="fa fa-envelope"></i> <?php echo $_SESSION['viewprofile']; ?></h4>
                         <h4 class="mb-10"><i class="fa fa-location-arrow"></i> <?php echo $city; ?></h4>
                         <h4 class="mb-10"><i class="fa fa-compass"></i> <?php echo $address; ?></h4>
                     </div>
@@ -354,7 +355,7 @@ if(isset($_POST['view']))
                                     <div class="col-md-12">
                                     <!-- TAB CONTENT START -->  
                                         <?php $renterquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.renter_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.owner_email = u.email
-                                                    WHERE  f.type = 'Renter' AND rr.renter_email = '".$email."'";
+                                                    WHERE  f.type = 'Renter' AND rr.renter_email = '".$_SESSION['viewprofile']."'";
                                                                                                         
                                                     $result = mysqli_query($con, $renterquery);
                                                     if ($result->num_rows > 0) {
@@ -366,24 +367,78 @@ if(isset($_POST['view']))
                                             <div class="media-body">
                                                 <!-- Ratings -->
                                                 <div class="ratings">
-                                                    <ul class="list-inline">
+                                                    
                                                         <!-- Star Print: loop stars here -->
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                    </ul>
+                                                        <?php
+                                                          if($row['rating'] == 5){
+                                                            echo '<ul class="list-inline">
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                                                    </ul>';
+                                                                          }
+                                  
+                                                                          else if($row['rating'] == 4){
+                                                                              echo '<ul class="list-inline">
+                                                                                  <li class="list-inline-item">
+                                                                                      <i class="fa fa-star"></i>
+                                                                                  </li>
+                                                                                  <li class="list-inline-item">
+                                                                                      <i class="fa fa-star"></i>
+                                                                                  </li>
+                                                                                  <li class="list-inline-item">
+                                                                                      <i class="fa fa-star"></i>
+                                                                                  </li>
+                                                                                  <li class="list-inline-item">
+                                                                                      <i class="fa fa-star"></i>
+                                                                                  </li>
+                                                                              </ul>';
+                                                                    }
+                                                                      else if($row['rating'] == 3){
+                                                                          echo '<ul class="list-inline">
+                                                                              <li class="list-inline-item">
+                                                                                  <i class="fa fa-star"></i>
+                                                                              </li>
+                                                                              <li class="list-inline-item">
+                                                                                  <i class="fa fa-star"></i>
+                                                                              </li>
+                                                                              <li class="list-inline-item">
+                                                                                  <i class="fa fa-star"></i>
+                                                                              </li>
+                                                                          </ul>';
+                                                                }
+                                                                else if($row['rating'] == 2){
+                                                                  echo '<ul class="list-inline">
+                                                                      <li class="list-inline-item">
+                                                                          <i class="fa fa-star"></i>
+                                                                      </li>
+                                                                      <li class="list-inline-item">
+                                                                          <i class="fa fa-star"></i>
+                                                                      </li>
+                                                                  </ul>';
+                                                        }
+                                                              else if($row['rating'] == 1){
+                                                                  echo '<ul class="list-inline">
+                                                                      <li class="list-inline-item">
+                                                                          <i class="fa fa-star"></i>
+                                                                      </li>
+                                                                  
+                                                                  </ul>';
+                                                        }
+                                                        ?>
+                                                    
                                                 </div>
                                                 <div class="name">
                                                     <h5><?php echo  $row['firstname'] . " " . $row['lastname']?></h5>
@@ -412,6 +467,12 @@ if(isset($_POST['view']))
                                     </div>
                               
                             <!-- OWNER TAB --> 
+                            <?php $ownerquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.owner_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.renter_email = u.email
+                              WHERE rr.owner_email = '".$_SESSION['viewprofile']."' AND f.type = 'Owner'";
+
+                              $result1 = mysqli_query($con, $ownerquery);
+                              if ($result1->num_rows > 0) {
+                                  while($row = $result1->fetch_assoc()) { ?>
                             <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
                                         <div class="row">
                                                 <div class="col-md-12">
@@ -423,39 +484,94 @@ if(isset($_POST['view']))
                                             <div class="media-body">
                                                 <!-- Ratings -->
                                                 <div class="ratings">
-                                                    <ul class="list-inline">
-                                                        <!-- Star Print: loop stars here -->
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                    </ul>
+                                                <?php
+                                                          if($row['rating'] == 5){
+                                                            echo '<ul class="list-inline">
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                                                    </ul>';
+                                                                          }
+                                  
+                                                                          else if($row['rating'] == 4){
+                                                                              echo '<ul class="list-inline">
+                                                                                  <li class="list-inline-item">
+                                                                                      <i class="fa fa-star"></i>
+                                                                                  </li>
+                                                                                  <li class="list-inline-item">
+                                                                                      <i class="fa fa-star"></i>
+                                                                                  </li>
+                                                                                  <li class="list-inline-item">
+                                                                                      <i class="fa fa-star"></i>
+                                                                                  </li>
+                                                                                  <li class="list-inline-item">
+                                                                                      <i class="fa fa-star"></i>
+                                                                                  </li>
+                                                                              </ul>';
+                                                                    }
+                                                                      else if($row['rating'] == 3){
+                                                                          echo '<ul class="list-inline">
+                                                                              <li class="list-inline-item">
+                                                                                  <i class="fa fa-star"></i>
+                                                                              </li>
+                                                                              <li class="list-inline-item">
+                                                                                  <i class="fa fa-star"></i>
+                                                                              </li>
+                                                                              <li class="list-inline-item">
+                                                                                  <i class="fa fa-star"></i>
+                                                                              </li>
+                                                                          </ul>';
+                                                                }
+                                                                else if($row['rating'] == 2){
+                                                                  echo '<ul class="list-inline">
+                                                                      <li class="list-inline-item">
+                                                                          <i class="fa fa-star"></i>
+                                                                      </li>
+                                                                      <li class="list-inline-item">
+                                                                          <i class="fa fa-star"></i>
+                                                                      </li>
+                                                                  </ul>';
+                                                        }
+                                                              else if($row['rating'] == 1){
+                                                                  echo '<ul class="list-inline">
+                                                                      <li class="list-inline-item">
+                                                                          <i class="fa fa-star"></i>
+                                                                      </li>
+                                                                  
+                                                                  </ul>';
+                                                        }
+                                                        ?>
                                                 </div>
                                                 <div class="name">
-                                                    <h5>Jessica Brown</h5>
+                                                    <h5><?php echo  $row['firstname'] . " " . $row['lastname']?></h5>
                                                 </div>
                                                 <div class="date">
-                                                    <p>Mar 20, 2018</p>
+                                                    <p><?php echo $row['date']?></p>
                                                 </div>
                                                 <div class="review-comment">
                                                     <p>
-                                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape riamipsa eaque.
+                                                    <?php echo $row['comments']?>                                                    
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <?php
+                                                        }
+                                                    }
+                                                   ?>
                                     <!-- TAB CONTENT END --> 
                                                 </div>
                                             </div>

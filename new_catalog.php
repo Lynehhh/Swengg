@@ -341,7 +341,7 @@
 		    <button name ="searched_car" formaction = "car_details.php" style = "background-color: Transparent; background-repeat:no-repeat; border: none; overflow: hidden; outline:none;" value="'.$row["carID"].'"><h3 class="card-title" style="color: #28a745;">'.$row["name"].'</h3></button>
 		    <ul class="list-inline product-meta">
 		    	<li class="list-inline-item">
-                <button name ="ownerprofile" formaction = "feedback.php" style = "background-color: Transparent; background-repeat:no-repeat; border: none; overflow: hidden; outline:none;" value="'.$row["oemail"].'"><h5 class="card-title" style="color: #28a745;">'.$row["ofirst_name"].'</h5></button>
+                <button name ="ownerprofile" formaction = "viewfeedback.php" style = "background-color: Transparent; background-repeat:no-repeat; border: none; overflow: hidden; outline:none;" value="'.$row["oemail"].'"><h5 class="card-title" style="color: #28a745;">'.$row["ofirst_name"].'</h5></button>
 		    	</li>
 		    	<li class="list-inline-item">
 		    		<i class="fa fa-location-arrow"></i> '.$row["city"].'
