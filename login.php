@@ -3,7 +3,6 @@ session_start();
 require_once('connection.php');
 	
 if (isset($_POST['Login']))
-
 {
 	
 	if (empty($_POST['email']) || empty ($_POST['password']))
@@ -55,6 +54,13 @@ if (isset($_POST['Login']))
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
+    
+    <style>
+        a:hover {
+          color: green;
+        }
+    </style>
+    
 </head>
 <body background = "images\background.jpg" style="background-repeat: no-repeat; background-size: cover;">
 	
@@ -77,6 +83,9 @@ if (isset($_POST['Login']))
 						<input class="input100" type="password" name="password" placeholder="Password">
 						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
 					</div>
+                    <p class="wrap-input100 text-center">
+                        Don't have an account ? <a href="signup.php" class="">Sign Up here</a>
+                    </p>
 
 					<div class="container-login100-form-btn m-t-32">
 						<button type="submit" value="Submit" name="Login" class="login100-form-btn">
