@@ -64,9 +64,11 @@ require_once("connection.php");
             if(isset($_POST['Pay'])){
             $rentID =$_POST['Pay'];
             $_SESSION['rentID'] = $rentID; 
+            }
+            
             $query = "  SELECT re.total_amount, re.due_date, re.date_use, re.date_return, r.reqID,  c.carID, c.name, c.brand, c.car_type, c.fuel_type, c.seater, c.price, c.description  
                         FROM rentals re JOIN reservation_requests r ON re.reqID = r.reqID JOIN catalogue c ON c.carID = r.carID
-                        WHERE re.rentID = $rentID
+                        WHERE re.rentID ='". $_SESSION['rentID']."'
                         GROUP BY c.carID";
             $result =  $con->query($query);
             if ($result->num_rows > 0) {
@@ -109,7 +111,7 @@ require_once("connection.php");
         <?php
             }
             }
-            }
+            
         ?>
         <div class="row">
             <div class="col-md-4 offset-md-1 col-lg-7 offset-lg-0">

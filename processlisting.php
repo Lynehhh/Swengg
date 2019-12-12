@@ -28,6 +28,13 @@ $price= $_POST['price'];
 //$imagetmp=addslashes (file_get_contents($_FILES['image']['tmp_name']));
 $description= $_POST['description'];
 
+if(empty($carname) || empty($brand) || empty($carType) || empty($fuelType) || empty($seater) || empty($price)|| empty($description)){
+    header("location:listing.php?message=Cannot leave fields blank");
+}
+
+else{
+
+
 foreach ($_FILES['files']['name'] as $key => $name){
  
     $newFilename = time() . "_" . $name;
@@ -43,6 +50,8 @@ foreach ($_FILES['files']['name'] as $key => $name){
             
         }
 }
+
+
 
 foreach ($_FILES['docs']['name'] as $key2 => $name2){
  
@@ -60,19 +69,20 @@ foreach ($_FILES['docs']['name'] as $key2 => $name2){
         }
 }
 
-$insert_image="INSERT INTO catalogue (owner_email,brand, car_type, fuel_type, name, seater, description,  price, availability)
+
+$insert_catalogue="INSERT INTO catalogue (owner_email,brand, car_type, fuel_type, name, seater, description,  price, availability)
  VALUES('".$email."', '".$brand."', '".$carType."', '".$fuelType."', '".$carname."', '".$seater."', '".$description."',  '".$price."', 'Available')";
     
-    if(mysqli_query($con,$insert_image)){
-        header("location:listing.php?message=Successfully added new records");
+    if(mysqli_query($con,$insert_catalogue)){
+        header("location:sviewlisting.php?message=Successfully added new records");
         }
         else{
             $errormessage = mysqli_error($con);
-            echo $errormessage;
+            echo $errormessage + 1;
             
         }
 
-  
+    }
 
   
     

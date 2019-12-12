@@ -2,6 +2,16 @@
 session_start();
 require_once("connection.php");
 if(isset($_POST['submit'])){
+
+    $cardnumber=$_POST['cardnumber'];
+    $cardtype = $_POST['cardtype'];
+    $cardholder = $_POST['cardholder'];
+    $expiry =$_POST['expiry'];
+
+    if(empty($cardnumber) || empty($cardtype) || empty($cardholder) || empty($expiry)){
+        header("location:payment.php?message=Cannot leave fields blank");
+    }
+    else{
     $rentID =$_SESSION['rentID'];
     $total_amount = $_SESSION['total_amount'];
     $approveQuery = " UPDATE rentals
@@ -10,13 +20,14 @@ if(isset($_POST['submit'])){
                            payment_date = now()
                        WHERE rentID = $rentID";
                                 if(mysqli_query($con,$approveQuery)){
-                                    header("location:viewpendingpayments.php");
+                                    header("location:btransaction_pending_payments.php");
                                         }
                                 else{
-                                    header("location:viewpendingpayments.php");
+                                    header("location:btransaction_pending_payments.php");
                                         }
 }   
 
+}
 
 
                            
