@@ -367,6 +367,7 @@ if(isset($_POST['view']))
                                                 <!-- Ratings -->
                                                 <div class="ratings">
                                                     <ul class="list-inline">
+                                                        <!-- Star Print: loop stars here -->
                                                         <li class="list-inline-item">
                                                             <i class="fa fa-star"></i>
                                                         </li>
@@ -409,7 +410,57 @@ if(isset($_POST['view']))
                                                 </div>
                                             </div>
                                     </div>
-
+                              
+                            <!-- OWNER TAB --> 
+                            <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
+                                        <div class="row">
+                                                <div class="col-md-12">
+                                    <!-- TAB CONTENT START -->      
+                                    <div class="product-review">
+                                        <div class="media">
+                                            <!-- Avater -->
+                                            <img src="images/user/user-thumb.jpg" alt="avater">
+                                            <div class="media-body">
+                                                <!-- Ratings -->
+                                                <div class="ratings">
+                                                    <ul class="list-inline">
+                                                        <!-- Star Print: loop stars here -->
+                                                        <li class="list-inline-item">
+                                                            <i class="fa fa-star"></i>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <i class="fa fa-star"></i>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <i class="fa fa-star"></i>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <i class="fa fa-star"></i>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <i class="fa fa-star"></i>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="name">
+                                                    <h5>Jessica Brown</h5>
+                                                </div>
+                                                <div class="date">
+                                                    <p>Mar 20, 2018</p>
+                                                </div>
+                                                <div class="review-comment">
+                                                    <p>
+                                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape riamipsa eaque.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- TAB CONTENT END --> 
+                                                </div>
+                                            </div>
+                                    </div>
+                            
                         </div> 
 
                     
