@@ -307,8 +307,6 @@ $_SESSION['viewprofile'] = $email;
                 <div class="col-md-3 offset-md-1 col-lg-5 offset-lg-0" style="padding: 100px 0;">
                     <div class="justify-content-center mb-20 ">
                         <h2 class=""><?php echo $firstname; ?> <?php echo $lastname ?> <span style="display:inline-block; width: 18%;"></span> <i class="fa fa-star"></i> 5 Ratings</h2>
-                        <h4 class="comunity-name mb-10"><?php echo $usertype ?></h4>
-                        <h4 class="comunity-name"><i class="fa fa-birthday-cake"></i> <?php echo $birthday ?></h4>
                     </div>
                 </div>
                 
@@ -317,7 +315,6 @@ $_SESSION['viewprofile'] = $email;
                         <label class="comunity-name mb-20">Contact Information</label>
                         <h4 class="mb-10"><i class="fa fa-envelope"></i> <?php echo $_SESSION['viewprofile']; ?></h4>
                         <h4 class="mb-10"><i class="fa fa-location-arrow"></i> <?php echo $city; ?></h4>
-                        <h4 class="mb-10"><i class="fa fa-compass"></i> <?php echo $address; ?></h4>
                     </div>
                 </div>
 

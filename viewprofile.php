@@ -5,7 +5,8 @@ require_once("connection.php");
 if(isset($_POST['view']))
 {
     $email = $_SESSION['email'];
-    echo $email;
+    $usertype = $_SESSION['user_type'];
+    
 }
 ?>
 <html lang="en">
@@ -86,16 +87,13 @@ if(isset($_POST['view']))
             top:15px;	
           transition: top .2s;
         }
-
         .fancyTab.active {
           top:0;
           transition:top .2s;
         }
-
         .whiteBlock {
           display:none;
         }
-
         .fancyTab.active .whiteBlock {
           display:block;
           height:2px;
@@ -105,7 +103,6 @@ if(isset($_POST['view']))
           position:absolute;
           z-index:1;
         }
-
         .fancyTab a {
             font-family: 'Source Sans Pro';
             font-size:1.65em;
@@ -113,41 +110,33 @@ if(isset($_POST['view']))
           transition:.2s;
           color:#333;
         }
-
         /*.fancyTab .hidden-xs {
           white-space:nowrap;
         }*/
-
         .fancyTabs {
             border-bottom:2px solid #ddd;
           margin: 15px 0 0;
         }
-
         li.fancyTab a {
           padding-top: 15px;
           top:-15px;
           padding-bottom:0;
         }
-
         li.fancyTab.active a {
           padding-top: inherit;
         }
-
         .fancyTab .fa {
           font-size: 40px;
             width:100%;
             padding: 15px 0 5px;
           color:#666;
         }
-
         .fancyTab.active .fa {
           color: #cfb87c;
         }
-
         .fancyTab a:focus {
             outline:none;
         }
-
         .fancyTabContent {
           border-color: transparent;
           box-shadow: 0 -2px 0 -1px #fff, 0 0 0 1px #ddd;
@@ -155,73 +144,58 @@ if(isset($_POST['view']))
           position:relative;
           background-color:#fff;
         }
-
         .nav-tabs > li.fancyTab.active > a, 
         .nav-tabs > li.fancyTab.active > a:focus,
         .nav-tabs > li.fancyTab.active > a:hover {
             border-width:0;
         }
-
         .nav-tabs > li.fancyTab:hover {
             background-color:#f9f9f9;
             box-shadow: 0 0 0 1px #ddd;
         }
-
         .nav-tabs > li.fancyTab.active:hover {
           background-color:#fff;
           box-shadow: 1px 1px 0 1px #fff, 0 0px 0 1px #ddd, -1px 1px 0 0px #ddd inset;
         }
-
         .nav-tabs > li.fancyTab:hover a {
             border-color:transparent;
         }
-
         .nav.nav-tabs .fancyTab a[data-toggle="tab"] {
           background-color:transparent;
           border-bottom:0;
         }
-
         .nav-tabs > li.fancyTab:hover a {
           border-right: 1px solid transparent;
         }
-
         .nav-tabs > li.fancyTab > a {
             margin-right:0;
             border-top:0;
           padding-bottom: 30px;
           margin-bottom: -30px;
         }
-
         .nav-tabs > li.fancyTab {
             margin-right:0;
             margin-bottom:0;
         }
-
         .nav-tabs > li.fancyTab:last-child a {
           border-right: 1px solid transparent;
         }
-
         .nav-tabs > li.fancyTab.active:last-child {
           border-right: 0px solid #ddd;
             box-shadow: 0px 2px 0 0px #fff, 0px 0px 0 1px #ddd;
         }
-
         .fancyTab:last-child {
           box-shadow: 0 0 0 1px #ddd;
         }
-
         .tabs .nav-tabs li.fancyTab.active a {
             box-shadow:none;
           top:0;
         }
-
-
         .fancyTab.active {
           background: #fff;
             box-shadow: 1px 1px 0 1px #fff, 0 0px 0 1px #ddd, -1px 1px 0 0px #ddd inset;
           padding-bottom:30px;
         }
-
         .arrow-down {
             display:none;
           width: 0;
@@ -233,7 +207,6 @@ if(isset($_POST['view']))
           top: -1px;
           left: calc(50% - 20px);
         }
-
         .arrow-down-inner {
           width: 0;
           height: 0;
@@ -244,62 +217,44 @@ if(isset($_POST['view']))
           top: -22px;
           left: -18px;
         }
-
         .fancyTab.active .arrow-down {
           display: block;
         }
-
         @media (max-width: 1200px) {
-
           .fancyTab .fa {
             font-size: 36px;
           }
-
           .fancyTab .hidden-xs {
             font-size:22px;
             }
-
         }
-
-
         @media (max-width: 992px) {
-
           .fancyTab .fa {
             font-size: 33px;
           }
-
           .fancyTab .hidden-xs {
             font-size:18px;
             font-weight:normal;
           }
-
         }
-
-
         @media (max-width: 768px) {
-
           .fancyTab > a {
             font-size:18px;
           }
-
           .nav > li.fancyTab > a {
             padding:15px 0;
             margin-bottom:inherit;
           }
-
           .fancyTab .fa {
             font-size:30px;
           }
-
           .nav-tabs > li.fancyTab > a {
             border-right:1px solid transparent;
             padding-bottom:0;
           }
-
           .fancyTab.active .fa {
             color: #333;
             }
-
         }
         
     </style>
@@ -370,6 +325,7 @@ if(isset($_POST['view']))
                     <section id="fancyTabWidget" class="tabs t-tabs">
                         <ul class="nav nav-tabs fancyTabs" role="tablist">
 
+                        <?php if($usertype == "Owner"){?>
                                     <li class="tab fancyTab active">
                                     <div class="arrow-down"><div class="arrow-down-inner"></div></div>	
                                         <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-tag"></span><span class="hidden-xs">Renter</span></a>
@@ -381,6 +337,14 @@ if(isset($_POST['view']))
                                         <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-users"></span><span class="hidden-xs">Owner</span></a>
                                         <div class="whiteBlock"></div>
                                     </li>
+                            
+                            <?php } else if($usertype == "Renter"){ ?>
+                             <li class="tab fancyTab active" style="width: 100%;">
+                                    <div class="arrow-down"><div class="arrow-down-inner"></div></div>	
+                                        <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-tag"></span><span class="hidden-xs">Renter</span></a>
+                                        <div class="whiteBlock"></div>
+                                    </li>
+                            <?php } ?>
                         </ul>
                         <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
                             <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
@@ -389,15 +353,13 @@ if(isset($_POST['view']))
 
                                     <div class="col-md-12">
                                     <!-- TAB CONTENT START --> 
-                                    <?php 
-                                        if(isset($_GET['ownerprofile'])){
-                                            $email = $_GET['ownerprofile'];
-
-        $renterquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.renter_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.owner_email = u.email
-        WHERE rr.renter_email = 'lliam_sanchez@dlsu.edu.ph' AND f.type = 'Renter'";
-                                        $result = mysqli_query($con, $renterquery);
-                                        if ($result->num_rows > 0) {
-                                            while($row = $result->fetch_assoc()) { ?>
+                                     
+                                           <?php $renterquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.renter_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.owner_email = u.email
+                                           WHERE  f.type = 'Renter' AND rr.renter_email = '".$email."'";
+                                                                                               
+                                           $result = mysqli_query($con, $renterquery);
+                                           if ($result->num_rows > 0) {
+                                               while($row = $result->fetch_assoc()) { ?>
                                     <div class="product-review">
                                         <div class="media">
                                             <!-- Avater -->
@@ -405,23 +367,75 @@ if(isset($_POST['view']))
                                             <div class="media-body">
                                                 <!-- Ratings -->
                                                 <div class="ratings">
-                                                    <ul class="list-inline">
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                    </ul>
+                                                <?php
+                                                if($row['rating'] == 5){
+                                                  echo '<ul class="list-inline">
+                                                    <li class="list-inline-item">
+                                                      <i class="fa fa-star"></i>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                      <i class="fa fa-star"></i>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                      <i class="fa fa-star"></i>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                      <i class="fa fa-star"></i>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                      <i class="fa fa-star"></i>
+                                                    </li>
+                                                                          </ul>';
+                                                                }
+                        
+                                                                else if($row['rating'] == 4){
+                                                                    echo '<ul class="list-inline">
+                                                                        <li class="list-inline-item">
+                                                                            <i class="fa fa-star"></i>
+                                                                        </li>
+                                                                        <li class="list-inline-item">
+                                                                            <i class="fa fa-star"></i>
+                                                                        </li>
+                                                                        <li class="list-inline-item">
+                                                                            <i class="fa fa-star"></i>
+                                                                        </li>
+                                                                        <li class="list-inline-item">
+                                                                            <i class="fa fa-star"></i>
+                                                                        </li>
+                                                                    </ul>';
+                                                          }
+                                                            else if($row['rating'] == 3){
+                                                                echo '<ul class="list-inline">
+                                                                    <li class="list-inline-item">
+                                                                        <i class="fa fa-star"></i>
+                                                                    </li>
+                                                                    <li class="list-inline-item">
+                                                                        <i class="fa fa-star"></i>
+                                                                    </li>
+                                                                    <li class="list-inline-item">
+                                                                        <i class="fa fa-star"></i>
+                                                                    </li>
+                                                                </ul>';
+                                                      }
+                                                      else if($row['rating'] == 2){
+                                                        echo '<ul class="list-inline">
+                                                            <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                            </li>
+                                                            <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                            </li>
+                                                        </ul>';
+                                              }
+                                                    else if($row['rating'] == 1){
+                                                        echo '<ul class="list-inline">
+                                                            <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                            </li>
+                                                        
+                                                        </ul>';
+                                              }
+                                              ?>
                                                 </div>
                                                 <div class="name">
                                                     <h5><?php echo  $row['firstname'] . " " . $row['lastname']?></h5>
@@ -440,26 +454,23 @@ if(isset($_POST['view']))
                                     <?php
                                             }
                                         }
-                                        else{
-                                           echo "0 Results";
-                                        }  ?>
+                                          ?>
                                     <!-- TAB CONTENT END -->
                                     
                                     </div>
                                 </div>
                             </div>
-                                    <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
+                             <!-- OWNER TAB --> 
+                             <?php $ownerquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.owner_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.renter_email = u.email
+                              WHERE rr.owner_email = '".$email."' AND f.type = 'Owner'";
+
+                              $result1 = mysqli_query($con, $ownerquery);
+                              if ($result1->num_rows > 0) {
+                                  while($row = $result1->fetch_assoc()) { ?>
+                            <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
                                         <div class="row">
                                                 <div class="col-md-12">
-                                                    <!-- TAB CONTENT START --> 
-                                                    <?php 
-
-                $ownerquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.owner_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.renter_email = u.email
-                WHERE rr.owner_email = 'lliam_sanchez@dlsu.edu.ph' AND f.type = 'Owner'";
-                            $result1 = mysqli_query($con, $ownerquery);
-                            if ($result1->num_rows > 0) {
-                                while($row = $result1->fetch_assoc()) {
-                                                    ?>
+                                    <!-- TAB CONTENT START -->      
                                     <div class="product-review">
                                         <div class="media">
                                             <!-- Avater -->
@@ -467,23 +478,75 @@ if(isset($_POST['view']))
                                             <div class="media-body">
                                                 <!-- Ratings -->
                                                 <div class="ratings">
-                                                    <ul class="list-inline">
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <i class="fa fa-star"></i>
-                                                        </li>
-                                                    </ul>
+                                                <?php
+                                                          if($row['rating'] == 5){
+                                                            echo '<ul class="list-inline">
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                              <li class="list-inline-item">
+                                                                <i class="fa fa-star"></i>
+                                                              </li>
+                                                                                    </ul>';
+                                                                          }
+                                  
+                                                                          else if($row['rating'] == 4){
+                                                                              echo '<ul class="list-inline">
+                                                                                  <li class="list-inline-item">
+                                                                                      <i class="fa fa-star"></i>
+                                                                                  </li>
+                                                                                  <li class="list-inline-item">
+                                                                                      <i class="fa fa-star"></i>
+                                                                                  </li>
+                                                                                  <li class="list-inline-item">
+                                                                                      <i class="fa fa-star"></i>
+                                                                                  </li>
+                                                                                  <li class="list-inline-item">
+                                                                                      <i class="fa fa-star"></i>
+                                                                                  </li>
+                                                                              </ul>';
+                                                                    }
+                                                                      else if($row['rating'] == 3){
+                                                                          echo '<ul class="list-inline">
+                                                                              <li class="list-inline-item">
+                                                                                  <i class="fa fa-star"></i>
+                                                                              </li>
+                                                                              <li class="list-inline-item">
+                                                                                  <i class="fa fa-star"></i>
+                                                                              </li>
+                                                                              <li class="list-inline-item">
+                                                                                  <i class="fa fa-star"></i>
+                                                                              </li>
+                                                                          </ul>';
+                                                                }
+                                                                else if($row['rating'] == 2){
+                                                                  echo '<ul class="list-inline">
+                                                                      <li class="list-inline-item">
+                                                                          <i class="fa fa-star"></i>
+                                                                      </li>
+                                                                      <li class="list-inline-item">
+                                                                          <i class="fa fa-star"></i>
+                                                                      </li>
+                                                                  </ul>';
+                                                        }
+                                                              else if($row['rating'] == 1){
+                                                                  echo '<ul class="list-inline">
+                                                                      <li class="list-inline-item">
+                                                                          <i class="fa fa-star"></i>
+                                                                      </li>
+                                                                  
+                                                                  </ul>';
+                                                        }
+                                                        ?>
                                                 </div>
                                                 <div class="name">
                                                     <h5><?php echo  $row['firstname'] . " " . $row['lastname']?></h5>
@@ -493,20 +556,16 @@ if(isset($_POST['view']))
                                                 </div>
                                                 <div class="review-comment">
                                                     <p>
-                                                        <?php echo $row['comments']?>
+                                                    <?php echo $row['comments']?>                                                    
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <?php
-                                            }
-                                        }
-                                        else{
-                                           echo "0 Results";
-                                        } 
-                                        }
-                                        ?>
+                                                        }
+                                                    }
+                                                   ?>
                                     <!-- TAB CONTENT END --> 
 
                                                 </div>
@@ -525,7 +584,6 @@ if(isset($_POST['view']))
     <script>
         $(document).ready(function() {
   
-
 	  
     var numItems = $('li.fancyTab').length;
 		
@@ -565,23 +623,16 @@ if(isset($_POST['view']))
 				}
 		  
 	 
-
 	
 		});
-
 $(window).load(function() {
-
   $('.fancyTabs').each(function() {
-
     var highestBox = 0;
     $('.fancyTab a', this).each(function() {
-
       if ($(this).height() > highestBox)
         highestBox = $(this).height();
     });
-
     $('.fancyTab a', this).height(highestBox);
-
   });
 });
     </script>
