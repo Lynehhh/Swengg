@@ -210,6 +210,8 @@ require_once('connection.php');
                                 while($row = $search_result->fetch_assoc()) {
                                     $interval = 8; 
                                     $totalPrice =  $row['price'] * $interval;
+                                    $carID = $row['carID'];
+
                                     echo "<form method = 'post' >";
                                     echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td></td><td class='product-details'><ul><h3 class='title'>" 
                                     . $row['name'] ."</h3><li>Brand: ".$row['brand']."</li>
@@ -217,9 +219,10 @@ require_once('connection.php');
                                     <li>Fuel Type: ".$row['fuel_type']."</li>
                                     <li>Capacity: ".$row['seater']."</li></ul>
                                     </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
-                                    <li>Email: ".$row['renter_email']."</li></ul></td><td class='product-category'>" . $row['req_date'] ."</td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $totalPrice ."</td><td class='product-category'><button type = 'submit' formaction = 'processapproval.php' name = 'Approve'  value = '" . $row['reqID'] . "' style = 'background-color: Transparent; background-repeat:no-repeat; color: #28a745; border: none; overflow: hidden; outline:none;'><i class='fa fa-thumbs-up'></i> </button><button type = 'submit' name = 'Deny'  formaction = 'processapproval.php' value = '" . $row['reqID'] . "' style = 'background-color: Transparent; background-repeat:no-repeat; color:#e74a3b; border: none; overflow: hidden; outline:none;'><i class='fa fa-thumbs-down'></i> </button></td></tr>\n";
+                                    <li>Email:   <button name ='buyerprofile' formaction = 'viewfeedback.php' style = 'background-color: Transparent; background-repeat:no-repeat; border: none; overflow: hidden; outline:none;' value=" .$row["renter_email"]. "><h5 class='card-title' style='color: #28a745;'>".$row["renter_email"]."</h5></button></li></ul></td><td class='product-category'>" . $row['req_date'] ."</td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $totalPrice ."</td><td class='product-category'><button type = 'submit' formaction = 'processapproval.php' name = 'Approve'  value = '" . $row['reqID'] . "' style = 'background-color: Transparent; background-repeat:no-repeat; color: #28a745; border: none; overflow: hidden; outline:none;'><i class='fa fa-thumbs-up'></i> </button><button type = 'submit' name = 'Deny'  formaction = 'processapproval.php' value = '" . $row['reqID'] . "' style = 'background-color: Transparent; background-repeat:no-repeat; color:#e74a3b; border: none; overflow: hidden; outline:none;'><i class='fa fa-thumbs-down'></i> </button></td></tr>\n";
                                 }
     }
+    $_SESSION['carID'] = $carID;
 ?>
 
 						</tbody>

@@ -5,8 +5,12 @@ require_once("connection.php");
 if(isset($_GET['ownerprofile']))
 {
     $email = $_GET['ownerprofile'];
-    echo $email;
     $_SESSION['viewprofile'] = $email;
+}
+
+else if(isset($_POST['buyerprofile'])){
+$email = $_POST['buyerprofile'];
+$_SESSION['viewprofile'] = $email;
 }
 ?>
 <html lang="en">
