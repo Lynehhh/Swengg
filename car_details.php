@@ -1,8 +1,6 @@
 <?php 
-    //session_start();
+    session_start();
     require_once("connection.php"); 
-    include 'topbar.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -127,8 +125,8 @@
 </head>
 <body class="body-wrapper">
     <?php 
-
     //session_start();
+    include 'topbar.php';
     
         if(isset($_GET['searched_car'])){
             $_SESSION['searched_car'] = $_GET['searched_car'];
@@ -141,9 +139,9 @@
 /*<!--=================================
 =            Single Blog            =
 ==================================-->*/
-    echo '<div class="container" style="display: block;">
-        <div class="justify-content-center mb-20 ">
-            <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width:70%; height: auto; left: 15%;">
+    echo '<div class="container mt-30" style="">
+        <div class="d-flex justify-content-center mb-20 ">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width:50%; height: auto;">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
                   <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -191,7 +189,6 @@
               </div>
         </div>';
       
-
          $sql2="select oemail, name, price, brand, car_type, fuel_type, seater, description, ofirst_name from view_catalogue where carID=".$_SESSION['searched_car'];
           $result = $con->query($sql2);
                 if ($result->num_rows > 0) { 
@@ -208,7 +205,6 @@
                     }
                 }
     
-
         
         echo '<div class="row">
             <div class="col-md-4 offset-md-1 col-lg-7 offset-lg-0">
@@ -281,11 +277,9 @@
                                             LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID
                                             LEFT JOIN users u ON rr.renter_email = u.email
                                             WHERE  f.type = 'Owner' AND rr.carID = ". $_SESSION['searched_car'];
-
                                     $result2 = mysqli_query($con, $carfeedback);
                                     if ($result2->num_rows > 0) {
                                         while($row = $result2->fetch_assoc()) { 
-
                                      
 							  			echo '<img src="images/user/user-thumb.jpg" alt="avater">
 							  			<div class="media-body">
@@ -310,7 +304,6 @@
 							  						</li>
                                                   </ul>';
                                         }
-
                                         else if($row['rating'] == 4){
                                             echo '<ul class="list-inline">
                                                 <li class="list-inline-item">
@@ -388,8 +381,6 @@
                                     
                                       
                                 
-
-
 							  	echo '		</div> <div class="review-submission">
 							  			<h3 class="tab-title"></h3>
 						  				
