@@ -159,7 +159,7 @@
                                 $ctr = $ctr + 1;
                                 if($ctr == 1){
                                     echo '<div class="item active">
-                    <img src="'.$row["location"].'" style="width:auto;height:250px;">
+                    <img src="'.$row["location"].'" style="width:100%;height:100%;">
                     </div>';
                                 }
                                 else{

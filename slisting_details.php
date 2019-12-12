@@ -129,7 +129,7 @@ if(isset($_POST['view']))
             <div class="col-md-4 offset-md-1 col-lg-7 offset-lg-0 mt-30">
                 <div class="content">
 						<div class="justify-content-center mb-20 ">
-                            <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width: auto; height: 300px;">
+                            <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width: 100%; height: 100%;">
                                 <!-- Indicators -->
                                 <ol class="carousel-indicators">
                                   <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
