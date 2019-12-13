@@ -5,7 +5,6 @@ require_once('connection.php');
 if(isset($_POST['view']))
 {
     $email = $_SESSION['email'];
-    echo $email;
     $carID = $_POST['view'];
     $_SESSION['carID'] = $carID; 
 }

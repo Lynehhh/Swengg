@@ -98,7 +98,7 @@ $email = $_SESSION['email'];
 								<!-- Dropdown list -->
 								<div class="dropdown-menu dropdown-menu-right">
 									<a class="dropdown-item" href="sviewlisting.php">My Listings</a>
-									<a class="dropdown-item" href="slisting_new.php">Add New Listing</a>
+									<a class="dropdown-item" href="listing.php">Add New Listing</a>
 									<a class="dropdown-item" href="sperformance_dashboard.php">Performance Dashboard</a>
 
 								</div>
@@ -135,7 +135,7 @@ $email = $_SESSION['email'];
 								<a class="nav-link top-link login-button" href="login.php">Login</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link add-button" href="signup.php"><i class="fa fa-plus-circle"></i> Sign In</a>
+								<a class="nav-link add-button" href="signup.php"><i class="fa fa-plus-circle"></i> Sign Up</a>
 							</li>
 						</ul>
 						<?php } ?>

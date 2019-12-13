@@ -220,7 +220,7 @@ require_once('connection.php');
                                                 ?>
                                                     <td class='product-category'>
                                                         <form action="submit_rate4o.php" method="get">
-                                                            <button style = 'padding: 3% 7%;' type = 'submit' name ='rate_btn' value="<?php echo $rentID; ?>">Rate</button>
+                                                            <button class = 'btn btn-primary' style = 'padding: 3% 7%;' type = 'submit' name ='rate_btn' value="<?php echo $rentID; ?>">Rate</button>
                                                         </form>
                                                     </td>
                                                 <?php
@@ -232,11 +232,11 @@ require_once('connection.php');
                                                     if ($result->num_rows > 0) { 
                                                     while($row = $result->fetch_assoc()) {
                                                             if($row['is_Rated_byb'] == 1){
-                                                                echo '<form action="view_rate4r_b.php" method="get"><button style = "padding: 3% 7%;" type="submit" name="view_rrate_btn" value="'.$rentID.'">View Renter Rating</button></form>';
+                                                                echo '<form action="view_rate4r_b.php" method="get"<button class = "btn btn-primary" style = "padding: 3% 7%;" type="submit" name="view_rrate_btn" value="'.$rentID.'">View Renter Rating</button></form>';
                                                             }
                                                         }
                                                     }
-                                                                echo '<form action="view_rate4o_b.php" method="get"><button style = "padding: 3% 7%;" type="submit" name="view_orate_btn" value="'.$rentID.'">View Owner Rating</button></form>';
+                                                                echo '<form action="view_rate4o_b.php" method="get"><button class = "btn btn-primary" style = "padding: 3% 7%;" type="submit" name="view_orate_btn" value="'.$rentID.'">View Owner Rating</button></form>';
                                                            
                                                     echo '</td>';
                                                 }

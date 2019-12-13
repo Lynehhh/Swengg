@@ -105,7 +105,7 @@ require_once("connection.php");
                             $result = $con->query($sql);
                             
                             if($result === true){
-                                header('location:pending_request.php');
+                                header('location:btransaction_pending_requests.php');
                             }
                             else{
                                 header('location:viewcar.php?Invalid=Error occured please try again');

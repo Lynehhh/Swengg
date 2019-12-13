@@ -76,7 +76,7 @@
     function submit_confirm(){
         var retVal = confirm("Do you want to continue ?");
                if( retVal == true ) {
-                  window.location.href = 'http://localhost/SWENGG2/car_details_process.php';
+                  window.location.href = 'http://localhost/Swengg/car_details_process.php';
                }
     }
         </script>

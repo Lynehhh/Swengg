@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 
 <?php
-        require_once('connection.php');
- ?>
+session_start(); 
+require_once('connection.php');
+?>
 
 <html lang="en">
 <head>
@@ -31,6 +32,9 @@
 
   <!-- FAVICON -->
   <link href="img/favicon.png" rel="shortcut icon">
+    
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -39,116 +43,230 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
     
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <style>
-            .mb-20 {
-                margin-bottom: 20px;
-            }
-            .mt-30{
-                margin-top: 30px;
-            }
-            .checked {
-              color: orange;
-            }
-        </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src='http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css' rel="stylesheet"></script>
+    <style>
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+        .mt-30{
+            margin-top: 30px;
+        }
+    </style>
 
 </head>
 
-<body class="body-wrapper"  background = "images\background.jpg"  style="background-repeat: no-repeat; background-size: cover; background-position: center;">
-    
-    <?php include 'topbar.php' ?>
+<body class="body-wrapper">
 
-<!--=================================
-=            Single Blog            =
-==================================-->
-        <?php 
-            if(isset($_GET['view_rrate_btn'])){
-                
-                $sql = "select concat( u.firstname , ' ' , u.lastname) as fullname, f.rating, if(f.comment is null, '<null>', f.comment) as comment, f.date, rr.carID, ci.location, c.name
-                        from rentals r
-                        join reservation_requests rr on r.reqID = rr.reqID
-                        join users u on rr.owner_email = u.email
-                        join feedback f on r.rentID = f.rentID
-                        join car_images ci on ci.carID = rr.carID
-                        join catalogue c on c.carID = ci.carID
-                        where r.rentID = ".$_GET['view_rrate_btn']." and f.type='Renter'";
-                
-                if($result = $con->query($sql)){
-                    if ($result->num_rows > 0) { 
-                        while($row = $result->fetch_assoc()){
-                            $owner_name = $row['fullname'];
-                            $rating = $row['rating'];
-                            $comment = $row['comment'];
-                            $date = $row['date'];
-                            $carimage = $row['location'];
-                            $carname = $row['name'];
+    <?php include 'topbar.php' ?>
+<!--==================================
+=            User Profile            =
+===================================-->
+<?php
+           $email = $_SESSION['email'];
+           $query = "SELECT re.rentID,  ci.location, c.name, re.total_amount, re.due_date, re.status, re.date_use, r.date_return, c.brand, c.fuel_type, c.car_type, c.seater, c.carID,
+           r.renter_email, r.owner_email, u.firstname, u.lastname FROM rentals re JOIN reservation_requests r ON re.reqID = r.reqID JOIN car_images ci ON r.carID = ci.carID JOIN catalogue c ON c.carID = ci.carID JOIN users u ON r.renter_email = u.email
+                       WHERE r.owner_email = '".$email."' 
+                       AND re.status = 'Completed Use'
+                       group by re.rentid";
+    
+           $search_result = filterTable($query);
+       
+      
+       function filterTable($query)
+       {
+           $con = mysqli_connect("localhost", "root", "", "gogobiyahe");
+           $filter_Result = mysqli_query($con, $query);
+           return $filter_Result;
+       }
+        
+        ?>
+    
+    
+<section class="mt-30">
+	<!-- Container Start -->
+	
+		<!-- Row Start -->
+		<div class="row">
+			<div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+				<div class="sidebar">
+					<!-- Dashboard Links -->
+					<div class="widget user-dashboard-menu">
+                    <?php
+                     $prQuery = "SELECT count(reqID) AS prcount FROM reservation_requests WHERE owner_email ='".$_SESSION['email']."' AND ref_req_status = 'Pending'";
+                     $result = mysqli_query($con,$prQuery);
+                    if($result = $con->query($prQuery)){
+                        if ($result->num_rows > 0) { 
+                            while($row = $result->fetch_assoc()) {
+                                $prcount = $row['prcount'];
+                            }
                         }
                     }
-                }
+                    $drQuery = "SELECT count(reqID) AS drcount FROM reservation_requests WHERE owner_email ='".$_SESSION['email']."' AND ref_req_status = 'Denied'";
+                    $result1 = mysqli_query($con,$drQuery);
+                    if($result1 = $con->query($drQuery)){
+                        if ($result1->num_rows > 0) { 
+                            while($row = $result1->fetch_assoc()) {
+                                $drcount = $row['drcount'];
+                            }
+                        }
+                    }
+
                 
-        ?>
 
-    <div class="container mt-30 d-flex justify-content-center">
-        <div class="col-lg-8">
-          <!-- Media, Title and Actions Card -->
-            <div class="card pmd-card">
+                    $ppQuery = "SELECT count(r.rentID) AS ppcount, rr.owner_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email ='".$_SESSION['email']."' AND r.status = 'Unpaid'";
+                    $result2 = mysqli_query($con,$ppQuery);
+                    if($result2 = $con->query($ppQuery)){
+                        if ($result2->num_rows > 0) { 
+                            while($row = $result2->fetch_assoc()) {
+                                $ppcount = $row['ppcount'];
+                            }
+                        }
+                    }
 
-                <!-- Card Media -->
-                <div class="pmd-card-media text-center">
-                    <h1 class="card-title mt-30" name="">Renter Rating</h1>
-                    <img src="http://propeller.in/assets/images/profile-pic.png" width="500" height="666" class="img-fluid mt-30 mb-20">
-                    <h4><?php echo $carname; ?></h4>
-                    <h2 class="card-title" name="">By <?php echo $owner_name; ?></h2>
-                    <p class="card-subtitle" name=""><?php echo $date; ?></p>		
-                </div>
-                
-                <div class="card-body text-center">
-                    <div class="review-submission">
-                        <!-- Rate -->
-                        <div class="review-submit">
-                            <!-- Ratings -->
-                            <div class ="rating" style = "font-size: 3em;">
-                                <?php 
-                                    $lighted_star = $rating;
-                                    $unlighted_star = 5 - $rating;
+                    $puQuery = "SELECT count(r.rentID) AS pucount, rr.owner_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email ='".$_SESSION['email']."' AND r.status = 'Pending Use'";
+                    $result3 = mysqli_query($con,$puQuery);
+                    if($result3 = $con->query($puQuery)){
+                        if ($result3->num_rows > 0) { 
+                            while($row = $result3->fetch_assoc()) {
+                                $pucount = $row['pucount'];
+                            }
+                        }
+                    }
 
-                                    while($lighted_star > 0){
-                                        echo "<span class='fa fa-star checked'></span>";
-                                        $lighted_star = $lighted_star - 1;
-                                    }   
-                                    while($unlighted_star > 0){
-                                        echo "<span class='fa fa-star'></span>";
-                                        $unlighted_star = $unlighted_star - 1;
-                                    }
-                                ?>
-                            </div>
-                            <div class="col-12">
-                                <!-- DISPLAY COMMENT HERE IF HAVE-->
-                                <?php if($comment <> '<null>'){ ?>
-                                    <p><?php echo $comment; ?></p>
-                                <?php } ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    $crQuery = "SELECT count(r.rentID) AS crcount, rr.owner_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email ='".$_SESSION['email']."' AND r.status = 'Completed Use'";
+                    $result4 = mysqli_query($con,$crQuery);
+                    if($result4 = $con->query($crQuery)){
+                        if ($result4->num_rows > 0) { 
+                            while($row = $result4->fetch_assoc()) {
+                                $crcount = $row['crcount'];
+                            }
+                        }
+                    }
 
-                <!-- Card Actions -->
-                <div class="card-footer text-right">
-                    <!-- FORM START -->
-                    <form action="stransactions_completed_use.php">
-                    <!-- Buttons -->
-                        <button type="submit" class="btn btn-secondary">Back</button>
-                    </form>
-                    <!-- FORM END -->
-                </div>
-            </div>
-        </div>       
-    </div>
-    
-<?php } ?>
+                    $caQuery = "SELECT count(r.rentID) AS cacount, rr.owner_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email ='".$_SESSION['email']."' AND r.status = 'Cancelled'";
+                    $result5 = mysqli_query($con,$caQuery);
+                    if($result5 = $con->query($caQuery)){
+                        if ($result5->num_rows > 0) { 
+                            while($row = $result5->fetch_assoc()) {
+                                $cacount = $row['cacount'];
+                            }
+                        }
+                    }
+
+                    $orQuery = "SELECT count(r.rentID) AS orcount, rr.owner_email FROM rentals r JOIN reservation_requests rr ON r.reqID = rr.reqID WHERE rr.owner_email ='".$_SESSION['email']."' AND r.status = 'Ongoing'";
+                    $result6 = mysqli_query($con,$orQuery);
+                    if($result6 = $con->query($orQuery)){
+                        if ($result6->num_rows > 0) { 
+                            while($row = $result6->fetch_assoc()) {
+                                $orcount = $row['orcount'];
+                            }
+                        }
+                    }
+                    ?>
+						<ul>
+							<li><a href="stransactions_pending_requests.php"><i class="fa fa-question"></i>Pending Requests<span><?php echo $prcount?></span></a></li>
+                            <li ><a href="stransactions_denied_requests.php"><i class="fa fa-thumbs-down"></i>Denied Requests<span><?php echo $drcount?></span></a></li>
+
+                            <li>
+								<a href="stransactions_pending_payments.php"><i class="fa fa-money"></i>Pending Payments<span><?php echo $ppcount?></span></a>
+							</li>
+							<li>
+								<a href="stransactions_pending_use.php"><i class="fa fa-clipboard"></i>Pending Use<span><?php echo $pucount?></span></a>
+							</li>
+                            <li>
+								<a href="stransactions_ongoing_rentails.php"><i class="fa fa-clipboard"></i>Ongoing Use<span><?php echo $orcount?></span></a>
+							</li>
+							<li class="active">
+								<a href="stransactions_completed_use.php"><i class="fa fa-check-circle"></i>Completed Rental<span><?php echo $crcount?></span></a>
+							</li>
+							<li>
+								<a href="stransactions_cancelled_rentals.php"><i class="fa fa-ban"></i>Cancelled Rental<span><?php echo $cacount?></span></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
+				<!-- Recently Favorited -->
+				<div class="widget dashboard-container my-adslist">
+					<h3 class="widget-header">Completed Rental</h3>
+					<table class="table product-dashboard-table">
+						<thead>
+							<tr>
+								<th class = "text-center">Image</th>
+                                <th class = "text-center"></th>
+								<th class = "text-center">Vehicle Details</th>
+                                <th class = "text-center">Renter Details</th>
+                                <th class = "text-center">Date Use</th>
+                                <th class = "text-center">Date Return</th>
+                                <th class = "text-center">Total Price</th>
+                                <th class = "text-center">Action</th>
+							</tr>
+						</thead>
+                    
+						<tbody>
+                            <?php
+							if ($search_result->num_rows > 0) {
+                                while($row = $search_result->fetch_assoc()) {
+                                    //echo "<form method = 'post' >";
+                                    echo "\t<tr><td><img src =" . $row['location'] . " height ='150px;' width = '150px;'></td><td></td><td class='product-details'><ul><h3 class='title'>" 
+                                    . $row['name'] ."</h3><li>Brand: ".$row['brand']."</li>
+                                    <li>Car Type: ".$row['car_type']."</li>
+                                    <li>Fuel Type: ".$row['fuel_type']."</li>
+                                    <li>Capacity: ".$row['seater']."</li></ul>
+                                    </td><td><ul><li>Name:" . $row['firstname'] ." ".  $row['lastname'] . "</li>
+                                    <li>Email: ".$row['renter_email']."</li></ul></td><td class='product-category'>" . $row['date_use'] ."</td><td class='product-category'>" . $row['date_return']  ."</td><td class='product-category'>" . $row['total_amount'] ."</td>";
+                                    
+                                    $rentID = $row['rentID'];
+                                    
+                                    $sql2 = "select count(*) as is_Rated from feedback where rentID = ".$rentID." and type = 'Renter'";
+                                    $result = $con->query($sql2);
+                                        if ($result->num_rows > 0) { 
+                                            while($row = $result->fetch_assoc()) {
+                                                if($row['is_Rated'] == 0){
+                                                ?>
+                                                    <td class='product-category'>
+                                                        <form action="submit_rate4r.php" method="get">
+                                                            <button style = 'padding: 3% 7%;' type = 'submit' name ='rate_btn' value="<?php echo $rentID; ?>">Rate</button>
+                                                        </form>
+                                                    </td>
+                                                <?php
+                                                }
+                                                else{
+                                                    echo '<td class="product-category"><form action="view_rate4r_s.php" method="get"><button style = "padding: 3% 7%;" type="submit" name="view_rrate_btn" value="'.$rentID.'">View Renter Rating</button></form>';
+                                                    $sql1 = "select if(rating is null, 0, 1) as is_Rated_byb from feedback where rentID=".$rentID." and type='Owner'";
+                                                    $result = $con->query($sql1);
+                                                    if ($result->num_rows > 0) { 
+                                                    while($row = $result->fetch_assoc()) {
+                                                            if($row['is_Rated_byb'] == 1){
+                                                                echo '<form action="view_rate4o_s.php" method="get"><button style = "padding: 3% 7%;" type="submit" name="view_orate_btn" value="'.$rentID.'">View Owner Rating</button></form>';
+                                                            }
+                                                        }
+                                                    }
+                                                    echo '</td>';
+                                                }
+                                            }
+                                        }
+                                    echo "\n";
+                                    echo '';
+                                }
+                            }
+                                
+?>
+						</tbody>
+					</table>
+					
+				</div>
+			</div>
+		</div>
+		<!-- Row End -->
+	
+	<!-- Container End -->
+</section>
+
   <!-- JAVASCRIPTS -->
   <script src="plugins/jquery/jquery.min.js"></script>
   <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -163,7 +281,73 @@
   <script src="plugins/smoothscroll/SmoothScroll.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
   <script src="js/scripts.js"></script>
+<!-- Modal -->
+<!--
+<div id="myModal" style="block" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-image: linear-gradient(to right, #44A08D, #093637)"> -->
+                <!-- yun violet shit  linear-gradient(to right, #24243e, #302b63)-->
+                <!-- <img src="images/logo.png" alt="" style="width: 20%; margin: 0 3% 0 0;">
+                <h3 class="name" id="exampleModalLabel" style=" margin: 3% 0 1% 5%; color: white; font-family: Verdana, Geneva, sans-serif">Send Us Some Feedback</h3>
+                <span onclick="document.getElementById('myModal').style.display='none'" class="w3-button w3-display-topright">&times;</span> 
+            </div>
+            <div class="modal-body text-center w-100">
+                <div class="media-body" id="modal_body"> -->
+                    <!-- Image -->
+                    <!--<div id="modalimage">
+                    </div>
+                    
+                    <div class="name"> -->
+                        <!-- Name -->
+                        <!-- <h5 id="car_name"></h5>
+                    </div>
+                    
+                    
+                    <div class="review-submission">
 
+                        <h3 class="tab-title">How was the renter?</h3> -->
+                        
+                        
+                        <!-- Rate -->
+                        <!-- <div class="review-submit"> -->
+                        <!-- FORM START -->
+                        <!-- <form method="get" id="rate_form" > --> 
+                            <!-- Ratings -->
+                            <!-- <div class="rate">
+                                <div class ="rating" style = "text-align:center">
+                                    <div class="rate">
+                                        <input type="radio" id="star5" name="rate" value="5" />
+                                        <label for="star5" title="Awesome - 5 stars">5 stars</label>
+                                        <input type="radio" id="star4" name="rate" value="4" />
+                                        <label for="star4" title="Pretty Cool - 4 stars">4 stars</label>
+                                        <input type="radio" id="star3" name="rate" value="3" />
+                                        <label for="star3" title="Meh - 3 stars">3 stars</label>
+                                        <input type="radio" id="star2" name="rate" value="2" />
+                                        <label for="star2" title="Pretty Bad - 2 stars">2 stars</label>
+                                        <input type="radio" id="star1" name="rate" value="1" />
+                                        <label for="star1" title="Sucks - 1 star">1 star</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12"> -->
+                                <!-- Comment Message -->
+                                <!-- <textarea name="review" id="review" rows="10" class="form-control" placeholder="Message"></textarea>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+           
+            <div class="modal-footer"> -->
+                <!-- Buttons -->
+                <!-- <button type="button" class="btn btn-secondary" onclick="document.getElementById('myModal').style.display='none'">Close</button>
+                <button type ="submit" form="rate_form" class="btn btn-primary" name="rate_form_submit" value="" onclick="document.getElementById('rate_form').submit();">Submit</button>
+            </div>        
+        </div>
+    </div>
+</div> -->
 </body>
 
 </html>

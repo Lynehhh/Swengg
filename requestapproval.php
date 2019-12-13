@@ -1,6 +1,10 @@
 <?php
 session_start(); 
 require_once('connection.php');
+
+if ($_SESSION['user_type'] === 'Renter'){
+    header("location:home.php?Invalid=Access Denied"); 
+}
 ?>
 
 <html> 

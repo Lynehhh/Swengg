@@ -73,6 +73,7 @@ require_once("connection.php");
             $result =  $con->query($query);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
+                    $carID =  $row['carID'];
                     $due_date = $row['due_date'];
                     $date_use = $row['date_use'];
                     $date_return = $row['date_return'];
@@ -96,7 +97,10 @@ require_once("connection.php");
                     $_SESSION['seater'] = $seater; 
                     $_SESSION['price'] = $price; 
                     $_SESSION['description'] = $description; 
+                    $_SESSION['carID'] = $carID; 
                 }
+
+                echo $carID;
         }
     ?>
     <div class="container mt-30">
@@ -112,20 +116,20 @@ require_once("connection.php");
                 <!-- PLEASE RECHECK KUNG TAMA START-->
                 <div class="carousel-inner ">;
                 <?php
-                $imageQuery="SELECT * from car_images ci JOIN reservation_requests r ON ci.carID = r.carID
-                WHERE r.reqID = $reqID";
+                $imageQuery="SELECT * from car_images ci 
+                WHERE ci.carID = ". $carID;
                 $result1 =  $con->query($imageQuery);
                 if ($result1->num_rows > 0) {
                     while($row = $result1->fetch_assoc()) {
                 $ctr = 0;
-                 $sql1="select location from car_images where carID=".$_SESSION['searched_car'];
-                            $result = $con->query($sql1);
-                            if ($result->num_rows > 0) { 
-                            while($row = $result->fetch_assoc()){
+                 $sql1="select location from car_images where carID=".$carID;
+                            $result3 = $con->query($sql1);
+                            if ($result3->num_rows > 0) { 
+                            while($row = $result3->fetch_assoc()){
                                 $ctr = $ctr + 1;
                                 if($ctr == 1){ ?>
                                     <div class="item active">
-                    <img src="<?php $row["location"] ?>" style="width:100%;height:100%;">
+                                    <?php echo "<img src='".$row["location"]."' style='width:100%;height:100%;'>"?>
                     </div>;
                     <?php
                                 }

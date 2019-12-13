@@ -2,12 +2,9 @@
 session_start();
 $_SESSION['sdate'] = $_GET['sdate'];
 $_SESSION['edate'] = $_GET['edate'];
-
 $sdate = new DateTime($_GET['sdate']);
 $edate = new DateTime($_GET['edate']);
-
 $diff = $edate->diff($sdate)->format("%a") + 1;
-
 echo '<label for="comunity-name">Charges</label>
                             <font size="3">
                                 <table class="table table-responsive product-dashboard-table mb-20">

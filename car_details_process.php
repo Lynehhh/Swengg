@@ -12,7 +12,7 @@ require_once('connection.php');
                             $result = $con->query($sql);
                             
                             if($result === true){
-                                header('location:btransaction_pending_request.php');
+                                header('location:btransaction_pending_requests.php');
                             }
                             else{
                                 header('location:car_details.php?Invalid=Error occured please try again');
