@@ -355,7 +355,7 @@ $_SESSION['viewprofile'] = $email;
 
                                     <div class="col-md-12">
                                     <!-- TAB CONTENT START -->  
-                                        <?php $renterquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.renter_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.owner_email = u.email
+                                        <?php $renterquery = "SELECT f.rentID, f.type, f.rating, f.comment, f.date, rr.renter_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.owner_email = u.email
                                                     WHERE  f.type = 'Renter' AND rr.renter_email = '".$_SESSION['viewprofile']."'";
                                                                                                         
                                                     $result = mysqli_query($con, $renterquery);
@@ -449,7 +449,7 @@ $_SESSION['viewprofile'] = $email;
                                                 </div>
                                                 <div class="review-comment">
                                                     <p>
-                                                    <?php echo $row['comments']?>                                                    
+                                                    <?php echo $row['comment']?>                                                    
                                                     </p>
                                                 </div>
                                                 
@@ -470,7 +470,7 @@ $_SESSION['viewprofile'] = $email;
                             <!-- OWNER TAB --> 
                            
                             <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
-                            <?php $ownerquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.owner_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.renter_email = u.email
+                            <?php $ownerquery = "SELECT f.rentID, f.type, f.rating, f.comment, f.date, rr.owner_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.renter_email = u.email
                               WHERE rr.owner_email = '".$_SESSION['viewprofile']."' AND f.type = 'Owner'";
 
                               $result1 = mysqli_query($con, $ownerquery);
@@ -564,7 +564,7 @@ $_SESSION['viewprofile'] = $email;
                                                 </div>
                                                 <div class="review-comment">
                                                     <p>
-                                                    <?php echo $row['comments']?>                                                    
+                                                    <?php echo $row['comment']?>                                                    
                                                     </p>
                                                 </div>
                                             </div>

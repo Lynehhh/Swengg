@@ -76,7 +76,7 @@
     function submit_confirm(){
         var retVal = confirm("Do you want to continue ?");
                if( retVal == true ) {
-                  window.location.href = 'http://localhost/Swengg/car_details_process.php';
+                  window.location.href = 'http://localhost/SWENGG2/car_details_process.php';
                }
     }
         </script>
@@ -272,7 +272,7 @@
                                       <div class="media">
                                     
                                           <!-- Avater -->';
-                                          $carfeedback =  "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.owner_email, rr.carID, u.firstname , u.lastname  
+                                          $carfeedback =  "SELECT f.rentID, f.type, f.rating, f.comment, f.date, rr.owner_email, rr.carID, u.firstname , u.lastname  
                                             FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID
                                             LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID
                                             LEFT JOIN users u ON rr.renter_email = u.email
@@ -361,7 +361,7 @@
 							  				</div>
 							  				<div class="review-comment">
 							  					<p>
-                                                  '.$row['comments'] .'	
+                                                  '.$row['comment'] .'	
                                                   </p>
                                               </div>
                                               </div>

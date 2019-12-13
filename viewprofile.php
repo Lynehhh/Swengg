@@ -353,7 +353,7 @@ if(isset($_POST['view']))
                                     <div class="col-md-12">
                                     <!-- TAB CONTENT START --> 
                                      
-                                           <?php $renterquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.renter_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.owner_email = u.email
+                                           <?php $renterquery = "SELECT f.rentID, f.type, f.rating, f.comment, f.date, rr.renter_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.owner_email = u.email
                                            WHERE  f.type = 'Renter' AND rr.renter_email = '".$email."'";
                                                                                                
                                            $result = mysqli_query($con, $renterquery);
@@ -444,7 +444,7 @@ if(isset($_POST['view']))
                                                 </div>
                                                 <div class="review-comment">
                                                     <p>
-                                                        <?php echo $row['comments']?>
+                                                        <?php echo $row['comment']?>
                                                     </p>
                                                 </div>
                                             </div>
@@ -460,7 +460,7 @@ if(isset($_POST['view']))
                                 </div>
                             </div>
                              <!-- OWNER TAB --> 
-                             <?php $ownerquery = "SELECT f.rentID, f.type, f.rating, f.comments, f.date, rr.owner_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.renter_email = u.email
+                             <?php $ownerquery = "SELECT f.rentID, f.type, f.rating, f.comment, f.date, rr.owner_email, u.firstname , u.lastname   FROM feedback f LEFT JOIN rentals r ON f.rentID = r.rentID LEFT JOIN reservation_requests rr ON r.reqID = rr.reqID LEFT JOIN users u ON rr.renter_email = u.email
                               WHERE rr.owner_email = '".$email."' AND f.type = 'Owner'";?>
 
                              
@@ -556,7 +556,7 @@ if(isset($_POST['view']))
                                                 </div>
                                                 <div class="review-comment">
                                                     <p>
-                                                    <?php echo $row['comments']?>                                                    
+                                                    <?php echo $row['comment']?>                                                    
                                                     </p>
                                                 </div>
                                             </div>
